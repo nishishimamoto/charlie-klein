@@ -21,11 +21,12 @@ public class TestStage : MonoBehaviour
     bool[] bonusFlg = new bool[sidePanel]; //このターン既にボーナスパネルになったかどうか
     int tmpBonus;         //ボーナス入れ替え時の一時保存
     int judgNum = 0;  //和を計算する配列
-    public static int score = 0;      //スコア
+    public static int score;      //スコア
 
     int chooseMain = 0; //現在選んでいるメインナンバー
 
-    bool ClossTilt;     //十字キーがニュートラルに戻ったか
+    bool isHorizontal;     //十字キーの左右入力がニュートラルにもどったか
+    bool isVertical;    //十字キーの上下入力がニュートラルにもどったか
 
     //[SerializeField] Image[] sideImage; //サイドスフィアをいれる
     [SerializeField] GameObject[] sideSphere; //サイドスフィアをいれる
@@ -97,6 +98,7 @@ public class TestStage : MonoBehaviour
 
         ColorChange();   //パネルの色変更
         TurnCS.nowTurn = 5; //ターン数の指定
+        score = 0;  //スコアの初期化
     }
 
     // Update is called once per frame
@@ -118,7 +120,7 @@ public class TestStage : MonoBehaviour
         else if (alpha_Flg) alpha();
 
         //ゲーム終了
-        if (Input.GetButtonDown("Y"))   //Yを押したら終了
+        if (Input.GetButtonDown("Start"))   //Yを押したら終了
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
@@ -269,32 +271,33 @@ public class TestStage : MonoBehaviour
         }
 
         //十字キーのパネル選択
-        if (0 > Input.GetAxis("ClossVertical") && !ClossTilt)    //↓入力時
+        if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
         {
             if (chooseMain >= 6) chooseMain -= 6;
             else chooseMain += 3;
-            ClossTilt = true;
+            isVertical = true;
         }
-        if (0 < Input.GetAxis("ClossVertical") && !ClossTilt)  //↑入力時
+        if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
         {
             if (chooseMain <= 2) chooseMain += 6;
             else chooseMain -= 3;
-            ClossTilt = true;
+            isVertical = true;
         }
-        if (0 > Input.GetAxis("ClossHorizontal") && !ClossTilt)  //←入力時
+        if (0 > Input.GetAxis("ClossHorizontal") && !isHorizontal)  //←入力時
         {
             if (chooseMain % 3 == 0) chooseMain += 2;
             else chooseMain -= 1;
-            ClossTilt = true;
+            isHorizontal = true;
         }
-        if (0 < Input.GetAxis("ClossHorizontal") && !ClossTilt)    //→入力時
+        if (0 < Input.GetAxis("ClossHorizontal") && !isHorizontal)    //→入力時
         {
             if (chooseMain % 3 == 2) chooseMain -= 2;
             else chooseMain += 1;
-            ClossTilt = true;
+            isHorizontal = true;
         }
 
-        if (0 == Input.GetAxis("ClossHorizontal") && (0 == Input.GetAxis("ClossVertical"))) ClossTilt = false;
+        if (0 == Input.GetAxis("ClossHorizontal")) isHorizontal = false;
+        if (0 == Input.GetAxis("ClossVertical")) isVertical = false;
     }
     //***
     void PointCheck()

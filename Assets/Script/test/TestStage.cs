@@ -82,13 +82,13 @@ public class TestStage : MonoBehaviour
         for (int i = 0; i < mainPanel; i++)
         {
             mainNumber[i] = mainColorNumber[Random.Range(0, 2)];
-            mainSphereColor[i] = mainSphere[i].GetComponent<Renderer>().material.color;
+            //mainSphereColor[i] = mainSphere[i].GetComponent<Renderer>().material.color;
         }
 
         for (int i = 0; i < sidePanel; i++)
         {
             sideNumber[i] = sideColorNumber[Random.Range(0, 2)];
-            sideSphereColor[i] = sideSphere[i].GetComponent<Renderer>().material.color;
+            //sideSphereColor[i] = sideSphere[i].GetComponent<Renderer>().material.color;
             //panelAnim[i] = obj[i].GetComponent<PanelAnim>();一時消し
         }
 
@@ -108,10 +108,11 @@ public class TestStage : MonoBehaviour
         {
             if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
             else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
-            //PointCheck();   //盤面が揃ったか見る 揃ったらすぐ変わる
-            ColorChange();   //パネルの色変更
+            //PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
+            PointBlinking();            //4つ揃ったときの点滅
+            //ColorChange();              //パネルの色変更
             TimerCS.TimerCount();       //制限時間のカウントと表示
-            TurnEnd();      //ターン終了時の処理
+            TurnEnd();                  //ターン終了時の処理
 
             //SelectImageMove();  //現在選んでいるパネルの可視化 ここで呼ぶ
             cursorSelectCS.SelectImageMove(chooseMain);
@@ -355,12 +356,12 @@ public class TestStage : MonoBehaviour
                 case 4:
                     //mainSphereColor[i] = Color.red;
                     //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
-                    mainSphere[i].GetComponent<Renderer>().material = _material[0];
+                    mainSphere[i].GetComponent<Renderer>().material = _material[3];
                     break;
                 case 32:
                     //mainSphereColor[i] = Color.blue;
                     //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
-                    mainSphere[i].GetComponent<Renderer>().material = _material[1];
+                    mainSphere[i].GetComponent<Renderer>().material = _material[4];
                     break;
                 case 128:
                     mainSphereColor[i] = Color.yellow;
@@ -549,6 +550,32 @@ public class TestStage : MonoBehaviour
             if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
             //ゲーム終了かリトライ
             SceneManager.LoadScene("Result");
+        }
+    }
+    void PointBlinking()
+    {
+        for (int i = 0; i < mainPanel; i++)
+        {
+
+            judgNum = mainNumber[i];
+
+            if (judgNum == sideNumber[(i / 3) + i] * 4 || sideNumber[(i / 3) + i] == 32)
+                if (judgNum == sideNumber[(i / 3) + i + 1] * 4 || sideNumber[(i / 3) + i + 1] == 32)
+                    if (judgNum == sideNumber[(i / 3) + i + 5] * 4 || sideNumber[(i / 3) + i + 5] == 32)
+                        if (judgNum == sideNumber[(i / 3) + i + 4] * 4 || sideNumber[(i / 3) + i + 4] == 32) //色を満たした
+                        {
+                            float blinking = 0f;
+                            float blinkingSpeed = 2.0f;
+                            blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅(-1~1)
+
+                            mainSphere[i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                            sideSphere[(i / 3) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                            sideSphere[(i / 3) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                            sideSphere[(i / 3) + i + 4].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                            sideSphere[(i / 3) + i + 5].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                            //Debug.Log(blinking);
+                        }
+            judgNum = 0;
         }
     }
 }

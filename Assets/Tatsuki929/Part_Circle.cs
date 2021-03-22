@@ -5,12 +5,15 @@ using UnityEngine;
 public class Part_Circle : MonoBehaviour
 {
     ParticleSystem p_ParticleSystem;
-    
+
+    private bool rot_Y = false;
+
     private ParticleSystem.Particle[] p_Particle;
 
     //開始時
     void Start()
     {
+        
         Random.InitState(System.DateTime.Now.Millisecond);//乱数シードの初期化
 
         p_ParticleSystem = GetComponent<ParticleSystem>();
@@ -31,8 +34,26 @@ public class Part_Circle : MonoBehaviour
         if (p_Particle == null || p_Particle.Length < maxParticles)
         {
             p_Particle = new ParticleSystem.Particle[maxParticles];
-        }        
-       
+        }
+
+        if (Input.GetButtonDown("LB"))
+        {
+            if (!rot_Y)
+            {
+                rot_Y = true;
+                this.transform.Rotate(0f, 180f, 0f);
+            }
+        }
+
+        if (Input.GetButtonDown("RB"))
+        {
+
+            if (rot_Y)
+            {
+                rot_Y = false;
+                this.transform.Rotate(0f, 180f, 0f);
+            }
+        }
 
     }
 }

@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Audio;
 public class SoundScript : MonoBehaviour
 {
     public AudioSource audioSource;
     public AudioClip[] audioClips;
-    
+
+    public AudioMixerGroup Mixer;
+
     private const short songs = 10;
 
 
@@ -18,15 +20,30 @@ public class SoundScript : MonoBehaviour
         //オーディオソースの取得
         audioSource = this.GetComponent<AudioSource>();
 
+        //オーディオミキサーの取得
+        Mixer = Resources.Load<AudioMixerGroup>("T_Audiomixer");
+
         //クリップを動的に取得
         audioClips[0] = Resources.Load<AudioClip>("Electronic_Circuit");
         //audioClips[1] = Resources.Load<AudioClip>("untitled");
+
+        
+
+        //オーディオミキサーをオーディオソースに
+       audioSource.outputAudioMixerGroup = Mixer;
+
+        /*audioSource.outputAudioMixerGroup.audioMixer.SetFloat("T_Audiomixer/Master", -25.0f);
+        //audioSource.outputAudioMixerGroup.*/
 
         audioSource.clip = audioClips[0];
 
         audioSource.volume = 0.25f;
 
+        audioSource.loop = true;//ループを有効化
+
         audioSource.Play(); Play = true;
+
+        
 
     }
 

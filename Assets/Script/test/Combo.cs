@@ -30,8 +30,11 @@ public class Combo : MonoBehaviour
             if (comboTime >= 2) comboText.color = new Color(255, 255, 255, 1.0f);
             else if (comboTime < 2)   //2秒以下で点滅
             {
-                blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅
-                comboText.color = new Color(255, 255, 255, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
+                //blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅
+                //comboText.color = new Color(255, 255, 255, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
+
+                blinking = comboTime;   //フェードアウト
+                comboText.color = new Color(255, 255, 255, blinking / 2);
             }
         }
         else if (comboTime <= 0)

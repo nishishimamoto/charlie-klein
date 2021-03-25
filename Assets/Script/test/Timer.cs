@@ -13,7 +13,7 @@ public class Timer : MonoBehaviour
     public bool countStart;
 
     [SerializeField] Image timerSlider;
-    [SerializeField] Text bigTimerText;
+    [SerializeField] public Text bigTimerText;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +43,6 @@ public class Timer : MonoBehaviour
         {
             timeOut = true;
             countStart = false;
-            bigTimerText.enabled = false;
             timeCount = 0;
         }
     }
@@ -52,6 +51,6 @@ public class Timer : MonoBehaviour
     {
             if (timeCount <= 5 && timerSlider.color == Color.yellow)timerSlider.color = Color.red;
             else if (timeCount <= 15 && timerSlider.color == Color.white) timerSlider.color = Color.yellow;
-            else if (timeCount >= 15 && timerSlider.color == Color.red) timerSlider.color = Color.white;
+            else if (timeCount >= 15 && timerSlider.color != Color.white) timerSlider.color = Color.white;
     }
 }

@@ -10,6 +10,7 @@ public class TestStage : MonoBehaviour
     [SerializeField] Turn TurnCS;
     [SerializeField] Timer TimerCS;
     [SerializeField] Combo ComboCS;
+    [SerializeField] Explosion ExplosionCS;
 
     const int mainPanel = 9;    //メインパネルの数
     const int sidePanel = 16;    //サイドパネルの数
@@ -81,13 +82,13 @@ public class TestStage : MonoBehaviour
     {
         for (int i = 0; i < mainPanel; i++)
         {
-            mainNumber[i] = mainColorNumber[Random.Range(0, 2)];
+            mainNumber[i] = mainColorNumber[Random.Range(0, 1)];
             //mainSphereColor[i] = mainSphere[i].GetComponent<Renderer>().material.color;
         }
 
         for (int i = 0; i < sidePanel; i++)
         {
-            sideNumber[i] = sideColorNumber[Random.Range(0, 2)];
+            sideNumber[i] = sideColorNumber[Random.Range(0, 1)];
             //sideSphereColor[i] = sideSphere[i].GetComponent<Renderer>().material.color;
             //panelAnim[i] = obj[i].GetComponent<PanelAnim>();一時消し
         }
@@ -143,18 +144,6 @@ public class TestStage : MonoBehaviour
                 alpha_Sin = (alpha_Time * 6) + 5;
                 //alpha_Sin = Mathf.Sin(Time.time) / 2 + 0.5f;
 
-                //mainSphereColor[check].a = alpha_Sin; //透明度を下げる
-                //sideSphereColor[(check / 3) + check].a = alpha_Sin; //透明度を下げる
-                //sideSphereColor[(check / 3) + check + 1].a = alpha_Sin; //透明度を下げる
-                //sideSphereColor[(check / 3) + check + 4].a = alpha_Sin; //透明度を下げる
-                //sideSphereColor[(check / 3) + check + 5].a = alpha_Sin; //透明度を下げる
-
-                //mainSphere[check].GetComponent<Renderer>().material.color = sideSphereColor[check];
-                //sideSphere[(check / 3) + check].GetComponent<Renderer>().material.color = sideSphereColor[(check / 3) + check];
-                //sideSphere[(check / 3) + check + 1].GetComponent<Renderer>().material.color = sideSphereColor[(check / 3) + check + 1];
-                //sideSphere[(check / 3) + check + 4].GetComponent<Renderer>().material.color = sideSphereColor[(check / 3) + check + 4];
-                //sideSphere[(check / 3) + check + 5].GetComponent<Renderer>().material.color = sideSphereColor[(check / 3) + check + 5];
-
                 mainSphere[check].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", alpha_Sin);
                 sideSphere[(check / 3) + check].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", alpha_Sin);
                 sideSphere[(check / 3) + check + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", alpha_Sin);
@@ -167,7 +156,23 @@ public class TestStage : MonoBehaviour
                 //flgCheck[check] = false;
                 //ColorChange();
 
+                //ランダムな数値にいれかえ
+                mainNumber[check] = mainColorNumber[Random.Range(0, 2)];
+                //mainNumber[i] = mainColorNumber[0];
+                sideNumber[(check / 3) + check] = sideColorNumber[Random.Range(0, 2)];
+                sideNumber[(check / 3) + check + 1] = sideColorNumber[Random.Range(0, 2)];
+                sideNumber[(check / 3) + check + 5] = sideColorNumber[Random.Range(0, 2)];
+                sideNumber[(check / 3) + check + 4] = sideColorNumber[Random.Range(0, 2)];
+
+                mainColorNum += mainNumber[check];  //[0]^[3]合計を得る
+
+                rainbowRand[rainbowTarget] = check; //条件を満たした惑星の位置を把握しておく
+                rainbowTarget += 1;
+
                 ScoreAdd();
+                ExplosionCS.particle[check].Play(); //条件を満たした惑星が爆発
+                Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
+                ColorChange();   //パネルの色変更
 
                 check += 1;
             }
@@ -182,18 +187,6 @@ public class TestStage : MonoBehaviour
                 {
                     if (flgCheck[i])
                     {
-                        //mainSphereColor[i].a = alpha_Sin; //透明度を下げる
-                        //sideSphereColor[(i / 3) + i].a = alpha_Sin; //透明度を下げる
-                        //sideSphereColor[(i / 3) + i + 1].a = alpha_Sin; //透明度を下げる
-                        //sideSphereColor[(i / 3) + i + 4].a = alpha_Sin; //透明度を下げる
-                        //sideSphereColor[(i / 3) + i + 5].a = alpha_Sin; //透明度を下げる
-
-                        //mainSphere[i].GetComponent<Renderer>().material.color = sideSphereColor[i];
-                        //sideSphere[(i / 3) + i].GetComponent<Renderer>().material.color = sideSphereColor[(i / 3) + i];
-                        //sideSphere[(i / 3) + i + 1].GetComponent<Renderer>().material.color = sideSphereColor[(i / 3) + i + 1];
-                        //sideSphere[(i / 3) + i + 4].GetComponent<Renderer>().material.color = sideSphereColor[(i / 3) + i + 4];
-                        //sideSphere[(i / 3) + i + 5].GetComponent<Renderer>().material.color = sideSphereColor[(i / 3) + i + 5];
-
                         mainSphere[i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 8);
                         sideSphere[(i / 3) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 8);
                         sideSphere[(i / 3) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 8);
@@ -205,24 +198,24 @@ public class TestStage : MonoBehaviour
             else
             {
 
-                for (int i = 0; i < mainPanel; i++)
-                {
-                    if (flgCheck[i])
-                    {
+                //for (int i = 0; i < mainPanel; i++)
+                //{
+                //    if (flgCheck[i])
+                //    {
 
-                        //ランダムな数値にいれかえ
-                        mainNumber[i] = mainColorNumber[Random.Range(0, 2)];
-                        //mainNumber[i] = mainColorNumber[0];
-                        sideNumber[(i / 3) + i] = sideColorNumber[Random.Range(0, 2)];
-                        sideNumber[(i / 3) + i + 1] = sideColorNumber[Random.Range(0, 2)];
-                        sideNumber[(i / 3) + i + 5] = sideColorNumber[Random.Range(0, 2)];
-                        sideNumber[(i / 3) + i + 4] = sideColorNumber[Random.Range(0, 2)];
+                //        //ランダムな数値にいれかえ
+                //        mainNumber[i] = mainColorNumber[Random.Range(0, 2)];
+                //        //mainNumber[i] = mainColorNumber[0];
+                //        sideNumber[(i / 3) + i] = sideColorNumber[Random.Range(0, 2)];
+                //        sideNumber[(i / 3) + i + 1] = sideColorNumber[Random.Range(0, 2)];
+                //        sideNumber[(i / 3) + i + 5] = sideColorNumber[Random.Range(0, 2)];
+                //        sideNumber[(i / 3) + i + 4] = sideColorNumber[Random.Range(0, 2)];
 
-                        rainbowRand[rainbowTarget] = i; //条件を満たした惑星の位置を把握しておく
-                        rainbowTarget += 1;
-                    }
-                    mainColorNum += mainNumber[i];  //[0]^[3]合計を得る
-                }
+                //        rainbowRand[rainbowTarget] = i; //条件を満たした惑星の位置を把握しておく
+                //        rainbowTarget += 1;
+                //    }
+                //    mainColorNum += mainNumber[i];  //[0]^[3]合計を得る
+                //}
 
                 if (ComboCS.comboCount >= 3 && !rainbow) //条件を満たした惑星のどこかに3コンボ以上で虹惑星を１つだす
                 {
@@ -541,6 +534,7 @@ public class TestStage : MonoBehaviour
                 TimerCS.timeCount = 30.0f;
                 TimerCS.timeOut = false;
                 TimerCS.countStart = false;
+                TimerCS.bigTimerText.enabled = false;
                 ComboCS.comboCount = 0; //コンボカウントリセット
                 TurnCS.TurnCount();        //経過ターンの更新表示
             }
@@ -576,6 +570,14 @@ public class TestStage : MonoBehaviour
                             //Debug.Log(blinking);
                         }
             judgNum = 0;
+        }
+    }
+
+    void ExplosionStop()
+    {
+        for(int i = 0; i < 9; i++)
+        {
+            ExplosionCS.particle[i].Stop();
         }
     }
 }

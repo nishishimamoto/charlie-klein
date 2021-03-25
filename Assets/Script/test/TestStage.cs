@@ -82,13 +82,13 @@ public class TestStage : MonoBehaviour
     {
         for (int i = 0; i < mainPanel; i++)
         {
-            mainNumber[i] = mainColorNumber[Random.Range(0, 1)];
+            mainNumber[i] = mainColorNumber[Random.Range(0, 2)];
             //mainSphereColor[i] = mainSphere[i].GetComponent<Renderer>().material.color;
         }
 
         for (int i = 0; i < sidePanel; i++)
         {
-            sideNumber[i] = sideColorNumber[Random.Range(0, 1)];
+            sideNumber[i] = sideColorNumber[Random.Range(0, 2)];
             //sideSphereColor[i] = sideSphere[i].GetComponent<Renderer>().material.color;
             //panelAnim[i] = obj[i].GetComponent<PanelAnim>();一時消し
         }

@@ -97,7 +97,7 @@ public class TestStage : MonoBehaviour
         //turnText = Turn.GetComponent<Text>();
 
         ColorChange();   //パネルの色変更
-        TurnCS.nowTurn = 5; //ターン数の指定
+        TurnCS.nowTurn = 1; //ターン数の指定
         score = 0;  //スコアの初期化
     }
 
@@ -533,7 +533,7 @@ public class TestStage : MonoBehaviour
 
     void TurnEnd()
     {
-        if (TurnCS.nowTurn > 0)
+        if (TurnCS.nowTurn < 6)
         {
             if (Input.GetButtonDown("X") || TimerCS.timeOut) //Xか制限時間でターン終了
             {

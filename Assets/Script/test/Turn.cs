@@ -8,6 +8,7 @@ public class Turn : MonoBehaviour
     Text turnText;
 
     public int nowTurn = 0;
+    //public int limitTurn;   //ここにターンの指定をステージごとにいれる
 
     private void Start()
     {
@@ -17,7 +18,7 @@ public class Turn : MonoBehaviour
 
     public void TurnCount()
     {
-        nowTurn--;
-        turnText.text = "" + nowTurn;
+        nowTurn++;
+        if (nowTurn < 6) turnText.text = "" + nowTurn;
     }
 }

@@ -3161,7 +3161,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "LB,LR :\u56DE\u8EE2"
+  m_Text: "LB,RB :\u56DE\u8EE2"
 --- !u!222 &1156051374
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5708,7 +5708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6666667, g: 1, b: 1, a: 0.3137255}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.627451}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:

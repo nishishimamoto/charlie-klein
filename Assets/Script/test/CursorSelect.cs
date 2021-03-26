@@ -9,6 +9,6 @@ public class CursorSelect : MonoBehaviour
     public void SelectImageMove(int chooseMain)
     {
         GetComponent<RectTransform>().anchoredPosition
-            = new Vector2(-2 + (2 * (chooseMain % 3)), 2 - (2 * (chooseMain / 3)));
+            = new Vector2(-6 + (2 * (chooseMain % 6)), 4 - (2 * (chooseMain / 6)));
     }
 }

@@ -5,13 +5,14 @@ using UnityEngine;
 public class Explosion : MonoBehaviour
 {
     // Inspector
-    [SerializeField] public ParticleSystem[] particle;
+    public ParticleSystem[] particle = new ParticleSystem[30];
+    [SerializeField] ParticleSystem explosopn;
 
-    //private void Start()
-    //{
-    //    for(int i = 0; i < 9; i++)
-    //    {
-    //        particle[i].Stop();
-    //    }
-    //}
+    private void Start()
+    {
+        for (int i = 0; i < 30; i++)
+        {
+            particle[i] = Instantiate(explosopn, new Vector3(-6 + (2 * (i % 6)), 3.5f - (2 * (i / 6)), -2.0f), Quaternion.identity);
+        }
+    }
 }

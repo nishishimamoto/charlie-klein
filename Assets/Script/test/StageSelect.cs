@@ -104,10 +104,10 @@ public class StageSelect : MonoBehaviour
                 SceneManager.LoadScene("Mobius");
                 break;
             case 6:
-                SceneManager.LoadScene("Stage3");
+                SceneManager.LoadScene("tatsuki01");
                 break;
             case 7:
-                SceneManager.LoadScene("Stage3");
+                SceneManager.LoadScene("tatsuki02");
                 break;
             case 8:
                 SceneManager.LoadScene("Stage3");

@@ -81,7 +81,9 @@ public class TestStage : MonoBehaviour
 
     [SerializeField] GameObject main;
     [SerializeField] GameObject side;
-    [SerializeField] bool[] isPlanet = new bool[mainPanel]; 
+    [SerializeField] bool[] isPlanet = new bool[mainPanel];
+
+    public static string oldSceneName;  //リザルトから戻る用
 
     // Start is called before the first frame update
     void Start()
@@ -677,6 +679,7 @@ public class TestStage : MonoBehaviour
         {
             if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
             //ゲーム終了かリトライ
+            oldSceneName = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene("Result");
         }
     }

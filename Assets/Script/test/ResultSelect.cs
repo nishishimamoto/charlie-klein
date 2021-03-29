@@ -7,13 +7,14 @@ using UnityEngine.UI;
 public class ResultSelect : MonoBehaviour
 {
     int cursol = 0;
-    bool ClossTilt;
+    int oldCursol;
+    bool isVertical;
     float blinking = 0f;
     float blinkingSpeed = 3.0f;
     bool isBlinking;
 
-    [SerializeField] GameObject retry;
-    [SerializeField] GameObject end;
+    [SerializeField] GameObject[] button;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,35 +26,51 @@ public class ResultSelect : MonoBehaviour
     {
 
         //十字キーのパネル選択
-        if (0 > Input.GetAxis("ClossHorizontal") && !ClossTilt)    //↓入力時
+        //if (0 > Input.GetAxis("ClossHorizontal") && !ClossTilt)    //↓入力時
+        //{
+        //    if (cursol >= 1) cursol -= 1;
+        //    else cursol += 1;
+        //    ClossTilt = true;
+        //    ButtonSize();
+        //}
+        //if (0 < Input.GetAxis("ClossHorizontal") && !ClossTilt)  //↑入力時
+        //{
+        //    if (cursol <= 0) cursol += 1;
+        //    else cursol -= 1;
+        //    ClossTilt = true;
+        //    ButtonSize();
+        //}
+        //十字キーのパネル選択
+        if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
         {
-            if (cursol >= 1) cursol -= 1;
+            oldCursol = cursol;
+            if (cursol == 2) cursol -= 2;
             else cursol += 1;
-            ClossTilt = true;
+            isVertical = true;
             ButtonSize();
         }
-        if (0 < Input.GetAxis("ClossHorizontal") && !ClossTilt)  //↑入力時
+        else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
         {
-            if (cursol <= 0) cursol += 1;
+            oldCursol = cursol;
+            if (cursol == 0) cursol += 2;
             else cursol -= 1;
-            ClossTilt = true;
+            isVertical = true;
             ButtonSize();
         }
 
-        if (0 == Input.GetAxis("ClossHorizontal") && !isBlinking) ClossTilt = false;
+        if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
 
         if (Input.GetButtonDown("X"))
         {
             isBlinking = true;
-            ClossTilt = true;
             Invoke("SenceChange", 1.0f);
         }
 
         if (isBlinking) Blinking();
 
 
-    GetComponent<RectTransform>().anchoredPosition
-            = new Vector2(-150 + (cursol * 300), -100);
+        GetComponent<RectTransform>().anchoredPosition
+                = new Vector2(0, -20 + (cursol * -60));
     }
 
     void Blinking()
@@ -67,9 +84,12 @@ public class ResultSelect : MonoBehaviour
             switch (cursol)
             {
                 case 0:
-                    SceneManager.LoadScene("Stage3");
+                    SceneManager.LoadScene(TestStage.oldSceneName);
                     break;
                 case 1:
+                    SceneManager.LoadScene("StageSelect");
+                    break;
+                case 2:
 #if UNITY_EDITOR
                     UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -81,16 +101,7 @@ public class ResultSelect : MonoBehaviour
 
     void ButtonSize()
     {
-        switch (cursol)
-        {
-            case 0:
-                retry.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
-                end.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 0);
-                break;
-            case 1:
-                end.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
-                retry.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 0);
-                break;
-        }
+        button[cursol].GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
+        button[oldCursol].GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 0);
     }
 }

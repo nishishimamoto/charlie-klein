@@ -6,8 +6,29 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/StageSelect.unity
+    guid: aaed9940932182443a953287bc79df5f
+  - enabled: 1
     path: Assets/Scenes/Stage3.unity
     guid: 55e3407481eec284e920fbec0444411a
+  - enabled: 1
+    path: Assets/Kiko/Crescent Moon.unity
+    guid: 84034e8b6d0271049959ee67446d3b22
+  - enabled: 1
+    path: Assets/Kiko/Mobius.unity
+    guid: a24e3c84ae6f958469627c1fd3d9e69a
+  - enabled: 1
+    path: Assets/nishi/nishi1.unity
+    guid: 554bdaa295921a84eadbd8a0918de72b
+  - enabled: 1
+    path: Assets/nishi/nishi2.unity
+    guid: 45c1d8f16c06dcf4d967f5164dd299fe
+  - enabled: 1
+    path: Assets/zuna/zuna1.unity
+    guid: 6d2d9f52f191beb4f8ef2d6cb506f06a
+  - enabled: 1
+    path: Assets/zuna/zuna2.unity
+    guid: d45594cd1d743544397aa4d00bf3bd42
   - enabled: 1
     path: Assets/Scenes/Result.unity
     guid: 11558175410157d44bebcfa040765c70

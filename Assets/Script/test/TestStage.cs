@@ -11,6 +11,7 @@ public class TestStage : MonoBehaviour
     [SerializeField] Timer TimerCS;
     [SerializeField] Combo ComboCS;
     [SerializeField] Explosion ExplosionCS;
+    [SerializeField] Pause PauseCS;
 
     const int mainPanel = 30;    //メインパネルの数
     const int sidePanel = 42;    //サイドパネルの数
@@ -103,33 +104,33 @@ public class TestStage : MonoBehaviour
                 //sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 2)];
                 //panelAnim[(i / (width - 1)) + i] = sideSphere[(i / (width - 1)) + i].GetComponent<PanelAnim>();
 
-                    //if (i >= (mainPanel - 1) - width)
-                    //{
-                    //    sideSphere[(i / (width - 1)) + i + width] = Instantiate(side, new Vector3(-7 + (2 * (i % (width - 1))), 3 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
-                    //    sideNumber[(i / (width - 1)) + i + width] = sideColorNumber[Random.Range(0, 2)];
-                    //    panelAnim[(i / (width - 1)) + i + width] = sideSphere[(i / (width - 1)) + i + width].GetComponent<PanelAnim>();
+                //if (i >= (mainPanel - 1) - width)
+                //{
+                //    sideSphere[(i / (width - 1)) + i + width] = Instantiate(side, new Vector3(-7 + (2 * (i % (width - 1))), 3 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
+                //    sideNumber[(i / (width - 1)) + i + width] = sideColorNumber[Random.Range(0, 2)];
+                //    panelAnim[(i / (width - 1)) + i + width] = sideSphere[(i / (width - 1)) + i + width].GetComponent<PanelAnim>();
 
-                    //    if (i == mainPanel - 1)
-                    //    {
-                    //        sideSphere[(i / (width - 1)) + i + width + 1] = Instantiate(side, new Vector3(-5 + (2 * (i % (width - 1))), 3 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
-                    //        sideNumber[(i / (width - 1)) + i + width + 1] = sideColorNumber[Random.Range(0, 2)];
-                    //        panelAnim[(i / (width - 1)) + i + width + 1] = sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<PanelAnim>();
-                    //    }
-                    //}
+                //    if (i == mainPanel - 1)
+                //    {
+                //        sideSphere[(i / (width - 1)) + i + width + 1] = Instantiate(side, new Vector3(-5 + (2 * (i % (width - 1))), 3 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
+                //        sideNumber[(i / (width - 1)) + i + width + 1] = sideColorNumber[Random.Range(0, 2)];
+                //        panelAnim[(i / (width - 1)) + i + width + 1] = sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<PanelAnim>();
+                //    }
+                //}
 
-                    //if (i % 6 == 5)    //右端の列で追加2つ生成
-                    //{
-                    //    sideSphere[(i / (width - 1)) + i + 1] = Instantiate(side, new Vector3(-5 + (2 * (i % (width - 1))), 5 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
-                    //    sideNumber[(i / (width - 1)) + i + 1] = sideColorNumber[Random.Range(0, 2)];
-                    //    panelAnim[(i / (width - 1)) + i + 1] = sideSphere[(i / (width - 1)) + i + 1].GetComponent<PanelAnim>();
-                    //}
-                    ////mainSphereColor[i] = mainSphere[i].GetComponent<Renderer>().material.color;
+                //if (i % 6 == 5)    //右端の列で追加2つ生成
+                //{
+                //    sideSphere[(i / (width - 1)) + i + 1] = Instantiate(side, new Vector3(-5 + (2 * (i % (width - 1))), 5 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
+                //    sideNumber[(i / (width - 1)) + i + 1] = sideColorNumber[Random.Range(0, 2)];
+                //    panelAnim[(i / (width - 1)) + i + 1] = sideSphere[(i / (width - 1)) + i + 1].GetComponent<PanelAnim>();
+                //}
+                ////mainSphereColor[i] = mainSphere[i].GetComponent<Renderer>().material.color;
             }
         }
 
         for (int i = 0; i < sidePanel; i++) //衛星の生成
         {
-            if(i <= 6)  //最上行のとき
+            if (i <= 6)  //最上行のとき
             {
                 if (i == 0 && isPlanet[0]) //隅の惑星がなければ隅の衛星も作らない
                 {
@@ -147,13 +148,14 @@ public class TestStage : MonoBehaviour
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = sideColorNumber[Random.Range(0, 2)];
                 }
-            }else if( i > 0 && i % 7 == 0) //最左列のとき
+            }
+            else if (i > 0 && i % 7 == 0) //最左列のとき
             {
-                if(i == 35 && isPlanet[24]) //隅の惑星がなければ隅の衛星も作らない
+                if (i == 35 && isPlanet[24]) //隅の惑星がなければ隅の衛星も作らない
                 {
 
                 }
-                else if(i != 35 && isPlanet[i - (i / width) - 6] && isPlanet[i - (i / width)]) //惑星最左列を見て、両隣がなければ作らない
+                else if (i != 35 && isPlanet[i - (i / width) - 6] && isPlanet[i - (i / width)]) //惑星最左列を見て、両隣がなければ作らない
                 {
 
                 }
@@ -164,12 +166,14 @@ public class TestStage : MonoBehaviour
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = sideColorNumber[Random.Range(0, 2)];
                 }
-            }else if(i > 6 && i % 7 == 6)   //最右列のとき
+            }
+            else if (i > 6 && i % 7 == 6)   //最右列のとき
             {
-                if(i == 41 && isPlanet[29])//隅の惑星がなければ隅の衛星も作らない
+                if (i == 41 && isPlanet[29])//隅の惑星がなければ隅の衛星も作らない
                 {
 
-                }else if(i != 41 && isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - 1]) //惑星最右列を見て、両隣がなければ作らない
+                }
+                else if (i != 41 && isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - 1]) //惑星最右列を見て、両隣がなければ作らない
                 {
 
                 }
@@ -180,7 +184,8 @@ public class TestStage : MonoBehaviour
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = sideColorNumber[Random.Range(0, 2)];
                 }
-            }else if(i > 35 && i < 41)  //最下行の時
+            }
+            else if (i > 35 && i < 41)  //最下行の時
             {
                 if (isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - (width - 1)])//惑星最下列を見て、両隣がなければ作らない
                 {
@@ -196,7 +201,7 @@ public class TestStage : MonoBehaviour
             }
             else
             {
-                if(isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - (width - 1)] && isPlanet[i - (i / width) - 1] && isPlanet[i - (i / width)])//四方に惑星がない場合は衛星を作らない
+                if (isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - (width - 1)] && isPlanet[i - (i / width) - 1] && isPlanet[i - (i / width)])//四方に惑星がない場合は衛星を作らない
                 {
 
                 }
@@ -227,30 +232,33 @@ public class TestStage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!alpha_Flg)
+        if (!PauseCS.isPause)
         {
-            if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
-            else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
-            //PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
-            PointBlinking();            //4つ揃ったときの点滅
-            //ColorChange();              //パネルの色変更
-            TimerCS.TimerCount();       //制限時間のカウントと表示
-            TurnEnd();                  //ターン終了時の処理
+            if (!alpha_Flg)
+            {
+                if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
+                else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
+                //PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
+                PointBlinking();            //4つ揃ったときの点滅
+                //ColorChange();              //パネルの色変更
+                TimerCS.TimerCount();       //制限時間のカウントと表示
+                TurnEnd();                  //ターン終了時の処理
 
-            //SelectImageMove();  //現在選んでいるパネルの可視化 ここで呼ぶ
-            cursorSelectCS.SelectImageMove(chooseMain);
+                //SelectImageMove();  //現在選んでいるパネルの可視化 ここで呼ぶ
+                cursorSelectCS.SelectImageMove(chooseMain);
 
-        }
-        else if (alpha_Flg) alpha();
+            }
+            else if (alpha_Flg) alpha();
 
-        //ゲーム終了
-        if (Input.GetButtonDown("Start"))   //Yを押したら終了
-        {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-    Application.Quit();
-#endif
+            //ゲーム終了
+            //        if (Input.GetButtonDown("Start"))   //Yを押したら終了
+            //        {
+            //#if UNITY_EDITOR
+            //            UnityEditor.EditorApplication.isPlaying = false;
+            //#else
+            //    Application.Quit();
+            //#endif
+            //        }
         }
     }
 
@@ -558,90 +566,90 @@ public class TestStage : MonoBehaviour
         //if (changeTime > 0) changeTime -= Time.deltaTime;
         //else if (changeTime <= 0)
         //{
-            if (panelMove[0])   //反時計周り
-            {
-                //パネルの回転アニメーション
-                panelAnim[(chooseMain / (width - 1)) + chooseMain].animFlg[1] = true; //down
-                panelAnim[(chooseMain / (width - 1)) + chooseMain + 1].animFlg[2] = true; //left
-                panelAnim[(chooseMain / (width - 1)) + chooseMain + width + 1].animFlg[3] = true; //up
-                panelAnim[(chooseMain / (width - 1)) + chooseMain + width].animFlg[0] = true; //right
+        if (panelMove[0])   //反時計周り
+        {
+            //パネルの回転アニメーション
+            panelAnim[(chooseMain / (width - 1)) + chooseMain].animFlg[1] = true; //down
+            panelAnim[(chooseMain / (width - 1)) + chooseMain + 1].animFlg[2] = true; //left
+            panelAnim[(chooseMain / (width - 1)) + chooseMain + width + 1].animFlg[3] = true; //up
+            panelAnim[(chooseMain / (width - 1)) + chooseMain + width].animFlg[0] = true; //right
 
-                //ナンバー入れ替え
-                tmpNumber = sideNumber[(chooseMain / (width - 1)) + chooseMain];
-                sideNumber[(chooseMain / (width - 1)) + chooseMain] = sideNumber[(chooseMain / (width - 1)) + chooseMain + 1];
-                sideNumber[(chooseMain / (width - 1)) + chooseMain + 1] = sideNumber[(chooseMain / (width - 1)) + chooseMain + width + 1];
-                sideNumber[(chooseMain / (width - 1)) + chooseMain + width + 1] = sideNumber[(chooseMain / (width - 1)) + chooseMain + width];
-                sideNumber[(chooseMain / (width - 1)) + chooseMain + width] = tmpNumber;
+            //ナンバー入れ替え
+            tmpNumber = sideNumber[(chooseMain / (width - 1)) + chooseMain];
+            sideNumber[(chooseMain / (width - 1)) + chooseMain] = sideNumber[(chooseMain / (width - 1)) + chooseMain + 1];
+            sideNumber[(chooseMain / (width - 1)) + chooseMain + 1] = sideNumber[(chooseMain / (width - 1)) + chooseMain + width + 1];
+            sideNumber[(chooseMain / (width - 1)) + chooseMain + width + 1] = sideNumber[(chooseMain / (width - 1)) + chooseMain + width];
+            sideNumber[(chooseMain / (width - 1)) + chooseMain + width] = tmpNumber;
 
-                //ボーナス入れ替え
-                tmpBonus = bonusLevel[(chooseMain / (width - 1)) + chooseMain];
-                bonusLevel[(chooseMain / (width - 1)) + chooseMain] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + 1];
-                bonusLevel[(chooseMain / (width - 1)) + chooseMain + 1] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + width + 1];
-                bonusLevel[(chooseMain / (width - 1)) + chooseMain + width + 1] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + width];
-                bonusLevel[(chooseMain / (width - 1)) + chooseMain + width] = tmpBonus;
+            //ボーナス入れ替え
+            tmpBonus = bonusLevel[(chooseMain / (width - 1)) + chooseMain];
+            bonusLevel[(chooseMain / (width - 1)) + chooseMain] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + 1];
+            bonusLevel[(chooseMain / (width - 1)) + chooseMain + 1] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + width + 1];
+            bonusLevel[(chooseMain / (width - 1)) + chooseMain + width + 1] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + width];
+            bonusLevel[(chooseMain / (width - 1)) + chooseMain + width] = tmpBonus;
 
-                //オブジェクト入れ替え
-                tmpObj = sideSphere[(chooseMain / (width - 1)) + chooseMain];
-                sideSphere[(chooseMain / (width - 1)) + chooseMain] = sideSphere[(chooseMain / (width - 1)) + chooseMain + 1];
-                sideSphere[(chooseMain / (width - 1)) + chooseMain + 1] = sideSphere[(chooseMain / (width - 1)) + chooseMain + width + 1];
-                sideSphere[(chooseMain / (width - 1)) + chooseMain + width + 1] = sideSphere[(chooseMain / (width - 1)) + chooseMain + width];
-                sideSphere[(chooseMain / (width - 1)) + chooseMain + width] = tmpObj;
+            //オブジェクト入れ替え
+            tmpObj = sideSphere[(chooseMain / (width - 1)) + chooseMain];
+            sideSphere[(chooseMain / (width - 1)) + chooseMain] = sideSphere[(chooseMain / (width - 1)) + chooseMain + 1];
+            sideSphere[(chooseMain / (width - 1)) + chooseMain + 1] = sideSphere[(chooseMain / (width - 1)) + chooseMain + width + 1];
+            sideSphere[(chooseMain / (width - 1)) + chooseMain + width + 1] = sideSphere[(chooseMain / (width - 1)) + chooseMain + width];
+            sideSphere[(chooseMain / (width - 1)) + chooseMain + width] = tmpObj;
 
-                //スクリプト入れ替え
-                tmpAnim = panelAnim[(chooseMain / (width - 1)) + chooseMain];
-                panelAnim[(chooseMain / (width - 1)) + chooseMain] = panelAnim[(chooseMain / (width - 1)) + chooseMain + 1];
-                panelAnim[(chooseMain / (width - 1)) + chooseMain + 1] = panelAnim[(chooseMain / (width - 1)) + chooseMain + width + 1];
-                panelAnim[(chooseMain / (width - 1)) + chooseMain + width + 1] = panelAnim[(chooseMain / (width - 1)) + chooseMain + width];
-                panelAnim[(chooseMain / (width - 1)) + chooseMain + width] = tmpAnim;
+            //スクリプト入れ替え
+            tmpAnim = panelAnim[(chooseMain / (width - 1)) + chooseMain];
+            panelAnim[(chooseMain / (width - 1)) + chooseMain] = panelAnim[(chooseMain / (width - 1)) + chooseMain + 1];
+            panelAnim[(chooseMain / (width - 1)) + chooseMain + 1] = panelAnim[(chooseMain / (width - 1)) + chooseMain + width + 1];
+            panelAnim[(chooseMain / (width - 1)) + chooseMain + width + 1] = panelAnim[(chooseMain / (width - 1)) + chooseMain + width];
+            panelAnim[(chooseMain / (width - 1)) + chooseMain + width] = tmpAnim;
 
-                panelMove[0] = false;
-            }
-            else if (panelMove[1])  //時計周り
-            {
-                //パネルの回転アニメーション
-                panelAnim[(chooseMain / (width - 1)) + chooseMain].animFlg[4] = true; //right2
-                panelAnim[(chooseMain / (width - 1)) + chooseMain + 1].animFlg[5] = true; //down2
-                panelAnim[(chooseMain / (width - 1)) + chooseMain + width + 1].animFlg[6] = true; //up2
-                panelAnim[(chooseMain / (width - 1)) + chooseMain + width].animFlg[7] = true; //left2
+            panelMove[0] = false;
+        }
+        else if (panelMove[1])  //時計周り
+        {
+            //パネルの回転アニメーション
+            panelAnim[(chooseMain / (width - 1)) + chooseMain].animFlg[4] = true; //right2
+            panelAnim[(chooseMain / (width - 1)) + chooseMain + 1].animFlg[5] = true; //down2
+            panelAnim[(chooseMain / (width - 1)) + chooseMain + width + 1].animFlg[6] = true; //up2
+            panelAnim[(chooseMain / (width - 1)) + chooseMain + width].animFlg[7] = true; //left2
 
-                //ナンバー入れ替え
-                tmpNumber = sideNumber[(chooseMain / (width - 1)) + chooseMain];
-                sideNumber[(chooseMain / (width - 1)) + chooseMain] = sideNumber[(chooseMain / (width - 1)) + chooseMain + width];
-                sideNumber[(chooseMain / (width - 1)) + chooseMain + width] = sideNumber[(chooseMain / (width - 1)) + chooseMain + width + 1];
-                sideNumber[(chooseMain / (width - 1)) + chooseMain + width + 1] = sideNumber[(chooseMain / (width - 1)) + chooseMain + 1];
-                sideNumber[(chooseMain / (width - 1)) + chooseMain + 1] = tmpNumber;
+            //ナンバー入れ替え
+            tmpNumber = sideNumber[(chooseMain / (width - 1)) + chooseMain];
+            sideNumber[(chooseMain / (width - 1)) + chooseMain] = sideNumber[(chooseMain / (width - 1)) + chooseMain + width];
+            sideNumber[(chooseMain / (width - 1)) + chooseMain + width] = sideNumber[(chooseMain / (width - 1)) + chooseMain + width + 1];
+            sideNumber[(chooseMain / (width - 1)) + chooseMain + width + 1] = sideNumber[(chooseMain / (width - 1)) + chooseMain + 1];
+            sideNumber[(chooseMain / (width - 1)) + chooseMain + 1] = tmpNumber;
 
-                //ボーナス入れ替え
-                tmpBonus = bonusLevel[(chooseMain / (width - 1)) + chooseMain];
-                bonusLevel[(chooseMain / (width - 1)) + chooseMain] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + width];
-                bonusLevel[(chooseMain / (width - 1)) + chooseMain + width] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + width + 1];
-                bonusLevel[(chooseMain / (width - 1)) + chooseMain + width + 1] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + 1];
-                bonusLevel[(chooseMain / (width - 1)) + chooseMain + 1] = tmpBonus;
+            //ボーナス入れ替え
+            tmpBonus = bonusLevel[(chooseMain / (width - 1)) + chooseMain];
+            bonusLevel[(chooseMain / (width - 1)) + chooseMain] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + width];
+            bonusLevel[(chooseMain / (width - 1)) + chooseMain + width] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + width + 1];
+            bonusLevel[(chooseMain / (width - 1)) + chooseMain + width + 1] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + 1];
+            bonusLevel[(chooseMain / (width - 1)) + chooseMain + 1] = tmpBonus;
 
-                //オブジェクト入れ替え
-                tmpObj = sideSphere[(chooseMain / (width - 1)) + chooseMain];
-                sideSphere[(chooseMain / (width - 1)) + chooseMain] = sideSphere[(chooseMain / (width - 1)) + chooseMain + width];
-                sideSphere[(chooseMain / (width - 1)) + chooseMain + width] = sideSphere[(chooseMain / (width - 1)) + chooseMain + width + 1];
-                sideSphere[(chooseMain / (width - 1)) + chooseMain + width + 1] = sideSphere[(chooseMain / (width - 1)) + chooseMain + 1];
-                sideSphere[(chooseMain / (width - 1)) + chooseMain + 1] = tmpObj;
+            //オブジェクト入れ替え
+            tmpObj = sideSphere[(chooseMain / (width - 1)) + chooseMain];
+            sideSphere[(chooseMain / (width - 1)) + chooseMain] = sideSphere[(chooseMain / (width - 1)) + chooseMain + width];
+            sideSphere[(chooseMain / (width - 1)) + chooseMain + width] = sideSphere[(chooseMain / (width - 1)) + chooseMain + width + 1];
+            sideSphere[(chooseMain / (width - 1)) + chooseMain + width + 1] = sideSphere[(chooseMain / (width - 1)) + chooseMain + 1];
+            sideSphere[(chooseMain / (width - 1)) + chooseMain + 1] = tmpObj;
 
-                ////スクリプト入れ替え
-                tmpAnim = panelAnim[(chooseMain / (width - 1)) + chooseMain];
-                panelAnim[(chooseMain / (width - 1)) + chooseMain] = panelAnim[(chooseMain / (width - 1)) + chooseMain + width];
-                panelAnim[(chooseMain / (width - 1)) + chooseMain + width] = panelAnim[(chooseMain / (width - 1)) + chooseMain + width + 1];
-                panelAnim[(chooseMain / (width - 1)) + chooseMain + width + 1] = panelAnim[(chooseMain / (width - 1)) + chooseMain + 1];
-                panelAnim[(chooseMain / (width - 1)) + chooseMain + 1] = tmpAnim;
+            ////スクリプト入れ替え
+            tmpAnim = panelAnim[(chooseMain / (width - 1)) + chooseMain];
+            panelAnim[(chooseMain / (width - 1)) + chooseMain] = panelAnim[(chooseMain / (width - 1)) + chooseMain + width];
+            panelAnim[(chooseMain / (width - 1)) + chooseMain + width] = panelAnim[(chooseMain / (width - 1)) + chooseMain + width + 1];
+            panelAnim[(chooseMain / (width - 1)) + chooseMain + width + 1] = panelAnim[(chooseMain / (width - 1)) + chooseMain + 1];
+            panelAnim[(chooseMain / (width - 1)) + chooseMain + 1] = tmpAnim;
 
-                ////色の入れ替え
-                //tmpSideColor = sideSphereColor[(chooseMain / 3) + chooseMain];
-                //sideSphereColor[(chooseMain / 3) + chooseMain] = sideSphereColor[(chooseMain / 3) + chooseMain + 4];
-                //sideSphereColor[(chooseMain / 3) + chooseMain + 4] = sideSphereColor[(chooseMain / 3) + chooseMain + 5];
-                //sideSphereColor[(chooseMain / 3) + chooseMain + 5] = sideSphereColor[(chooseMain / 3) + chooseMain + 1];
-                //sideSphereColor[(chooseMain / 3) + chooseMain + 1] = tmpSideColor;
+            ////色の入れ替え
+            //tmpSideColor = sideSphereColor[(chooseMain / 3) + chooseMain];
+            //sideSphereColor[(chooseMain / 3) + chooseMain] = sideSphereColor[(chooseMain / 3) + chooseMain + 4];
+            //sideSphereColor[(chooseMain / 3) + chooseMain + 4] = sideSphereColor[(chooseMain / 3) + chooseMain + 5];
+            //sideSphereColor[(chooseMain / 3) + chooseMain + 5] = sideSphereColor[(chooseMain / 3) + chooseMain + 1];
+            //sideSphereColor[(chooseMain / 3) + chooseMain + 1] = tmpSideColor;
 
-                panelMove[1] = false;
-        //    }
-        //    changeTime = 0.1f;
+            panelMove[1] = false;
+            //    }
+            //    changeTime = 0.1f;
         }
     }
 
@@ -664,7 +672,7 @@ public class TestStage : MonoBehaviour
     {
         if (TurnCS.nowTurn < 6)
         {
-            if (Input.GetButtonDown("X") || TimerCS.timeOut) //Xか制限時間でターン終了
+            if ((Input.GetButtonDown("X") || TimerCS.timeOut) && TimerCS.countStart == true) //Xか制限時間でターン終了
             {
                 if (!alpha_Flg) PointCheck();
                 TimerCS.timeCount = 30.0f;
@@ -678,7 +686,7 @@ public class TestStage : MonoBehaviour
         else
         {
             if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
-            //ゲーム終了かリトライ
+            //リザルト画面へ
             oldSceneName = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene("Result");
         }
@@ -715,7 +723,7 @@ public class TestStage : MonoBehaviour
 
     void ExplosionStop()
     {
-        for(int i = 0; i < mainPanel; i++)
+        for (int i = 0; i < mainPanel; i++)
         {
             ExplosionCS.particle[i].Stop();
         }

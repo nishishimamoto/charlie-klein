@@ -237,12 +237,12 @@ GameObject:
   - component: {fileID: 309241526}
   - component: {fileID: 309241525}
   m_Layer: 5
-  m_Name: Button
+  m_Name: cursol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &309241524
 RectTransform:
   m_ObjectHideFlags: 0
@@ -271,9 +271,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 309241523}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b30ab64d536c4b84b81cdd76ac604d88, type: 3}
+  m_Script: {fileID: 11500000, guid: f64dc344500e414458dd39c8e0fbfe6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Interval: -70
   button:
   - {fileID: 2082613121}
   - {fileID: 965158529}
@@ -333,7 +334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -979,7 +980,7 @@ RectTransform:
   m_GameObject: {fileID: 2082613121}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_Children:
   - {fileID: 1962253949}
   m_Father: {fileID: 199328417}

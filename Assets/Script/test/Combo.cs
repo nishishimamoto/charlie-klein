@@ -53,7 +53,7 @@ public class Combo : MonoBehaviour
 
     public void BoardCombo(int x)   //盤面に〇コンボ!と出す
     {
-        GameObject combos = Instantiate(combo, new Vector3(-210 + (70 * (x % 6)), 140 + (-70 * (x / 6)), 0), Quaternion.identity);
+        GameObject combos = Instantiate(combo, new Vector3(-300 + (100 * (x % 6)), 200 + (-100 * (x / 6)), 0), Quaternion.identity);
         combos.transform.SetParent(canvasTransform, false);
         Text combosText = combos.GetComponent<Text>();
         combosText.text = comboCount + "combo!";

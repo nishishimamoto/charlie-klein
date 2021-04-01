@@ -259,39 +259,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboTime: 0
   comboCount: 0
-  combo: {fileID: 2466275448386733449, guid: 21361e43ebc42e94381f8980ef283d0a, type: 3}
-  combos:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  canvas: {fileID: 145192497}
 --- !u!114 &24218255
 MonoBehaviour:
   m_ObjectHideFlags: 0

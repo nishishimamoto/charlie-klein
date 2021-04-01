@@ -246,7 +246,6 @@ public class TestStage : MonoBehaviour
 
                 //SelectImageMove();  //現在選んでいるパネルの可視化 ここで呼ぶ
                 cursorSelectCS.SelectImageMove(chooseMain);
-
             }
             else if (alpha_Flg) alpha();
 
@@ -303,6 +302,7 @@ public class TestStage : MonoBehaviour
                 ExplosionCS.particle[check].Play(); //条件を満たした惑星が爆発
                 Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
                 ColorChange();   //パネルの色変更
+                ComboCS.BoardCombo(check); //爆破箇所にコンボのパネル
 
                 check += 1;
             }
@@ -672,7 +672,7 @@ public class TestStage : MonoBehaviour
     {
         if (TurnCS.nowTurn < 6)
         {
-            if ((Input.GetButtonDown("X") || TimerCS.timeOut) && TimerCS.countStart == true) //Xか制限時間でターン終了
+            if ((Input.GetButtonDown("X") || TimerCS.timeCount <= 0) && TimerCS.countStart == true) //Xか制限時間でターン終了
             {
                 if (!alpha_Flg) PointCheck();
                 TimerCS.timeCount = 30.0f;

@@ -12,11 +12,18 @@ public class Combo : MonoBehaviour
     public int comboCount = 0;
     float blinking = 0f;
     float blinkingSpeed = 2.0f;
+    GameObject combo; //コンボの元
+    GameObject canvas;
+    Transform canvasTransform;
     // Start is called before the first frame update
     void Start()
     {
         comboText = GetComponent<Text>();
         comboText.color = new Color(255, 255, 255, 0);  //コンボ表記透明
+
+        combo = (GameObject)Resources.Load("ComboCount");
+        canvas = GameObject.Find("Canvas");
+        canvasTransform = canvas.GetComponent<Transform>();
     }
 
     // Update is called once per frame
@@ -42,5 +49,13 @@ public class Combo : MonoBehaviour
             comboCount = 0;
             comboText.color = new Color(255, 255, 255, 0);  //コンボ表記透明
         }
+    }
+
+    public void BoardCombo(int x)   //盤面に〇コンボ!と出す
+    {
+        GameObject combos = Instantiate(combo, new Vector3(-210 + (70 * (x % 6)), 140 + (-70 * (x / 6)), 0), Quaternion.identity);
+        combos.transform.SetParent(canvasTransform, false);
+        Text combosText = combos.GetComponent<Text>();
+        combosText.text = comboCount + "combo!";
     }
 }

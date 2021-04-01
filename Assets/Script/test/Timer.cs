@@ -39,12 +39,12 @@ public class Timer : MonoBehaviour
                 bigTimerText.text = Mathf.Ceil(timeCount).ToString("f0");  //時間の表示
             }
         }
-        else if (timeCount <= 0)
-        {
-            timeOut = true;
-            countStart = false;
-            timeCount = 0;
-        }
+        //else if (timeCount <= 0)
+        //{
+        //    timeOut = true;
+        //    countStart = false;
+        //    timeCount = 0;
+        //}
     }
 
     void ChangeSliderColor()

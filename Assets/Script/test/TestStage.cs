@@ -300,6 +300,9 @@ public class TestStage : MonoBehaviour
 
                 ScoreAdd();
                 ExplosionCS.particle[check].Play(); //条件を満たした惑星が爆発
+                
+                ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+
                 Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
                 ColorChange();   //パネルの色変更
                 ComboCS.BoardCombo(check); //爆破箇所にコンボのパネル
@@ -672,7 +675,7 @@ public class TestStage : MonoBehaviour
     {
         if (TurnCS.nowTurn < 6)
         {
-            if ((Input.GetButtonDown("X") || TimerCS.timeCount <= 0) && TimerCS.countStart == true) //Xか制限時間でターン終了
+            if ((Input.GetButtonDown("X") || Input.GetButtonDown("A") || TimerCS.timeCount <= 0) && TimerCS.countStart == true) //Xか制限時間でターン終了
             {
                 if (!alpha_Flg) PointCheck();
                 TimerCS.timeCount = 30.0f;

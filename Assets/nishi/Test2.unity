@@ -4558,6 +4558,8 @@ MonoBehaviour:
   - {fileID: 1312290412}
   explosopn: {fileID: 198917022394846920, guid: e1b08032bec16ba4eb1ae23cbd572664,
     type: 3}
+  audio: {fileID: 0}
+  clip: {fileID: 0}
 --- !u!4 &1037423003
 Transform:
   m_ObjectHideFlags: 0
@@ -9580,6 +9582,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nowTurn: 0
+  turnStart: {fileID: 0}
+  isTurnStart: 0
 --- !u!1001 &2075342734
 PrefabInstance:
   m_ObjectHideFlags: 0

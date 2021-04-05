@@ -234,7 +234,11 @@ public class TestStage : MonoBehaviour
     {
         if (!PauseCS.isPause)
         {
-            if (!alpha_Flg)
+            if (!TurnCS.isTurnStart)
+            {
+                TurnCS.TurnStart();
+            }
+            else if (!alpha_Flg)
             {
                 if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
                 else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
@@ -377,6 +381,9 @@ public class TestStage : MonoBehaviour
                 rainbow = false;
                 alpha_Flg = false;
                 rainbowTarget = 0;
+                //TurnCS.isTurnStart = false;
+                //TurnCS.TurnStart();
+                Invoke("DelayTurnStart", 1.0f);    //時間差でターン開始
             }
         }
         else check += 1;
@@ -484,6 +491,7 @@ public class TestStage : MonoBehaviour
                 //}
             }
         }
+        if(!alpha_Flg) Invoke("DelayTurnStart", 1.0f);    //時間差でターン開始
     }
 
     //***
@@ -691,7 +699,7 @@ public class TestStage : MonoBehaviour
             if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
             //リザルト画面へ
             oldSceneName = SceneManager.GetActiveScene().name;
-            SceneManager.LoadScene("Result");
+            Invoke("RoadResult", 1.0f);    //時間差でリザルトへ
         }
     }
     void PointBlinking()
@@ -730,5 +738,15 @@ public class TestStage : MonoBehaviour
         {
             ExplosionCS.particle[i].Stop();
         }
+    }
+
+    void DelayTurnStart()
+    {
+        TurnCS.isTurnStart = false;
+    }
+
+    void RoadResult()
+    {
+        SceneManager.LoadScene("Result");
     }
 }

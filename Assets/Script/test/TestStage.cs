@@ -41,6 +41,7 @@ public class TestStage : MonoBehaviour
     //[SerializeField] GameObject[] obj;  //アニメーションさせるためのオブジェクト一時消し
     PanelAnim[] panelAnim = new PanelAnim[sidePanel];
     PanelAnim tmpAnim;
+    PlanetAnim[] planetAnim = new PlanetAnim[mainPanel];
 
     //GameObject tmpObj;
     //[SerializeField] Image[] sideBonusFrame;一時消し
@@ -97,6 +98,7 @@ public class TestStage : MonoBehaviour
                 //プレハブを元に、インスタンスを生成
                 mainSphere[i] = Instantiate(main, new Vector3(-6 + (2 * (i % (width - 1))), 4 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
                 mainNumber[i] = mainColorNumber[Random.Range(0, 2)];
+                planetAnim[i] = mainSphere[i].GetComponent<PlanetAnim>();
 
                 if (chooseMain < 0) chooseMain = i;
 
@@ -306,7 +308,7 @@ public class TestStage : MonoBehaviour
                 ExplosionCS.particle[check].Play(); //条件を満たした惑星が爆発
                 
                 ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
-
+                planetAnim[check].animFlg = false; //回転を止める
                 Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
                 ColorChange();   //パネルの色変更
                 ComboCS.BoardCombo(check); //爆破箇所にコンボのパネル
@@ -711,22 +713,53 @@ public class TestStage : MonoBehaviour
 
                 judgNum = mainNumber[i];
 
-                if (judgNum == sideNumber[(i / (width - 1)) + i] * 4 || sideNumber[(i / (width - 1)) + i] == 32)
-                    if (judgNum == sideNumber[(i / (width - 1)) + i + 1] * 4 || sideNumber[(i / (width - 1)) + i + 1] == 32)
-                        if (judgNum == sideNumber[(i / (width - 1)) + i + width + 1] * 4 || sideNumber[(i / (width - 1)) + i + width + 1] == 32)
-                            if (judgNum == sideNumber[(i / (width - 1)) + i + width] * 4 || sideNumber[(i / (width - 1)) + i + width] == 32) //色を満たした
-                            {
-                                float blinking = 0f;
-                                float blinkingSpeed = 2.0f;
-                                blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅(-1~1)
+                if ((judgNum == sideNumber[(i / (width - 1)) + i] * 4 || sideNumber[(i / (width - 1)) + i] == 32) &&
+                    (judgNum == sideNumber[(i / (width - 1)) + i + 1] * 4 || sideNumber[(i / (width - 1)) + i + 1] == 32) &&
+                    (judgNum == sideNumber[(i / (width - 1)) + i + width + 1] * 4 || sideNumber[(i / (width - 1)) + i + width + 1] == 32) &&
+                    (judgNum == sideNumber[(i / (width - 1)) + i + width] * 4 || sideNumber[(i / (width - 1)) + i + width] == 32))
+                {
+                    float blinking = 0f;
+                    float blinkingSpeed = 2.0f;
+                    blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅(-1~1)
 
-                                mainSphere[i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                //Debug.Log(blinking);
-                            }
+                    mainSphere[i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                    sideSphere[(i / (width - 1)) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                    sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                    sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                    sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                    //Debug.Log(blinking);
+                    planetAnim[i].animFlg = true;
+
+                }
+                else
+                {
+                    planetAnim[i].animFlg = false;
+
+                    //mainSphere[i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6);
+                    //sideSphere[(i / (width - 1)) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6);
+                    //sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6);
+                    //sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6);
+                    //sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6);
+                }
+
+                //if (judgNum == sideNumber[(i / (width - 1)) + i] * 4 || sideNumber[(i / (width - 1)) + i] == 32)
+                //if (judgNum == sideNumber[(i / (width - 1)) + i + 1] * 4 || sideNumber[(i / (width - 1)) + i + 1] == 32)
+                //    if (judgNum == sideNumber[(i / (width - 1)) + i + width + 1] * 4 || sideNumber[(i / (width - 1)) + i + width + 1] == 32)
+                //        if (judgNum == sideNumber[(i / (width - 1)) + i + width] * 4 || sideNumber[(i / (width - 1)) + i + width] == 32) //色を満たした
+                //        {
+                //            float blinking = 0f;
+                //            float blinkingSpeed = 2.0f;
+                //            blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅(-1~1)
+
+                //            mainSphere[i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                //            sideSphere[(i / (width - 1)) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                //            sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                //            sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                //            sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                //            //Debug.Log(blinking);
+                //            planetAnim[i].animFlg = true;
+                //        }
+
                 judgNum = 0;
             }
         }
@@ -736,7 +769,10 @@ public class TestStage : MonoBehaviour
     {
         for (int i = 0; i < mainPanel; i++)
         {
-            ExplosionCS.particle[i].Stop();
+            if (!isPlanet[i])
+            {
+                ExplosionCS.particle[i].Stop();
+            }
         }
     }
 

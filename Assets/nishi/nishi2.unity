@@ -9436,6 +9436,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nowTurn: 0
+  turnStart: {fileID: 0}
+  isTurnStart: 0
 --- !u!1 &2073935126
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3658679000757975308}
   - component: {fileID: 3658679000757975309}
   - component: {fileID: 3658679000757975310}
+  - component: {fileID: -3245451083104013191}
+  - component: {fileID: -2440810428112442749}
   m_Layer: 0
   m_Name: MainSphere
   m_TagString: Untagged
@@ -93,3 +95,35 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &-3245451083104013191
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3658679000757975296}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4abeddd519dd06b478b70c25dfdee0a7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-2440810428112442749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3658679000757975296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f0b0fba1bc44c641a8f403c41e3310f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animFlg: 0

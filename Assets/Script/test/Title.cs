@@ -37,7 +37,7 @@ public class Title : MonoBehaviour
         else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
         {
             oldCursol = cursol;
-            if (cursol == 0) cursol += button.Length;
+            if (cursol == 0) cursol += button.Length - 1;
             else cursol -= 1;
             isVertical = true;
             ButtonSize();

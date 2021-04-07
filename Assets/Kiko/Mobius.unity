@@ -429,6 +429,75 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1001 &74352381
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6245039371178168628, guid: d3d7f40eba8280249ba729de2662f2f6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245039371178168628, guid: d3d7f40eba8280249ba729de2662f2f6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245039371178168628, guid: d3d7f40eba8280249ba729de2662f2f6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245039371178168628, guid: d3d7f40eba8280249ba729de2662f2f6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245039371178168628, guid: d3d7f40eba8280249ba729de2662f2f6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245039371178168628, guid: d3d7f40eba8280249ba729de2662f2f6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245039371178168628, guid: d3d7f40eba8280249ba729de2662f2f6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245039371178168628, guid: d3d7f40eba8280249ba729de2662f2f6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245039371178168628, guid: d3d7f40eba8280249ba729de2662f2f6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245039371178168628, guid: d3d7f40eba8280249ba729de2662f2f6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245039371178168628, guid: d3d7f40eba8280249ba729de2662f2f6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9078492234824375616, guid: d3d7f40eba8280249ba729de2662f2f6,
+        type: 3}
+      propertyPath: m_Name
+      value: Particle_Star3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d3d7f40eba8280249ba729de2662f2f6, type: 3}
 --- !u!198 &102580782 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 198917022394846920, guid: e1b08032bec16ba4eb1ae23cbd572664,
@@ -4722,7 +4791,7 @@ MonoBehaviour:
   explosopn: {fileID: 198917022394846920, guid: e1b08032bec16ba4eb1ae23cbd572664,
     type: 3}
   audio: {fileID: 6518207089455946520}
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: f88261e7ddca2564d8a6bd21bd176b8f, type: 3}
 --- !u!4 &1037423003
 Transform:
   m_ObjectHideFlags: 0
@@ -9555,6 +9624,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nowTurn: 0
+  turnStart: {fileID: 0}
+  isTurnStart: 0
 --- !u!1001 &2075342734
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ public class Stage2 : MonoBehaviour
     bool[] bonusFlg = new bool[sidePanel]; //このターン既にボーナスパネルになったかどうか
     int tmpBonus;         //ボーナス入れ替え時の一時保存
     int judgNum = 0;  //和を計算する配列
-    int score = 0;      //スコア
+    public static int score = 0;      //スコア
 
     int chooseMain = 0; //現在選んでいるメインナンバー
 

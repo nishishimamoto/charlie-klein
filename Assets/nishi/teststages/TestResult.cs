@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ResultSelect : MonoBehaviour
+public class TestResult : MonoBehaviour
 {
     int cursol = 0;
     int oldCursol;
@@ -18,7 +18,7 @@ public class ResultSelect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -81,18 +81,22 @@ public class ResultSelect : MonoBehaviour
 
     void SenceChange()
     {
-            switch (cursol)
-            {
-                case 0:
-                    SceneManager.LoadScene(TestStage.oldSceneName);
-                    break;
-                case 1:
-                    SceneManager.LoadScene("StageSelect");
-                    break;
-                case 2:
-                    SceneManager.LoadScene("Title");
-                    break;
-            }
+        switch (cursol)
+        {
+            case 0:
+                SceneManager.LoadScene(test2.oldSceneName);
+                break;
+            case 1:
+                SceneManager.LoadScene("StageSelect");
+                break;
+            case 2:
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
+                break;
+        }
     }
 
     void ButtonSize()

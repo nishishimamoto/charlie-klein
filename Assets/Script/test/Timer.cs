@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    static float maxTime = 30.0f;
+    public float maxTime = 30.0f;
 
     Text timerText;
     public float timeCount;            //制限時間

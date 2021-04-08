@@ -45,7 +45,7 @@ public class TestResult : MonoBehaviour
         {
             oldCursol = cursol;
             if (cursol == 2) cursol -= 2;
-            else cursol += 1;
+            else cursol += 2;
             isVertical = true;
             ButtonSize();
         }
@@ -53,14 +53,14 @@ public class TestResult : MonoBehaviour
         {
             oldCursol = cursol;
             if (cursol == 0) cursol += 2;
-            else cursol -= 1;
+            else cursol -= 2;
             isVertical = true;
             ButtonSize();
         }
 
         if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
 
-        if (Input.GetButtonDown("X"))
+        if (Input.GetButtonDown("A"))
         {
             isBlinking = true;
             Invoke("SenceChange", 1.0f);
@@ -84,7 +84,7 @@ public class TestResult : MonoBehaviour
         switch (cursol)
         {
             case 0:
-                SceneManager.LoadScene(test2.oldSceneName);
+                SceneManager.LoadScene("test2");
                 break;
             case 1:
                 SceneManager.LoadScene("StageSelect");

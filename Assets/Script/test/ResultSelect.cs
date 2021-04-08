@@ -60,7 +60,7 @@ public class ResultSelect : MonoBehaviour
 
         if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
 
-        if (Input.GetButtonDown("X"))
+        if (Input.GetButtonDown("A"))
         {
             isBlinking = true;
             Invoke("SenceChange", 1.0f);
@@ -90,7 +90,11 @@ public class ResultSelect : MonoBehaviour
                     SceneManager.LoadScene("StageSelect");
                     break;
                 case 2:
-                    SceneManager.LoadScene("Title");
+#if UNITY_EDITOR
+                    UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
                     break;
             }
     }

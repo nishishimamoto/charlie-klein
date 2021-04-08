@@ -685,7 +685,7 @@ public class TestStage : MonoBehaviour
     {
         if (TurnCS.nowTurn < 6)
         {
-            if ((Input.GetButtonDown("X") || Input.GetButtonDown("A") || TimerCS.timeCount <= 0) && TimerCS.countStart == true) //Xか制限時間でターン終了
+            if ((Input.GetButtonDown("A") || TimerCS.timeCount <= 0) && TimerCS.countStart == true) //Aか制限時間でターン終了
             {
                 if (!alpha_Flg) PointCheck();
                 TimerCS.timeCount = 30.0f;

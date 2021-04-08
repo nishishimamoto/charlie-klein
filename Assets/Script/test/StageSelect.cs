@@ -62,7 +62,7 @@ public class StageSelect : MonoBehaviour
         if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
         if (0 == Input.GetAxis("ClossHorizontal") && !isBlinking) isHorizontal = false;
 
-        if (Input.GetButtonDown("X"))
+        if (Input.GetButtonDown("A"))
         {
             isBlinking = true;
             Invoke("SenceChange", 1.0f);

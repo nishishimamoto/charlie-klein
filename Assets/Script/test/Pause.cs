@@ -72,7 +72,7 @@ public class Pause : MonoBehaviour
 
                 if (0 == Input.GetAxis("ClossVertical")) isVertical = false;
 
-                if (Input.GetButtonDown("X"))
+                if (Input.GetButtonDown("A"))
                 {
                     SenceChange();
                 }
@@ -111,7 +111,7 @@ public class Pause : MonoBehaviour
 
             if (0 == Input.GetAxis("ClossVertical")) isVertical = false;
 
-            if (Input.GetButtonDown("X"))
+            if (Input.GetButtonDown("A"))
             {
                 ReallyEnd();
             }
@@ -134,7 +134,7 @@ public class Pause : MonoBehaviour
             case 2: //ステージセレクト
                 SceneManager.LoadScene("StageSelect");
                 break;
-            case 3: //ゲーム終了してタイトルに戻る(Yes or No)聞く
+            case 3: //ゲーム終了(Yes or No)聞く
                 isReallyEnd = true;
                 break;
         }
@@ -169,8 +169,12 @@ public class Pause : MonoBehaviour
             case 0: //再開
                 Invoke("DelayReallyEnd", 0.1f);
                 break;
-            case 1: //タイトルに戻る
-                SceneManager.LoadScene("Title");
+            case 1: //ステージ初めから
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
                 break;
         }
     }

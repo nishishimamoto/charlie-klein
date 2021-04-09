@@ -56,6 +56,6 @@ public class Combo : MonoBehaviour
         GameObject combos = Instantiate(combo, new Vector3(-300 + (100 * (x % 6)), 200 + (-100 * (x / 6)), 0), Quaternion.identity);
         combos.transform.SetParent(canvasTransform, false);
         Text combosText = combos.GetComponent<Text>();
-        combosText.text = comboCount + "combo!";
+        combosText.text = comboCount + "";
     }
 }

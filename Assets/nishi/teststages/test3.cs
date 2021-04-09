@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class test2 : MonoBehaviour
+public class test3 : MonoBehaviour
 {
     [SerializeField] CursorSelect cursorSelectCS;
     [SerializeField] Turn TurnCS;
@@ -62,9 +62,6 @@ public class test2 : MonoBehaviour
     int addScoreCount;
     int lossScoreCount;
     int[] addOrLoss = new int[mainPanel];
-    int[] targetNum = new int[4];
-    [SerializeField] Text[] targetText = new Text[4];
-    [SerializeField] GameObject gameClear;
     //[SerializeField] GameObject Timer;  //制限時間のテキストオブジェクト
     //Text timerText;
     //float timeCount = 60.0f;            //制限時間
@@ -96,14 +93,8 @@ public class test2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        for(int i = 0; i < 4; i++)
-        {
-            mainSphere[i] = Instantiate(main, new Vector3(7.7f, 1.5f + (-1.5f * i), 0), Quaternion.identity);
-            mainNumber[i] = mainColorNumber[i];
-            targetNum[i] = 3;
-            targetText[i].text = "x " + targetNum[i];
-        }
+        mainSphere[0] = Instantiate(main, new Vector3(8, -1, 0), Quaternion.identity);
+        mainNumber[0] = mainColorNumber[Random.Range(0, 4)];
 
         for (int i = 0; i < mainPanel; i++)
         {
@@ -327,14 +318,13 @@ public class test2 : MonoBehaviour
                 {
                     ScoreAdd();
                     //ランダムな数値にいれかえ
-                    //MainGenerate();
+                    MainGenerate();
 
                     addOrLoss[check] = 9;
                 }
                 if (addOrLoss[check] == 0)
                 {
-                    ScoreAdd();
-                    //ScoreLoss();
+                    ScoreLoss();
                     addOrLoss[check] = 9;
                 }
 
@@ -343,7 +333,6 @@ public class test2 : MonoBehaviour
 
                 ExplosionCS.particle[check].Play(); //条件を満たした惑星が爆発
                 Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
-                Invoke("ClearCheck", 0.2f); //クリア条件を満たしたかチェック
                 ColorChange();   //パネルの色変更
 
                 check += 1;
@@ -518,35 +507,17 @@ public class test2 : MonoBehaviour
                                 alpha_Flg = true;
                                 addScoreCount += 1;
                                 addOrLoss[i] = 1;
-                                if (targetNum[0] > 0) targetNum[0] -= 1;
-                                targetText[0].text =  "x " + targetNum[0];
+                                //isAddScore = true;
+                                //ScoreAdd();
                             }
-                            else if (mainNumber[1] == sideNumber[(i / (width - 1)) + i + width] * 4) //色を満たした
+                            else
                             {
                                 flgCheck[i] = true;
                                 alpha_Flg = true;
                                 lossScoreCount += 1;
                                 addOrLoss[i] = 0;
-                                if (targetNum[1] > 0) targetNum[1] -= 1;
-                                targetText[1].text = "x " + targetNum[1];
-                            }
-                            else if (mainNumber[2] == sideNumber[(i / (width - 1)) + i + width] * 4) //色を満たした
-                            {
-                                flgCheck[i] = true;
-                                alpha_Flg = true;
-                                lossScoreCount += 1;
-                                addOrLoss[i] = 0;
-                                if (targetNum[2] > 0) targetNum[2] -= 1;
-                                targetText[2].text = "x " + targetNum[2];
-                            }
-                            else if (mainNumber[3] == sideNumber[(i / (width - 1)) + i + width] * 4) //色を満たした
-                            {
-                                flgCheck[i] = true;
-                                alpha_Flg = true;
-                                lossScoreCount += 1;
-                                addOrLoss[i] = 0;
-                                if (targetNum[3] > 0) targetNum[3] -= 1;
-                                targetText[3].text = "x " + targetNum[3];
+                                //isLossScore = false;
+                                //ScoreLoss();
                             }
                         }
 
@@ -571,61 +542,59 @@ public class test2 : MonoBehaviour
     //***
     public void ColorChange()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            switch (mainNumber[i])
-            {
-                case 4:
-                    //mainSphereColor[i] = Color.red;
-                    //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
-                    mainSphere[i].GetComponent<Renderer>().material = _material[0];
-                    break;
-                case 32:
-                    //mainSphereColor[i] = Color.blue;
-                    //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
-                    mainSphere[i].GetComponent<Renderer>().material = _material[1];
-                    break;
-                case 128:
-                    //mainSphereColor[i] = Color.yellow;
-                    //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
-                    mainSphere[i].GetComponent<Renderer>().material = _material[2];
-                    break;
-                case 512:
-                    //mainSphereColor[i] = Color.green;
-                    //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
-                    mainSphere[i].GetComponent<Renderer>().material = _material[3];
-                    break;
-                default:
-                    break;
-            }
-        }
-        //switch (mainNumber[0])
+        //for (int i = 0; i < mainPanel; i++)
         //{
-        //    case 4:
-        //        //mainSphereColor[i] = Color.red;
-        //        //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
-        //        //mainSphere[i].GetComponent<Renderer>().material = _material[3];
-        //        mainSphere[0].GetComponent<Renderer>().material = _material[0];
-        //        break;
-        //    case 32:
-        //        //mainSphereColor[i] = Color.blue;
-        //        //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
-        //        //mainSphere[i].GetComponent<Renderer>().material = _material[4];
-        //        mainSphere[0].GetComponent<Renderer>().material = _material[1];
-        //        break;
-        //    case 128:
-        //        //mainSphereColor[i] = Color.yellow;
-        //        //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
-        //        mainSphere[0].GetComponent<Renderer>().material = _material[2];
-        //        break;
-        //    case 512:
-        //        //mainSphereColor[i] = Color.green;
-        //        //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
-        //        mainSphere[0].GetComponent<Renderer>().material = _material[3];
-        //        break;
-        //    default:
-        //        break;
-    //}
+        //    switch (mainNumber[i])
+        //    {
+        //        case 4:
+        //            //mainSphereColor[i] = Color.red;
+        //            //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
+        //            //mainSphere[i].GetComponent<Renderer>().material = _material[3];
+        //            break;
+        //        case 32:
+        //            //mainSphereColor[i] = Color.blue;
+        //            //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
+        //            //mainSphere[i].GetComponent<Renderer>().material = _material[4];
+        //            break;
+        //        case 128:
+        //            //mainSphereColor[i] = Color.yellow;
+        //            //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
+        //            break;
+        //        case 512:
+        //            //mainSphereColor[i] = Color.green;
+        //            //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
+        switch (mainNumber[0])
+        {
+            case 4:
+                //mainSphereColor[i] = Color.red;
+                //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
+                //mainSphere[i].GetComponent<Renderer>().material = _material[3];
+                mainSphere[0].GetComponent<Renderer>().material = _material[0];
+                break;
+            case 32:
+                //mainSphereColor[i] = Color.blue;
+                //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
+                //mainSphere[i].GetComponent<Renderer>().material = _material[4];
+                mainSphere[0].GetComponent<Renderer>().material = _material[1];
+                break;
+            case 128:
+                //mainSphereColor[i] = Color.yellow;
+                //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
+                mainSphere[0].GetComponent<Renderer>().material = _material[2];
+                break;
+            case 512:
+                //mainSphereColor[i] = Color.green;
+                //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
+                mainSphere[0].GetComponent<Renderer>().material = _material[3];
+                break;
+            default:
+                break;
+        }
 
         for (int i = 0; i < sidePanel; i++)
         {
@@ -822,8 +791,11 @@ public class test2 : MonoBehaviour
         if (TimerCS.timeCount <= 0f) //Xか制限時間でターン終了
         {
             if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
-            Result();   //リザルトに遷移
+            //リザルト画面へ
+            oldSceneName = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene("testresurt");
         }
+
     }
     void PointBlinking()
     {
@@ -875,27 +847,12 @@ public class test2 : MonoBehaviour
             for (int i = 0; i < sidePanel; i++)
             {
 
-                if(sideNumber[i] * 4 == mainNumber[0])
+                if (sideNumber[i] * 4 == mainNumber[0])
                 {
                     checkColorNum += 1;
                 }
             }
         } while (checkColorNum < 4);
     }
-
-    void Result()
-    {
-        //リザルト画面へ
-        oldSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene("testresurt");
-    }
-
-    void ClearCheck()
-    {
-        if (targetNum[0] <= 0 && targetNum[1] <= 0 && targetNum[2] <= 0 && targetNum[3] <= 0)
-        {
-            gameClear.SetActive(true);
-            Invoke("Result", 3.0f);
-        }
-    }
 }
+

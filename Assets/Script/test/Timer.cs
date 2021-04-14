@@ -38,6 +38,10 @@ public class Timer : MonoBehaviour
                 bigTimerText.enabled = true;   //5秒前から表示
                 bigTimerText.text = Mathf.Ceil(timeCount).ToString("f0");  //時間の表示
             }
+            else if(timeCount > 5)
+            {
+                bigTimerText.enabled = false;
+            }
         }
         //else if (timeCount <= 0)
         //{

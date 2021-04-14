@@ -90,11 +90,7 @@ public class TestResult : MonoBehaviour
                 SceneManager.LoadScene("StageSelect");
                 break;
             case 2:
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#else
-    Application.Quit();
-#endif
+                SceneManager.LoadScene("Title");
                 break;
         }
     }

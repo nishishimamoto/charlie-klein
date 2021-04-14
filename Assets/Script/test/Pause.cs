@@ -170,11 +170,7 @@ public class Pause : MonoBehaviour
                 Invoke("DelayReallyEnd", 0.1f);
                 break;
             case 1: //ステージ初めから
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#else
-    Application.Quit();
-#endif
+                SceneManager.LoadScene("Title");
                 break;
         }
     }

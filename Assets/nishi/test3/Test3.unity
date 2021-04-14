@@ -1172,6 +1172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57e186f26ba72446ac99e5edb6ddeb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeText: {fileID: 511110646}
   thinkingTime: 0
 --- !u!1 &238475787
 GameObject:
@@ -1595,7 +1596,17 @@ PrefabInstance:
     - target: {fileID: 6539218743805012794, guid: 04937b75c777b93429e17ab1da170f52,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539218743805012796, guid: 04937b75c777b93429e17ab1da170f52,
+        type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539218743805012798, guid: 04937b75c777b93429e17ab1da170f52,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6539218743909244647, guid: 04937b75c777b93429e17ab1da170f52,
         type: 3}
@@ -1742,7 +1753,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6539218743805012798, guid: 04937b75c777b93429e17ab1da170f52, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 04937b75c777b93429e17ab1da170f52, type: 3}
 --- !u!114 &323058415 stripped
 MonoBehaviour:
@@ -1766,18 +1778,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9dffb9805e6554f40ab46423a440a5cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &323058417 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6539218743805012798, guid: 04937b75c777b93429e17ab1da170f52,
-    type: 3}
-  m_PrefabInstance: {fileID: 323058414}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7e75c2b64acda94fa1eef02ec7e9e1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &323058418 stripped
@@ -2237,7 +2237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6666667, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4063,6 +4063,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1222546078 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6539218743805012794, guid: 04937b75c777b93429e17ab1da170f52,
+    type: 3}
+  m_PrefabInstance: {fileID: 323058414}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1222546082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222546078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82ed16f858541094a825cc5b9d8b4d22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnStart: {fileID: 0}
+  isTurnStart: 0
 --- !u!1 &1263978774
 GameObject:
   m_ObjectHideFlags: 0
@@ -5003,7 +5023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursorSelectCS: {fileID: 1940469197}
-  TurnCS: {fileID: 323058417}
+  TurnCS: {fileID: 0}
   TimerCS: {fileID: 323058419}
   ComboCS: {fileID: 323058416}
   ExplosionCS: {fileID: 1037423002}
@@ -5052,7 +5072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursorSelectCS: {fileID: 1940469197}
-  TurnCS: {fileID: 323058417}
+  TurnCS: {fileID: 1222546082}
   TimerCS: {fileID: 323058419}
   ComboCS: {fileID: 323058416}
   ExplosionCS: {fileID: 1037423002}
@@ -5066,6 +5086,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b34ef3aee77b3c849a5515a124bfa8e8, type: 2}
   - {fileID: 2100000, guid: c2aa908bad6c7e14b91014bf9b1d8d8f, type: 2}
   NormalmapTexture: {fileID: 2800000, guid: 9b116def74d450549af70af4d532ec8f, type: 3}
+  thinkingObjects: {fileID: 1834560897}
   thinkingTimeText: {fileID: 187343774}
   main: {fileID: 3658679000757975296, guid: 00e7d62aa80b9db4daaa694d148e3f3c, type: 3}
   side: {fileID: 3884285455407187556, guid: 35b307d6731cd5349b11c98a075d89d0, type: 3}

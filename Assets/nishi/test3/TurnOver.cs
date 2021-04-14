@@ -8,7 +8,7 @@ public class TurnOver : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lifeSpan = 3;
+        lifeSpan = 5;
         GetComponent<TextMesh>().text = "" + lifeSpan;
     }
 
@@ -31,7 +31,7 @@ public class TurnOver : MonoBehaviour
 
     public void LifeCountReSet()
     {
-        lifeSpan = 3;
+        lifeSpan = 5;
         GetComponent<TextMesh>().color = Color.white;//白
         GetComponent<TextMesh>().text = "" + lifeSpan;
     }

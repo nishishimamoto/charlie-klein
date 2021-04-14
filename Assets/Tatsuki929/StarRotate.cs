@@ -5,10 +5,15 @@ using UnityEngine;
 public class StarRotate : MonoBehaviour
 {
     private Transform trs;
+    private Component @object;
+    public float fl;
+
+    Vector3 vec3;
+    bool rot_Y;
     // Start is called before the first frame update
     void Start()
     {
-        
+        @object = this.GetComponent("center");
     }
 
     // Update is called once per frame
@@ -16,6 +21,27 @@ public class StarRotate : MonoBehaviour
     {
          trs = this.transform;
 
-        trs.Rotate(0, 0, 0.2f);
+        if (Input.GetButtonDown("RB"))
+        {
+            if (!rot_Y)
+            {
+                rot_Y = true;
+                fl *= -1;
+            }
+        }
+
+        else if (Input.GetButtonDown("LB"))
+        {
+
+            if (rot_Y)
+            {
+                rot_Y = false;
+                fl *= -1;
+            }
+        }
+        
+        trs.Rotate(0, 0, fl);
+
+       
     }
 }

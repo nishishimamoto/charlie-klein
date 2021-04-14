@@ -84,7 +84,7 @@ public class Isha_Singlshot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        /*
         for (int i = 0; i < 4; i++)
         {
             mainNumber[i] = mainColorNumber[i];
@@ -92,7 +92,7 @@ public class Isha_Singlshot : MonoBehaviour
         }
 
         mainSphere[0] = Instantiate(main, new Vector3(7.7f, 1.5f + (-1.5f * 1), 0), Quaternion.identity);
-        
+        */
 
         for (int i = 0; i < mainPanel; i++)
         {
@@ -205,6 +205,7 @@ public class Isha_Singlshot : MonoBehaviour
         
         if (!PauseCS.isPause)
         {
+            
             if (!alpha_Flg)
             {
                 if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
@@ -218,11 +219,10 @@ public class Isha_Singlshot : MonoBehaviour
                 //SelectImageMove();  //現在選んでいるパネルの可視化 ここで呼ぶ
                 cursorSelectCS.SelectImageMove(chooseMain);
 
-            }
-            else if (alpha_Flg) alpha();
+            }else if(alpha_Flg) alpha();
         }
 
-        targetText[0].text = "x " + targetNum[0];
+        //targetText[0].text = "x " + targetNum[0];
 
     }
 
@@ -301,6 +301,7 @@ public class Isha_Singlshot : MonoBehaviour
                 check = 0;
                 rainbow = false;
                 alpha_Flg = false;
+                ComboCS.comboCount = 0;
                 rainbowTarget = 0;
             }
         }
@@ -314,14 +315,13 @@ public class Isha_Singlshot : MonoBehaviour
         {
             panelMove[0] = true;
             if (!TimerCS.countStart) TimerCS.countStart = true;
-            ComboCS.comboCount = 0;
+            //ComboCS.comboCount = 0;
         }
         //パネル時計回り
         else if (Input.GetButtonDown("RB"))
         {
             panelMove[1] = true;
             if (!TimerCS.countStart) TimerCS.countStart = true;
-            ComboCS.comboCount = 0;
         }
 
         //十字キーのパネル選択
@@ -381,12 +381,18 @@ public class Isha_Singlshot : MonoBehaviour
                         {
                             flgCheck[i] = true;
                             alpha_Flg = true;
-                            ComboCS.comboCount += 1;
-                            if (mainNumber[0] == sideNumber[(i / (width - 1)) + i + width] * 4) //色を満たした
+
+                            //ComboCS.comboCount += 1;
+
+                            //ClearCheck();
+                            
+                            /*
+                            if (mainNumber[0] == sideNumber[(i / (width - 1)) + i + width] * 4)
                             {
                                 if (targetNum[0] > 0) targetNum[0] -= 1;
 
                             }
+                            */
                         }
 
                 judgNum = 0;
@@ -398,6 +404,7 @@ public class Isha_Singlshot : MonoBehaviour
     //***
     public void ColorChange()
     {
+        /*
             switch (mainNumber[0])
             {
                 case 4:
@@ -423,6 +430,7 @@ public class Isha_Singlshot : MonoBehaviour
                 default:
                     break;
             }
+        */
 
         for (int i = 0; i < sidePanel; i++)
         {
@@ -543,8 +551,6 @@ public class Isha_Singlshot : MonoBehaviour
             panelAnim[(chooseMain / (width - 1)) + chooseMain + 1] = tmpAnim;
 
             panelMove[1] = false;
-            //    }
-            //    changeTime = 0.1f;
         }
     }
 
@@ -607,7 +613,7 @@ public class Isha_Singlshot : MonoBehaviour
 
     void MainGenerate()
     {
-
+        /*
         do
         {
             //ランダムな数値にいれかえ
@@ -623,6 +629,7 @@ public class Isha_Singlshot : MonoBehaviour
                 }
             }
         } while (checkColorNum < 4);
+        */
     }
 
     void Result()
@@ -634,7 +641,8 @@ public class Isha_Singlshot : MonoBehaviour
 
     void ClearCheck()
     {
-        
+
+        /*
         if ( targetNum[0] <= 0 )
         {
             Debug.Log(ComboCS.comboCount);
@@ -648,6 +656,11 @@ public class Isha_Singlshot : MonoBehaviour
             } while (mainNumber[0] == mainColorNumber[i]);
             mainNumber[0] = mainColorNumber[i];
         }
+        */
+
+        TimerCS.timeCount += 2.0f * ComboCS.comboCount;
+        ComboCS.comboCount += 1;
+        Debug.Log(ComboCS.comboCount);
         ColorChange();
     }
 }

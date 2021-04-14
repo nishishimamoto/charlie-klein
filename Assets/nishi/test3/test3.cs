@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class test3 : MonoBehaviour
 {
     [SerializeField] CursorSelect cursorSelectCS;
-    [SerializeField] Turn TurnCS;
+    [SerializeField] TurnStart TurnCS;
     [SerializeField] Timer TimerCS;
     [SerializeField] Combo ComboCS;
     [SerializeField] Explosion ExplosionCS;
@@ -84,6 +84,7 @@ public class test3 : MonoBehaviour
     public Material[] _material;           // 割り当てるマテリアル.
     public Texture NormalmapTexture;
 
+    [SerializeField] GameObject thinkingObjects;
     [SerializeField] Text thinkingTimeText;
 
     [SerializeField] GameObject main;
@@ -222,13 +223,22 @@ public class test3 : MonoBehaviour
     {
         if (!PauseCS.isPause)
         {
-            if (!alpha_Flg)
+            if (!TurnCS.isTurnStart)
+            {
+                TurnCS.GameStart();
+            }
+            else if (!alpha_Flg)
             {
                 if (!TimerCS.countStart)
                 {
                     TimeReSet();    //スコアに応じてタイムのリセット
                     LifeLimmit();   //寿命0の衛星があったらリザルトに飛ぶ
                     ThinkingCS.ThinkingTime(); //n秒で強制的にスタートさせる
+                    if (ThinkingCS.thinkingTime <= 0)
+                    {
+                        TimerCS.countStart = true;
+                        thinkingObjects.SetActive(false);
+                    }
                 }
                 if (!panelMove[0] && !panelMove[1])PanelOperation();   //パネルの操作
                 else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
@@ -390,6 +400,7 @@ public class test3 : MonoBehaviour
                 rainbow = false;
                 alpha_Flg = false;
                 rainbowTarget = 0;
+                thinkingObjects.SetActive(true);
             }
         }
         else check += 1;
@@ -401,13 +412,13 @@ public class test3 : MonoBehaviour
         if (Input.GetButtonDown("LB"))
         {
             panelMove[0] = true;
-            if (!TimerCS.countStart) TimerCS.countStart = true;
+            if (!TimerCS.countStart) ThinkingCS.thinkingTime = 0;
         }
         //パネル時計回り
         else if (Input.GetButtonDown("RB"))
         {
             panelMove[1] = true;
-            if (!TimerCS.countStart) TimerCS.countStart = true;
+            if (!TimerCS.countStart) ThinkingCS.thinkingTime = 0;
         }
 
         //十字キーのパネル選択
@@ -903,7 +914,7 @@ public class test3 : MonoBehaviour
     {
         //リザルト画面へ
         oldSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene("testresurt");
+        SceneManager.LoadScene("test3resurt");
     }
 
     void TimeLimmit()
@@ -926,7 +937,7 @@ public class test3 : MonoBehaviour
         {
             if(TurnOverCS[i] != null && TurnOverCS[i].lifeSpan == 0)
             {
-                Invoke("Result", 0.5f);    //時間差で爆発を止める
+                Invoke("Result", 0.5f);
             }
         }
     }

@@ -53,4 +53,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/nishi/teststages/testresurt.unity
     guid: 35914677b614f0d4abe3f280f4d1028e
+  - enabled: 1
+    path: Assets/nishi/test3/test3resurt.unity
+    guid: 044f1fe6ee8b4b343be1f7a7123c67b0
   m_configObjects: {}

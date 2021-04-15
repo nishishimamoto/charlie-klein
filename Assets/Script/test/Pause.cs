@@ -27,6 +27,7 @@ public class Pause : MonoBehaviour
     [SerializeField] GameObject reallyEndbuttons;   //全てのポーズUIを子にもつ
     [SerializeField] GameObject[] reallyEndButton;
     [SerializeField] GameObject reallyEndSelect;
+    [SerializeField] GameObject ScreenCover;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +52,7 @@ public class Pause : MonoBehaviour
             if (isPause)
             {
                 buttons.SetActive(true);    //様々なポーズUIを表示
+                ScreenCover.SetActive(true);
 
                 //十字キーのパネル選択
                 if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
@@ -84,6 +86,7 @@ public class Pause : MonoBehaviour
             else if (!isPause)  //ポーズ解除に伴っていろいろ消す
             {
                 buttons.SetActive(false);   //様々なポーズUIを非表示
+                ScreenCover.SetActive(false);
             }
         }
         else if (isReallyEnd)

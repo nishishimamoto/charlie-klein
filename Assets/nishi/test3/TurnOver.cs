@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class TurnOver : MonoBehaviour
 {
+    const int maxlife = 4;
     public int lifeSpan;
     // Start is called before the first frame update
     void Start()
     {
-        lifeSpan = 5;
+        lifeSpan = maxlife;
         GetComponent<TextMesh>().text = "" + lifeSpan;
     }
 
@@ -31,7 +32,7 @@ public class TurnOver : MonoBehaviour
 
     public void LifeCountReSet()
     {
-        lifeSpan = 5;
+        lifeSpan = maxlife;
         GetComponent<TextMesh>().color = Color.white;//白
         GetComponent<TextMesh>().text = "" + lifeSpan;
     }

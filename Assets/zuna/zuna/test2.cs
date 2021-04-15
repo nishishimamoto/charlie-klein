@@ -7,10 +7,10 @@ using UnityEngine.SceneManagement;
 public class test2 : MonoBehaviour
 {
     [SerializeField] CursorSelect cursorSelectCS;
-    [SerializeField] Turn TurnCS;
+    [SerializeField] Turn1 TurnCS;
     [SerializeField] Timer TimerCS;
     [SerializeField] Combo ComboCS;
-    [SerializeField] Explosion ExplosionCS;
+    [SerializeField] Z_Explosion ExplosionCS;
     [SerializeField] Pause PauseCS;
 
     const int mainPanel = 30;    //メインパネルの数
@@ -26,6 +26,7 @@ public class test2 : MonoBehaviour
     int tmpBonus;         //ボーナス入れ替え時の一時保存
     int judgNum = 0;  //和を計算する配列
     public static int score;      //スコア
+    public static int turn;      //ターン
 
     int chooseMain = -1; //現在選んでいるメインナンバー
 
@@ -65,6 +66,7 @@ public class test2 : MonoBehaviour
     int[] targetNum = new int[4];
     [SerializeField] Text[] targetText = new Text[4];
     [SerializeField] GameObject gameClear;
+    [SerializeField] GameObject gameOver;
     //[SerializeField] GameObject Timer;  //制限時間のテキストオブジェクト
     //Text timerText;
     //float timeCount = 60.0f;            //制限時間
@@ -83,9 +85,10 @@ public class test2 : MonoBehaviour
 
     bool[] panelMove = new bool[2]; //右か左にパネル移動させるフラグ
                                     //float changeTime = 0.1f;
-
+    int b_t;
     public Material[] _material;           // 割り当てるマテリアル.
     public Texture NormalmapTexture;
+    float bravo_Time = 0f;
 
     [SerializeField] GameObject main;
     [SerializeField] GameObject side;
@@ -99,7 +102,7 @@ public class test2 : MonoBehaviour
 
         for(int i = 0; i < 4; i++)
         {
-            mainSphere[i] = Instantiate(main, new Vector3(7.7f, 1.5f + (-1.5f * i), 0), Quaternion.identity);
+            mainSphere[i] = Instantiate(main, new Vector3(7.7f, 3.5f + (-1.5f * i), 0), Quaternion.identity);
             mainNumber[i] = mainColorNumber[i];
             targetNum[i] = 3;
             targetText[i].text = "x " + targetNum[i];
@@ -240,7 +243,7 @@ public class test2 : MonoBehaviour
         //turnText = Turn.GetComponent<Text>();
 
         ColorChange();   //パネルの色変更
-        TurnCS.nowTurn = 1; //ターン数の指定
+        TurnCS.nowTurn = 0; //ターン数の指定
         TimerCS.maxTime = 60.0f;
         TimerCS.timeCount = TimerCS.maxTime;
         score = 0;  //スコアの初期化
@@ -297,9 +300,9 @@ public class test2 : MonoBehaviour
                 sideSphere[(check / (width - 1)) + check + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", alpha_Sin);
                 sideSphere[(check / (width - 1)) + check + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", alpha_Sin);
             }
-            else if (alpha_Time >= 0.6f)
+            else if (alpha_Time >= 0.6f && alpha_Time <= 0.7f)
             {
-                alpha_Time = 0;
+                alpha_Time = 0.8f;
                 //flgCheck[check] = false;
                 //ColorChange();
 
@@ -341,13 +344,46 @@ public class test2 : MonoBehaviour
                 ////ランダムな数値にいれかえ
                 //MainGenerate();
 
-                ExplosionCS.particle[check].Play(); //条件を満たした惑星が爆発
-                Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
+                b_t = 1;
+
+                
+            }
+            else if (b_t<5 && b_t>0)
+            {
+                bravo_Time += Time.deltaTime*3;
+                if (b_t == 4 && bravo_Time > 1.5f)
+                {
+                    ExplosionCS.particle[(check / (width - 1)) + check + width + 1].Play(); //条件を満たした惑星が爆発
+                    b_t = 0;
+                    alpha_Time = 0f;
+                    bravo_Time = 0f;
+                    ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                    check += 1;
+                }
+                if (b_t == 3 && bravo_Time > 1.0f)
+                {
+                    ExplosionCS.particle[(check / (width - 1)) + check + width].Play(); //条件を満たした惑星が爆発
+                    ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                    b_t = 4;
+                }
+                if (b_t == 2 && bravo_Time > 0.5f)
+                {
+                    ExplosionCS.particle[(check / (width - 1)) + check + 1].Play(); //条件を満たした惑星が爆発
+                    ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                    b_t = 3;
+                }
+                if (b_t == 1 && bravo_Time > 0.0f)
+                {
+                    ExplosionCS.particle[(check / (width - 1)) + check].Play(); //条件を満たした惑星が爆発
+                    ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                    b_t = 2;
+                }
+                
                 Invoke("ClearCheck", 0.2f); //クリア条件を満たしたかチェック
                 ColorChange();   //パネルの色変更
-
-                check += 1;
+                
             }
+            
         }
         else if (check > (mainPanel - 1))    //最後に盤面を変える
         {
@@ -423,6 +459,7 @@ public class test2 : MonoBehaviour
     //***
     void PanelOperation()
     {
+        turn = TurnCS.nowTurn;
         //パネル反時計回り
         if (Input.GetButtonDown("LB"))
         {
@@ -775,7 +812,7 @@ public class test2 : MonoBehaviour
         //    + bonusLevel[(check / 3) + check + 5] + bonusLevel[(check / 3) + check + 4]));
 
         ////スコア100と1コンボ50
-        score += 100 + (50 * ComboCS.comboCount);
+        score += 1000 + (50 * ComboCS.comboCount);
 
         scoreText.text = "" + score;
 
@@ -798,32 +835,33 @@ public class test2 : MonoBehaviour
 
     void TurnEnd()
     {
-        //if (TurnCS.nowTurn < 6)草
-        //{
-        //    if ((Input.GetButtonDown("X") || TimerCS.timeOut) && TimerCS.countStart == true) //Xか制限時間でターン終了
-        //    {
-        //        if (!alpha_Flg) PointCheck();
-        //        TimerCS.timeCount = 30.0f;
-        //        TimerCS.timeOut = false;
-        //        TimerCS.countStart = false;
-        //        TimerCS.bigTimerText.enabled = false;
-        //        ComboCS.comboCount = 0; //コンボカウントリセット
-        //        TurnCS.TurnCount();        //経過ターンの更新表示
-        //    }
-        //}
-        //else
-        //{
-        //    if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
-        //    //リザルト画面へ
-        //    oldSceneName = SceneManager.GetActiveScene().name;
-        //    SceneManager.LoadScene("Result");
-        //}草
-
-        if (TimerCS.timeCount <= 0f) //Xか制限時間でターン終了
+        if (TurnCS.nowTurn < 21)
+        {
+            if ((Input.GetButtonDown("LB") || Input.GetButtonDown("RB") || TimerCS.timeOut) && TimerCS.countStart == true) //Xか制限時間でターン終了
+            {
+                if (!alpha_Flg) PointCheck();
+                //TimerCS.timeCount = 30.0f;
+                //TimerCS.timeOut = false;
+                //TimerCS.countStart = false;
+                //TimerCS.bigTimerText.enabled = false;
+                //ComboCS.comboCount = 0; //コンボカウントリセット
+                TurnCS.TurnCount();        //経過ターンの更新表示
+                Invoke("ClearCheck", 0.2f); //クリア条件を満たしたかチェック
+            }
+        }
+        else
         {
             if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
+            //リザルト画面へ
             Result();   //リザルトに遷移
         }
+       
+
+        //if (TimerCS.timeCount <= 0f) //Xか制限時間でターン終了
+        //{
+        //    if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
+        //    Result();   //リザルトに遷移
+        //}
     }
     void PointBlinking()
     {
@@ -857,10 +895,10 @@ public class test2 : MonoBehaviour
 
     void ExplosionStop()
     {
-        for (int i = 0; i < mainPanel; i++)
-        {
-            ExplosionCS.particle[i].Stop();
-        }
+        //for (int i = 0; i < mainPanel; i++)
+        //{
+        //    ExplosionCS.particle[i].Stop();
+        //}
     }
 
     void MainGenerate()
@@ -887,14 +925,20 @@ public class test2 : MonoBehaviour
     {
         //リザルト画面へ
         oldSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene("testresurt");
+        SceneManager.LoadScene("ZunaResult");
     }
 
     void ClearCheck()
     {
+        
         if (targetNum[0] <= 0 && targetNum[1] <= 0 && targetNum[2] <= 0 && targetNum[3] <= 0)
         {
             gameClear.SetActive(true);
+            Invoke("Result", 3.0f);
+        }
+        else if (TurnCS.nowTurn >= 20)
+        {
+            gameOver.SetActive(true);
             Invoke("Result", 3.0f);
         }
     }

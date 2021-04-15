@@ -268,6 +268,7 @@ public class Isha_Singlshot : MonoBehaviour
 
                 ExplosionCS.particle[check].Play(); //条件を満たした惑星が爆発
                 Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
+                ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
                 ClearCheck(); //クリア条件を満たしたかチェック
                 ColorChange();   //パネルの色変更
 

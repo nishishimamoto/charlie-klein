@@ -1,21 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
-public class StarRotate : MonoBehaviour
+public class Z_Score : MonoBehaviour
 {
-    private Transform trs;
+    Text scoreText;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        scoreText = this.GetComponent<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-         trs = this.transform;
-
-        trs.Rotate(0, 0, 0.2f);
+        scoreText.text = "" + test2.score;
     }
 }

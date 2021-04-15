@@ -48,6 +48,7 @@ public class test3result : MonoBehaviour
         if (Input.GetButtonDown("A"))
         {
             isBlinking = true;
+            isVertical = true;
             Invoke("SenceChange", 1.0f);
         }
 

@@ -494,6 +494,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: buildtimestamp
       objectReference: {fileID: 0}
+    - target: {fileID: 4975975616466038757, guid: a02389ee0bc4ba2448cae9c0865ca5a7,
+        type: 3}
+      propertyPath: m_Text
+      value: 2021/04/15/16:53
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a02389ee0bc4ba2448cae9c0865ca5a7, type: 3}
 --- !u!224 &779023314 stripped

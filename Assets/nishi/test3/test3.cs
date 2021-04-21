@@ -15,6 +15,7 @@ public class test3 : MonoBehaviour
     PanelAnim[] panelAnim = new PanelAnim[sidePanel];
     TurnOver[] TurnOverCS = new TurnOver[sidePanel];
     [SerializeField] Thinking ThinkingCS;
+    [SerializeField] Bom BomCS;
 
     const int mainPanel = 30;    //メインパネルの数
     const int sidePanel = 42;    //サイドパネルの数
@@ -57,9 +58,12 @@ public class test3 : MonoBehaviour
 
     int[] mainColorNumber = { 4, 32, 128, 512 };    //メイン色の配列(赤、青、緑、黄)
     int[] sideColorNumber = { 1, 8, 32, 128 };     //サイド色の配列(赤、青、緑、黄)
+    int[] numberChange = { 0, 0, 0, 0 }; //各色が盤面に何個あるかみる
+    int[] manyNumber = { 0, 0 };  //一番多い数と二番目に多い数をいれる
+    int[] manyColor = { 0, 0 }; //manyNumberを元に二番目の色を一番の色で塗りつぶす
     int[] rainbowNumber = { 0, 1, width, width + 1 };           //虹衛星を出すときに使う
     bool rainbow;
-    int[] rainbowRand = new int[mainPanel]; //虹衛星をランダムに配置するための変数
+    int[] rainbowRand = { 0, 0, 0, 0 }; //虹衛星をランダムに配置するための変数
     int rainbowTarget = 0;
     //[SerializeField] GameObject selectMainImage; //現在選択しているメインパネルを表示
 
@@ -158,6 +162,7 @@ public class test3 : MonoBehaviour
                                                                                    //PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
                         PointBlinking();            //4つ揃ったときの点滅
                                                     //ColorChange();              //パネルの色変更
+                        if(BomCS.bomGauge == BomCS.maxBomGauge) NumberChange();
                         TimerCS.TimerCount();       //制限時間のカウントと表示
                         TurnEnd();                  //ターン終了時の処理
 
@@ -642,6 +647,7 @@ public class test3 : MonoBehaviour
         ComboCS.comboTime = 5.0f;
         ComboCS.comboCount += 1;
         addScoreCount -= 1;
+        BomCS.bomGauge += 100 + (50 * ComboCS.comboCount);
     }
 
     void ScoreLoss()
@@ -655,6 +661,7 @@ public class test3 : MonoBehaviour
         ComboCS.comboTime = 5.0f;
         ComboCS.comboCount += 1;
         lossScoreCount -= 1;
+        BomCS.bomGauge += 100 + (50 * ComboCS.comboCount);
     }
 
     void TurnEnd()
@@ -1015,6 +1022,44 @@ public class test3 : MonoBehaviour
         ColorChange();   //パネルの色変更
         rainbow = false;
         rainbowTarget = 0;
+    }
+
+    void NumberChange()
+    {
+        if (Input.GetButtonDown("B"))
+        {
+            for(int i = 0; i < sidePanel; i++)  //各衛星がいくつあるか調べる
+            {
+                if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[0]) numberChange[0] += 1;
+                else if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[1]) numberChange[1] += 1;
+                else if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[2]) numberChange[2] += 1;
+            }
+
+            //それぞれの量を比べてどれが一番と二番に大きいか見る
+            for (int i = 0; i < colorNum; i++)
+            {
+                if (manyNumber[0] < numberChange[i])
+                {
+                    manyNumber[1] = manyNumber[0];
+                    manyNumber[0] = numberChange[i];
+                    manyColor[1] = manyColor[0];
+                    manyColor[0] = sideColorNumber[i];
+                }
+                else if (manyNumber[1] < numberChange[i])
+                {
+                    manyNumber[1] = numberChange[i];
+                    manyColor[1] = sideColorNumber[i];
+                }
+            }
+
+            for (int i = 0; i < sidePanel; i++)
+            {
+                if (sideSphere[i] != null && sideNumber[i] == manyColor[1]) sideNumber[i] = manyColor[0];
+            }
+
+            ColorChange();
+            BomCS.bomGauge = 0;
+        }
     }
 }
 

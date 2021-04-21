@@ -18,13 +18,14 @@ public class Isha_Singlshot : MonoBehaviour
     const int width = 7;   //横の数
     const int height = 6;    //縦の数
 
+    int HeavensTime = 0;
+
     int[] mainNumber = new int[mainPanel];     //3*3のナンバー
     int[] sideNumber = new int[sidePanel];     //4*4のナンバー
     int tmpNumber;          //数字入れ替え時の一時保存
     int[] bonusLevel = new int[sidePanel]; //サイドパネルのボーナス確認 (0=なし,1=あり)
     bool[] bonusFlg = new bool[sidePanel]; //このターン既にボーナスパネルになったかどうか
     int tmpBonus;         //ボーナス入れ替え時の一時保存
-    int judgNum = 0;  //和を計算する配列
     public static int score;      //スコア
 
     int chooseMain = -1; //現在選んでいるメインナンバー
@@ -46,7 +47,7 @@ public class Isha_Singlshot : MonoBehaviour
     Color tmpMainColor;
     Renderer[] mainSphereRenderer = new Renderer[mainPanel];    //実際にオブジェクトの色を変更する
 
-    int[] mainColorNumber = { 4, 32, 128, 512 };    //メイン色の配列(赤、青、緑、黄)
+    int[] ColorNumber = { 1, 2, 3, 4 };    //メイン色の配列(赤、青、緑、黄)
     int[] sideColorNumber = { 1, 8, 32, 128 };     //サイド色の配列(赤、青、緑、黄)
     int[] rainbowNumber = { 0, 1, width, width + 1 };           //虹衛星を出すときに使う
     bool rainbow;
@@ -84,16 +85,31 @@ public class Isha_Singlshot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*
         for (int i = 0; i < 4; i++)
         {
-            mainNumber[i] = mainColorNumber[i];
-            targetNum[i] = 3;
+            switch (i)
+            {
+                case 0:
+                    //左上
+                    mainSphere[i] = Instantiate(main, new Vector3(9f, 2f, 0), Quaternion.identity);
+                    break;
+                case 1:
+                    //右上
+                    mainSphere[i] = Instantiate(main, new Vector3(11f, 2f, 0), Quaternion.identity);
+                    break;
+                case 2:
+                    //左下
+                    mainSphere[i] = Instantiate(main, new Vector3(9f, 0f, 0), Quaternion.identity);
+                    break;
+                case 3:
+                    //右下
+                    mainSphere[i] = Instantiate(main, new Vector3(11f, 0f, 0), Quaternion.identity);
+                    break;
+
+            }
+            mainNumber[i] = ColorNumber[Random.Range(0, 4)];
         }
-
-        mainSphere[0] = Instantiate(main, new Vector3(7.7f, 1.5f + (-1.5f * 1), 0), Quaternion.identity);
-        */
-
+        
         for (int i = 0; i < mainPanel; i++)
         {
             if (!isPlanet[i])
@@ -121,7 +137,7 @@ public class Isha_Singlshot : MonoBehaviour
                     //プレハブを元に、インスタンスを生成、
                     sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+                    sideNumber[i] = ColorNumber[Random.Range(0, 4)];
                 }
             }
             else if (i > 0 && i % 7 == 0) //最左列のとき
@@ -139,7 +155,7 @@ public class Isha_Singlshot : MonoBehaviour
                     //プレハブを元に、インスタンスを生成、
                     sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+                    sideNumber[i] = ColorNumber[Random.Range(0, 4)];
                 }
             }
             else if (i > 6 && i % 7 == 6)   //最右列のとき
@@ -157,7 +173,7 @@ public class Isha_Singlshot : MonoBehaviour
                     //プレハブを元に、インスタンスを生成、
                     sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+                    sideNumber[i] = ColorNumber[Random.Range(0, 4)];
                 }
             }
             else if (i > 35 && i < 41)  //最下行の時
@@ -171,7 +187,7 @@ public class Isha_Singlshot : MonoBehaviour
                     //プレハブを元に、インスタンスを生成、
                     sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+                    sideNumber[i] = ColorNumber[Random.Range(0, 4)];
                 }
             }
             else
@@ -185,7 +201,8 @@ public class Isha_Singlshot : MonoBehaviour
                     //プレハブを元に、インスタンスを生成、
                     sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+                    sideNumber[i] = ColorNumber[Random.Range(0, 4)];
+
                 }
             }
        }
@@ -205,24 +222,27 @@ public class Isha_Singlshot : MonoBehaviour
         
         if (!PauseCS.isPause)
         {
+            if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
+            else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
             
+
+            if (HeavensTime == 0)
+            {
+                PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
+                TimerCS.TimerCount();       //制限時間のカウントと表示
+            }
+            
+            TurnEnd();                  //ターン終了時の処理
+            
+
+            cursorSelectCS.SelectImageMove(chooseMain);
+
             if (!alpha_Flg)
             {
-                if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
-                else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
-                PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
-                //PointBlinking();            //4つ揃ったときの点滅
-                //ColorChange();              //パネルの色変更
-                TimerCS.TimerCount();       //制限時間のカウントと表示
-                TurnEnd();                  //ターン終了時の処理
-
-                //SelectImageMove();  //現在選んでいるパネルの可視化 ここで呼ぶ
-                cursorSelectCS.SelectImageMove(chooseMain);
-
-            }else if(alpha_Flg) alpha();
+                
+            }
+            else if(alpha_Flg) alpha();
         }
-
-        //targetText[0].text = "x " + targetNum[0];
 
     }
 
@@ -248,13 +268,16 @@ public class Isha_Singlshot : MonoBehaviour
             {
                 alpha_Time = 0;
 
-                //mainNumber[i] = mainColorNumber[0];
-                sideNumber[(check / (width - 1)) + check] = sideColorNumber[Random.Range(0, 4)];
-                sideNumber[(check / (width - 1)) + check + 1] = sideColorNumber[Random.Range(0, 4)];
-                sideNumber[(check / (width - 1)) + check + width + 1] = sideColorNumber[Random.Range(0, 4)];
-                sideNumber[(check / (width - 1)) + check + width] = sideColorNumber[Random.Range(0, 4)];
+                //新しい衛星の生成
+                //左上
+                sideNumber[(check / (width - 1)) + check] = mainNumber[0];
+                //右上
+                sideNumber[(check / (width - 1)) + check + 1] = mainNumber[1];
+                //左下
+                sideNumber[(check / (width - 1)) + check + width] = mainNumber[2];
+                //右下
+                sideNumber[(check / (width - 1)) + check + width + 1] = mainNumber[3];
 
-                //mainColorNum += mainNumber[check];  //[0]^[3]合計を得る草
 
                 rainbowRand[rainbowTarget] = check; //条件を満たした惑星の位置を把握しておく
                 rainbowTarget += 1;
@@ -268,7 +291,15 @@ public class Isha_Singlshot : MonoBehaviour
 
                 ExplosionCS.particle[check].Play(); //条件を満たした惑星が爆発
                 Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
+                ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+
+                for (int i = 0; i < 4; i++)
+                {
+                    mainNumber[i] = ColorNumber[Random.Range(0, 4)];
+                }
+
                 ClearCheck(); //クリア条件を満たしたかチェック
+
                 ColorChange();   //パネルの色変更
 
                 check += 1;
@@ -310,6 +341,18 @@ public class Isha_Singlshot : MonoBehaviour
     //***
     void PanelOperation()
     {
+        if (Input.GetButtonDown("Back"))
+        {
+            if (HeavensTime == 0)
+            {
+                HeavensTime = 1;
+            }
+            else
+            {
+                HeavensTime = 0;
+            }
+        }
+
         //パネル反時計回り
         if (Input.GetButtonDown("LB"))
         {
@@ -373,29 +416,15 @@ public class Isha_Singlshot : MonoBehaviour
         {
             if (!isPlanet[i])
             {
-                judgNum = mainNumber[0];
 
-                if (sideNumber[(i / (width - 1)) + i] * 4 == sideNumber[(i / (width - 1)) + i + 1] * 4)
-                    if (sideNumber[(i / (width - 1)) + i + 1] * 4 == sideNumber[(i / (width - 1)) + i + width + 1] * 4)
-                        if (sideNumber[(i / (width - 1)) + i + width + 1] * 4 == sideNumber[(i / (width - 1)) + i + width] * 4)
+                if (sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + 1])
+                    if (sideNumber[(i / (width - 1)) + i + 1] == sideNumber[(i / (width - 1)) + i + width + 1])
+                        if (sideNumber[(i / (width - 1)) + i + width + 1] == sideNumber[(i / (width - 1)) + i + width])
                         {
                             flgCheck[i] = true;
                             alpha_Flg = true;
 
-                            //ComboCS.comboCount += 1;
-
-                            //ClearCheck();
-                            
-                            /*
-                            if (mainNumber[0] == sideNumber[(i / (width - 1)) + i + width] * 4)
-                            {
-                                if (targetNum[0] > 0) targetNum[0] -= 1;
-
-                            }
-                            */
                         }
-
-                judgNum = 0;
 
             }
         }
@@ -404,33 +433,25 @@ public class Isha_Singlshot : MonoBehaviour
     //***
     public void ColorChange()
     {
-        /*
-            switch (mainNumber[0])
+
+        for(int i = 0; i < 4; i++)
+        {
+            switch (mainNumber[i])
             {
+                case 1:
+                    mainSphere[i].GetComponent<Renderer>().material = _material[0];
+                    break;
+                case 2:
+                    mainSphere[i].GetComponent<Renderer>().material = _material[1];
+                    break;
+                case 3:
+                    mainSphere[i].GetComponent<Renderer>().material = _material[2];
+                    break;
                 case 4:
-                    //mainSphereColor[i] = Color.red;
-                    //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
-                    mainSphere[0].GetComponent<Renderer>().material = _material[0];
-                    break;
-                case 32:
-                    //mainSphereColor[i] = Color.blue;
-                    //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
-                    mainSphere[0].GetComponent<Renderer>().material = _material[1];
-                    break;
-                case 128:
-                    //mainSphereColor[i] = Color.yellow;
-                    //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
-                    mainSphere[0].GetComponent<Renderer>().material = _material[2];
-                    break;
-                case 512:
-                    //mainSphereColor[i] = Color.green;
-                    //mainSphere[i].GetComponent<Renderer>().material.color = mainSphereColor[i];
-                    mainSphere[0].GetComponent<Renderer>().material = _material[3];
-                    break;
-                default:
+                    mainSphere[i].GetComponent<Renderer>().material = _material[3];
                     break;
             }
-        */
+        }
 
         for (int i = 0; i < sidePanel; i++)
         {
@@ -441,17 +462,17 @@ public class Isha_Singlshot : MonoBehaviour
                     //sideSphere[i].GetComponent<Renderer>().material.color = sideSphereColor[i];
                     sideSphere[i].GetComponent<Renderer>().material = _material[0];
                     break;
-                case 8:
+                case 2:
                     //sideSphereColor[i] = Color.blue;
                     //sideSphere[i].GetComponent<Renderer>().material.color = sideSphereColor[i];
                     sideSphere[i].GetComponent<Renderer>().material = _material[1];
                     break;
-                case 32:
+                case 3:
                     //sideSphereColor[i] = Color.yellow;
                     //sideSphere[i].GetComponent<Renderer>().material.color = sideSphereColor[i];
                     sideSphere[i].GetComponent<Renderer>().material = _material[2];
                     break;
-                case 128:
+                case 4:
                     //sideSphereColor[i] = Color.green;
                     //sideSphere[i].GetComponent<Renderer>().material.color = sideSphereColor[i];
                     sideSphere[i].GetComponent<Renderer>().material = _material[3];
@@ -573,35 +594,6 @@ public class Isha_Singlshot : MonoBehaviour
             Result();   //リザルトに遷移
         }
     }
-    void PointBlinking()
-    {
-        for (int i = 0; i < mainPanel; i++)
-        {
-            if (!isPlanet[i])
-            {
-
-                judgNum = mainNumber[i];
-
-                if (judgNum == sideNumber[(i / (width - 1)) + i] * 4 || sideNumber[(i / (width - 1)) + i] == 32)
-                    if (judgNum == sideNumber[(i / (width - 1)) + i + 1] * 4 || sideNumber[(i / (width - 1)) + i + 1] == 32)
-                        if (judgNum == sideNumber[(i / (width - 1)) + i + width + 1] * 4 || sideNumber[(i / (width - 1)) + i + width + 1] == 32)
-                            if (judgNum == sideNumber[(i / (width - 1)) + i + width] * 4 || sideNumber[(i / (width - 1)) + i + width] == 32) //色を満たした
-                            {
-                                float blinking = 0f;
-                                float blinkingSpeed = 2.0f;
-                                blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅(-1~1)
-
-                                //mainSphere[i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);草
-                                sideSphere[(i / (width - 1)) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                //Debug.Log(blinking);
-                            }
-                judgNum = 0;
-            }
-        }
-    }
 
     void ExplosionStop()
     {
@@ -613,23 +605,7 @@ public class Isha_Singlshot : MonoBehaviour
 
     void MainGenerate()
     {
-        /*
-        do
-        {
-            //ランダムな数値にいれかえ
-            mainNumber[0] = mainColorNumber[Random.Range(0, 4)];
-            checkColorNum = 0;
-
-            for (int i = 0; i < sidePanel; i++)
-            {
-
-                if (sideNumber[i] * 4 == mainNumber[0])
-                {
-                    checkColorNum += 1;
-                }
-            }
-        } while (checkColorNum < 4);
-        */
+       
     }
 
     void Result()
@@ -641,22 +617,6 @@ public class Isha_Singlshot : MonoBehaviour
 
     void ClearCheck()
     {
-
-        /*
-        if ( targetNum[0] <= 0 )
-        {
-            Debug.Log(ComboCS.comboCount);
-            TimerCS.timeCount += 4.0f * ComboCS.comboCount;
-            if (ComboCS.comboCount > 1) TimerCS.timeCount += 2.0f;
-            targetNum[0] = 3;
-            int i;
-            do
-            {
-                i = Random.Range(0, 4);
-            } while (mainNumber[0] == mainColorNumber[i]);
-            mainNumber[0] = mainColorNumber[i];
-        }
-        */
 
         TimerCS.timeCount += 2.0f * ComboCS.comboCount;
         ComboCS.comboCount += 1;

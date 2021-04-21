@@ -18,7 +18,9 @@ public class StageSelect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        //各ステージの情報リセット
+        Isha_SinglshotReSet();
+        test3ReSet();
     }
 
     // Update is called once per frame
@@ -29,35 +31,39 @@ public class StageSelect : MonoBehaviour
         if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
         {
             oldCursol = cursol;
-            if (cursol >= 8) cursol -= 8;
-            else cursol += 2;
+            //if (cursol >= 8) cursol -= 8;
+            //else cursol += 2;
+            if (cursol >= 2) cursol -= 2;
+            else cursol += 1;
             isVertical = true;
             ButtonSize();
         }
         else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
         {
             oldCursol = cursol;
-            if (cursol <= 1) cursol += 8;
-            else cursol -= 2;
+            //if (cursol <= 1) cursol += 8;
+            //else cursol -= 2;
+            if (cursol <= 0) cursol += 2;
+            else cursol -= 1;
             isVertical = true;
             ButtonSize();
         }
-        if (0 > Input.GetAxis("ClossHorizontal") && !isHorizontal)    //↓入力時
-        {
-            oldCursol = cursol;
-            if (cursol % 2 == 1) cursol -= 1;
-            else cursol += 1;
-            isHorizontal = true;
-            ButtonSize();
-        }
-        if (0 < Input.GetAxis("ClossHorizontal") && !isHorizontal)  //↑入力時
-        {
-            oldCursol = cursol;
-            if (cursol % 2 == 0) cursol += 1;
-            else cursol -= 1;
-            isHorizontal = true;
-            ButtonSize();
-        }
+        //if (0 > Input.GetAxis("ClossHorizontal") && !isHorizontal)    //↓入力時
+        //{
+        //    oldCursol = cursol;
+        //    if (cursol % 2 == 1) cursol -= 1;
+        //    else cursol += 1;
+        //    isHorizontal = true;
+        //    ButtonSize();
+        //}
+        //if (0 < Input.GetAxis("ClossHorizontal") && !isHorizontal)  //↑入力時
+        //{
+        //    oldCursol = cursol;
+        //    if (cursol % 2 == 0) cursol += 1;
+        //    else cursol -= 1;
+        //    isHorizontal = true;
+        //    ButtonSize();
+        //}
 
         if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
         if (0 == Input.GetAxis("ClossHorizontal") && !isBlinking) isHorizontal = false;
@@ -65,14 +71,18 @@ public class StageSelect : MonoBehaviour
         if (Input.GetButtonDown("A"))
         {
             isBlinking = true;
+            isVertical = true;
             Invoke("SenceChange", 1.0f);
         }
 
         if (isBlinking) Blinking();
 
 
+        //GetComponent<RectTransform>().anchoredPosition
+        //        = new Vector2(-150 + ((cursol % 2) * 300), 130 + ((cursol / 2) * -70));
+
         GetComponent<RectTransform>().anchoredPosition
-                = new Vector2(-150 + ((cursol % 2) * 300), 130 + ((cursol / 2) * -70));
+        = new Vector2(0, 100 + (cursol * -100));
     }
 
     void Blinking()
@@ -86,13 +96,15 @@ public class StageSelect : MonoBehaviour
         switch (cursol)
         {
             case 0:
-                SceneManager.LoadScene("zuna1");
+                //SceneManager.LoadScene("zuna1");
+                SceneManager.LoadScene("Isha_Singlshot");
                 break;
             case 1:
-                SceneManager.LoadScene("zuna2");
+                //SceneManager.LoadScene("zuna2");
+                SceneManager.LoadScene("Test2");
                 break;
             case 2:
-                SceneManager.LoadScene("nishi1");
+                SceneManager.LoadScene("Test3");
                 break;
             case 3:
                 SceneManager.LoadScene("nishi2");
@@ -122,5 +134,23 @@ public class StageSelect : MonoBehaviour
     {
         stage[cursol].GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
         stage[oldCursol].GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 0);
+    }
+
+    void Isha_SinglshotReSet()
+    {
+        Isha_Singlshot.score = 0;
+        Isha_Singlshot.oldSceneName = null;
+    }
+
+    void test3ReSet()
+    {
+        test3.score = 0;
+        test3.oldSceneName = null;
+    }
+
+    void Test2ReSet()
+    {
+        test2.score = 0;
+        test2.oldSceneName = null;
     }
 }

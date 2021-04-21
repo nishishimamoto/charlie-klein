@@ -8,7 +8,7 @@ public class test3 : MonoBehaviour
 {
     [SerializeField] CursorSelect cursorSelectCS;
     [SerializeField] TurnStart TurnCS;
-    [SerializeField] Timer TimerCS;
+    [SerializeField] test3timer TimerCS;
     [SerializeField] Combo ComboCS;
     [SerializeField] Explosion ExplosionCS;
     [SerializeField] Pause PauseCS;
@@ -20,7 +20,7 @@ public class test3 : MonoBehaviour
     const int sidePanel = 42;    //サイドパネルの数
     const int width = 7;   //横の数
     const int height = 6;    //縦の数
-    const int colorNum = 3;
+    const int colorNum = 3; //出現する色の数
     const float maxThinkingTime = 10;   //ゲーム開始前の考える時間
 
     int[] mainNumber = new int[mainPanel];     //3*3のナンバー
@@ -86,17 +86,26 @@ public class test3 : MonoBehaviour
 
     [SerializeField] GameObject thinkingObjects;
     [SerializeField] Text thinkingTimeText;
+    [SerializeField] GameObject gameOverVeil;
+    [SerializeField] GameObject gameOverText;
 
     [SerializeField] GameObject main;
     [SerializeField] GameObject side;
     [SerializeField] bool[] isPlanet = new bool[mainPanel];
 
     public static string oldSceneName;  //リザルトから戻る用
+    bool gameFinish;    //ゲームが終わったかどうかの判定
+
+    float lightTime = 8f;
+    float alphaDerayTime = 0;
+    bool isAlphaLast;
 
     // Start is called before the first frame update
     void Start()
     {
         ThinkingCS.thinkingTime = maxThinkingTime;
+        gameOverVeil.SetActive(false);
+        gameOverText.SetActive(false);
 
         for (int i = 0; i < mainPanel; i++)
         {
@@ -106,108 +115,7 @@ public class test3 : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < sidePanel; i++) //衛星の生成
-        {
-            if (i <= 6)  //最上行のとき
-            {
-                if (i == 0 && isPlanet[0]) //隅の惑星がなければ隅の衛星も作らない
-                {
-                }
-                else if (i == 6 && isPlanet[5]) //隅の惑星がなければ隅の衛星も作らない
-                {
-                }
-                else if (i != 0 && i != 6 && isPlanet[i - (i / width) - 1] && isPlanet[i - (i / width)])//惑星1列目を見て、両隣がなければ作らない
-                {
-                }
-                else
-                {
-                    //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
-                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    //各衛星の子オブジェクトのTextを得る
-                    turnOver[i] = sideSphere[i].transform.Find("TurnOver").gameObject;
-                    TurnOverCS[i] = turnOver[i].GetComponent<TurnOver>();
-
-                    sideNumber[i] = sideColorNumber[Random.Range(0, colorNum)];
-                }
-            }
-            else if (i > 0 && i % 7 == 0) //最左列のとき
-            {
-                if (i == 35 && isPlanet[24]) //隅の惑星がなければ隅の衛星も作らない
-                {
-
-                }
-                else if (i != 35 && isPlanet[i - (i / width) - 6] && isPlanet[i - (i / width)]) //惑星最左列を見て、両隣がなければ作らない
-                {
-
-                }
-                else
-                {
-                    //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
-                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    //各衛星の子オブジェクトのTextを得る
-                    turnOver[i] = sideSphere[i].transform.Find("TurnOver").gameObject;
-                    TurnOverCS[i] = turnOver[i].GetComponent<TurnOver>();
-                    sideNumber[i] = sideColorNumber[Random.Range(0, colorNum)];
-                }
-            }
-            else if (i > 6 && i % 7 == 6)   //最右列のとき
-            {
-                if (i == 41 && isPlanet[29])//隅の惑星がなければ隅の衛星も作らない
-                {
-
-                }
-                else if (i != 41 && isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - 1]) //惑星最右列を見て、両隣がなければ作らない
-                {
-
-                }
-                else
-                {
-                    //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
-                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    //各衛星の子オブジェクトのTextを得る
-                    turnOver[i] = sideSphere[i].transform.Find("TurnOver").gameObject;
-                    TurnOverCS[i] = turnOver[i].GetComponent<TurnOver>();
-                    sideNumber[i] = sideColorNumber[Random.Range(0, colorNum)];
-                }
-            }
-            else if (i > 35 && i < 41)  //最下行の時
-            {
-                if (isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - (width - 1)])//惑星最下列を見て、両隣がなければ作らない
-                {
-
-                }
-                else
-                {
-                    //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
-                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    //各衛星の子オブジェクトのTextを得る
-                    turnOver[i] = sideSphere[i].transform.Find("TurnOver").gameObject;
-                    TurnOverCS[i] = turnOver[i].GetComponent<TurnOver>();
-                    sideNumber[i] = sideColorNumber[Random.Range(0, colorNum)];
-                }
-            }
-            else
-            {
-                if (isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - (width - 1)] && isPlanet[i - (i / width) - 1] && isPlanet[i - (i / width)])//四方に惑星がない場合は衛星を作らない
-                {
-
-                }
-                else
-                {
-                    //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
-                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    //各衛星の子オブジェクトのTextを得る
-                    turnOver[i] = sideSphere[i].transform.Find("TurnOver").gameObject;
-                    TurnOverCS[i] = turnOver[i].GetComponent<TurnOver>();
-                    sideNumber[i] = sideColorNumber[Random.Range(0, colorNum)];
-                }
-            }
-        }
+        SatelliteCreat();   //衛星生成
 
         scoreText = Score.GetComponent<Text>();
 
@@ -223,36 +131,42 @@ public class test3 : MonoBehaviour
     {
         if (!PauseCS.isPause)
         {
-            if (!TurnCS.isTurnStart)
+            if (!gameFinish)
             {
-                TurnCS.GameStart();
-            }
-            else if (!alpha_Flg)
-            {
-                if (!TimerCS.countStart)
+                if (!alpha_Flg)
                 {
-                    TimeReSet();    //スコアに応じてタイムのリセット
-                    LifeLimmit();   //寿命0の衛星があったらリザルトに飛ぶ
-                    ThinkingCS.ThinkingTime(); //n秒で強制的にスタートさせる
-                    if (ThinkingCS.thinkingTime <= 0)
+                    if (!TurnCS.isTurnStart)
                     {
-                        TimerCS.countStart = true;
-                        thinkingObjects.SetActive(false);
+                        LifeLimmit();   //寿命0の衛星があったらリザルトに飛ぶ
+                        TurnCS.GameStart();
+                        SphereCreate(); //消した衛星の表示
+                    }
+                    else if (TurnCS.isTurnStart)
+                    {
+                        if (!TimerCS.countStart)
+                        {
+                            TimeReSet();    //スコアに応じてタイムのリセット
+                            ThinkingCS.ThinkingTime(); //n秒で強制的にスタートさせる
+                            if (ThinkingCS.thinkingTime <= 0)
+                            {
+                                TimerCS.countStart = true;
+                                thinkingObjects.SetActive(false);
+                            }
+                        }
+                        if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
+                        else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
+                                                                                   //PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
+                        PointBlinking();            //4つ揃ったときの点滅
+                                                    //ColorChange();              //パネルの色変更
+                        TimerCS.TimerCount();       //制限時間のカウントと表示
+                        TurnEnd();                  //ターン終了時の処理
+
+                        //SelectImageMove();  //現在選んでいるパネルの可視化 ここで呼ぶ
+                        cursorSelectCS.SelectImageMove(chooseMain);
                     }
                 }
-                if (!panelMove[0] && !panelMove[1])PanelOperation();   //パネルの操作
-                else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
-                //PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
-                PointBlinking();            //4つ揃ったときの点滅
-                //ColorChange();              //パネルの色変更
-                TimerCS.TimerCount();       //制限時間のカウントと表示
-                TurnEnd();                  //ターン終了時の処理
-
-                //SelectImageMove();  //現在選んでいるパネルの可視化 ここで呼ぶ
-                cursorSelectCS.SelectImageMove(chooseMain);
-
-            }
-            else if (alpha_Flg) alpha();
+                else if (alpha_Flg) alpha();
+            }else if(gameFinish) Invoke("Result", 2);
         }
     }
 
@@ -262,7 +176,7 @@ public class test3 : MonoBehaviour
         if ((flgCheck[check] && check <= (mainPanel - 1)) && !isPlanet[check])   //0~9で条件を満たしたら
         {
 
-            if (alpha_Time < 0.6f)    //条件を満たしたパネルの点滅
+            if (alpha_Time < 0.6f) //0.6まで光る
             {
                 alpha_Time += Time.deltaTime * 2;    //制限時間のカウントダウン
                 alpha_Sin = (alpha_Time * 6) + 5;
@@ -274,36 +188,14 @@ public class test3 : MonoBehaviour
                 sideSphere[(check / (width - 1)) + check + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", alpha_Sin);
                 sideSphere[(check / (width - 1)) + check + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", alpha_Sin);
             }
-            else if (alpha_Time >= 0.6f)
+            else if (alpha_Time >= 0.6f)//0.6以上になったらalpha_Timeを0に戻して爆破して次のをみる
             {
+                //ComboCS.comboCount += 1;
                 alpha_Time = 0;
                 //flgCheck[check] = false;
                 //ColorChange();
 
                 //mainNumber[i] = mainColorNumber[0];
-                sideNumber[(check / (width - 1)) + check] = sideColorNumber[Random.Range(0, colorNum)];
-                sideNumber[(check / (width - 1)) + check + 1] = sideColorNumber[Random.Range(0, colorNum)];
-                sideNumber[(check / (width - 1)) + check + width + 1] = sideColorNumber[Random.Range(0, colorNum)];
-                sideNumber[(check / (width - 1)) + check + width] = sideColorNumber[Random.Range(0, colorNum)];
-
-                TurnOverCS[(check / (width - 1)) + check].LifeCountReSet();
-                TurnOverCS[(check / (width - 1)) + check + 1].LifeCountReSet();
-                TurnOverCS[(check / (width - 1)) + check + width + 1].LifeCountReSet();
-                TurnOverCS[(check / (width - 1)) + check + width].LifeCountReSet();
-
-                //mainColorNum += mainNumber[check];  //[0]^[3]合計を得る草
-
-                rainbowRand[rainbowTarget] = check; //条件を満たした惑星の位置を把握しておく
-                rainbowTarget += 1;
-
-                //if (isAddScore)
-                //{
-                //    ScoreAdd();
-
-                //    //ランダムな数値にいれかえ
-                //    MainGenerate();
-                //}
-                //if (isLossScore) ScoreLoss();
 
                 if (addOrLoss[check] == 1)
                 {
@@ -318,18 +210,7 @@ public class test3 : MonoBehaviour
                     ScoreLoss();
                     addOrLoss[check] = 9;
                 }
-
-                ////ランダムな数値にいれかえ
-                //MainGenerate();
-
-                ExplosionCS.particle[check].Play(); //条件を満たした惑星が爆発
-                ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
-                Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
-                ColorChange();   //パネルの色変更
-                ComboCS.BoardCombo(check); //爆破箇所にコンボのパネル
-
-
-
+                if (ComboCS.comboCount > 0) ComboCS.BoardCombo(check); //爆破箇所にコンボのパネル
                 check += 1;
             }
         }
@@ -343,64 +224,62 @@ public class test3 : MonoBehaviour
                 {
                     if (flgCheck[i])
                     {
-                        //mainSphere[i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 8);　草
-                        sideSphere[(i / (width - 1)) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 8);
-                        sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 8);
-                        sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 8);
-                        sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 8);
+                        sideSphere[(check / (width - 1)) + check].SetActive(true);
+                        sideSphere[(check / (width - 1)) + check + 1].SetActive(true);
+                        sideSphere[(check / (width - 1)) + check + width].SetActive(true);
+                        sideSphere[(check / (width - 1)) + check + width + 1].SetActive(true);
                     }
                 }
             }
             else
             {
+                alphaDerayTime += Time.deltaTime;
+                if (!isAlphaLast)
+                {
+                    AlphaFlgDeray();
+                    ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                    if (ComboCS.comboCount >= 5) ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                    if (ComboCS.comboCount >= 9) ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                    isAlphaLast = true;
 
-                //for (int i = 0; i < mainPanel; i++)
-                //{
-                //    if (flgCheck[i])
-                //    {
+                    for (int i = 0; i < mainPanel; i++)
+                    {
+                        if (flgCheck[i])
+                        {
+                            sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, colorNum)];
+                            sideNumber[(i / (width - 1)) + i + 1] = sideColorNumber[Random.Range(0, colorNum)];
+                            sideNumber[(i / (width - 1)) + i + width + 1] = sideColorNumber[Random.Range(0, colorNum)];
+                            sideNumber[(i / (width - 1)) + i + width] = sideColorNumber[Random.Range(0, colorNum)];
 
-                //        //ランダムな数値にいれかえ
-                //        mainNumber[i] = mainColorNumber[Random.Range(0, 2)];
-                //        //mainNumber[i] = mainColorNumber[0];
-                //        sideNumber[(i / 3) + i] = sideColorNumber[Random.Range(0, 2)];
-                //        sideNumber[(i / 3) + i + 1] = sideColorNumber[Random.Range(0, 2)];
-                //        sideNumber[(i / 3) + i + 5] = sideColorNumber[Random.Range(0, 2)];
-                //        sideNumber[(i / 3) + i + 4] = sideColorNumber[Random.Range(0, 2)];
+                            TurnOverCS[(i / (width - 1)) + i].LifeCountReSet();
+                            TurnOverCS[(i / (width - 1)) + i + 1].LifeCountReSet();
+                            TurnOverCS[(i / (width - 1)) + i + width + 1].LifeCountReSet();
+                            TurnOverCS[(i / (width - 1)) + i + width].LifeCountReSet();
 
-                //        rainbowRand[rainbowTarget] = i; //条件を満たした惑星の位置を把握しておく
-                //        rainbowTarget += 1;
-                //    }
-                //    mainColorNum += mainNumber[i];  //[0]^[3]合計を得る
-                //}
+                            ////ランダムな数値にいれかえ
+                            //MainGenerate();
 
-                //if (ComboCS.comboCount >= 3 && !rainbow) //条件を満たした惑星のどこかに3コンボ以上で虹惑星を１つだす 草
-                //{
-                //    int i = rainbowRand[Random.Range(0, ComboCS.comboCount)];
-                //    rainbow = true;
-                //    sideNumber[i / (width - 1) + i + rainbowNumber[Random.Range(0, 4)]] = sideColorNumber[2];
-                //}
+                            ExplosionCS.particle[i].Play(); //条件を満たした惑星が爆発
 
-                //for (int j = 0; j < 4; j++)  //[0]^[9]の合計と色*4を見る { 4, 32, 128, 512}草
-                //{
-                //    while (mainColorNum == (mainColorNumber[j] * mainPanel))  //9色同じだったら処理を繰り返す
-                //    {
-                //        mainColorNum = 0;   //一度numを0にし
-                //        for (int f = 0; f < mainPanel; f++)
-                //        {
-                //            if (flgCheck[f]) mainNumber[f] = mainColorNumber[Random.Range(0, 2)]; //消したマスをランダムな色に変えて
-                //            mainColorNum += mainNumber[f];       //もう一度[0]^[9]の合計を得る
-                //        }
-                //    }
-                //}
-                Bonus();    //ボーナスパネル設定
-                for (int f = 0; f < mainPanel; f++) flgCheck[f] = false; //念のため別のforでfalseにする
-                mainColorNum = 0;
-                ColorChange();   //パネルの色変更
-                check = 0;
-                rainbow = false;
-                alpha_Flg = false;
-                rainbowTarget = 0;
-                thinkingObjects.SetActive(true);
+                            //Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
+                            ColorChange();   //パネルの色変更
+
+                            sideSphere[(i / (width - 1)) + i].SetActive(false);
+                            sideSphere[(i / (width - 1)) + i + 1].SetActive(false);
+                            sideSphere[(i / (width - 1)) + i + width].SetActive(false);
+                            sideSphere[(i / (width - 1)) + i + width + 1].SetActive(false);
+                        }
+                    }
+                }
+                else if (alphaDerayTime >= 2)
+                {
+
+                    alphaDerayTime = 0;
+                    check = 0;
+                    thinkingObjects.SetActive(true);
+                    isAlphaLast = false;
+                    alpha_Flg = false;
+                }
             }
         }
         else check += 1;
@@ -787,6 +666,7 @@ public class test3 : MonoBehaviour
             TimerCS.timeCount = 0;
             TimerCS.TimerCount();
 
+            for (int f = 0; f < mainPanel; f++) flgCheck[f] = false; //念のため別のforでfalseにする
             if (!alpha_Flg) PointCheck();
             TimerCS.timeOut = false;
             TimerCS.countStart = false;
@@ -794,6 +674,10 @@ public class test3 : MonoBehaviour
             ComboCS.comboCount = 0; //コンボカウントリセット
             LifeDown(); //衛星の寿命を縮める
             ThinkingCS.thinkingTime = maxThinkingTime;
+            //thinkingObjects.SetActive(true);
+            TurnCS.turn += 1;
+            TurnCS.isTurnStart = false;
+            lightTime = 8;
 
             //TurnCS.TurnCount();        //経過ターンの更新表示
         }
@@ -914,7 +798,7 @@ public class test3 : MonoBehaviour
     {
         //リザルト画面へ
         oldSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene("test3resurt");
+        SceneManager.LoadScene("testresurt");
     }
 
     void TimeLimmit()
@@ -933,11 +817,15 @@ public class test3 : MonoBehaviour
 
     void LifeLimmit()
     {
-        for(int i = 0; i < sidePanel; i++)
+        for (int i = 0; i < sidePanel; i++)
         {
-            if(TurnOverCS[i] != null && TurnOverCS[i].lifeSpan == 0)
+            if (TurnOverCS[i] != null && TurnOverCS[i].lifeSpan == 0 && TurnCS.turn > 2)
             {
-                Invoke("Result", 0.5f);
+                sideSphere[i].transform.Translate(0f, 0f, -1);
+                if (!gameOverVeil.activeSelf) gameOverVeil.SetActive(true);
+                if(!gameOverText.activeSelf) gameOverText.SetActive(true);
+                //Invoke("Result", 0.5f);
+                gameFinish = true;
             }
         }
     }
@@ -951,6 +839,182 @@ public class test3 : MonoBehaviour
                 TurnOverCS[i].LifeCountDown();
             }
         }
+    }
+
+    void SphereCreate()
+    {
+        if (lightTime >= 6.0f) lightTime -= Time.deltaTime * 2f;
+        for (int i = 0; i < mainPanel; i++)
+        {
+            if (flgCheck[i])
+            {
+                sideSphere[(i / (width - 1)) + i].SetActive(true);
+                sideSphere[(i / (width - 1)) + i + 1].SetActive(true);
+                sideSphere[(i / (width - 1)) + i + width].SetActive(true);
+                sideSphere[(i / (width - 1)) + i + width + 1].SetActive(true);
+
+                sideSphere[(i / (width - 1)) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", lightTime);
+                sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", lightTime);
+                sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", lightTime);
+                sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", lightTime);
+
+                //flgCheck[i] = false;
+            }
+        }
+    }
+
+    void SatelliteCreat()
+    {
+        for (int i = 0; i < sidePanel; i++) //衛星の生成
+        {
+            if (i <= 6)  //最上行のとき
+            {
+                if (i == 0 && isPlanet[0]) //隅の惑星がなければ隅の衛星も作らない
+                {
+                }
+                else if (i == 6 && isPlanet[5]) //隅の惑星がなければ隅の衛星も作らない
+                {
+                }
+                else if (i != 0 && i != 6 && isPlanet[i - (i / width) - 1] && isPlanet[i - (i / width)])//惑星1列目を見て、両隣がなければ作らない
+                {
+                }
+                else
+                {
+                    //プレハブを元に、インスタンスを生成、
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
+                    //各衛星の子オブジェクトのTextを得る
+                    turnOver[i] = sideSphere[i].transform.Find("TurnOver").gameObject;
+                    TurnOverCS[i] = turnOver[i].GetComponent<TurnOver>();
+
+                    sideNumber[i] = sideColorNumber[Random.Range(0, colorNum)];
+                }
+            }
+            else if (i > 0 && i % 7 == 0) //最左列のとき
+            {
+                if (i == 35 && isPlanet[24]) //隅の惑星がなければ隅の衛星も作らない
+                {
+
+                }
+                else if (i != 35 && isPlanet[i - (i / width) - 6] && isPlanet[i - (i / width)]) //惑星最左列を見て、両隣がなければ作らない
+                {
+
+                }
+                else
+                {
+                    //プレハブを元に、インスタンスを生成、
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
+                    //各衛星の子オブジェクトのTextを得る
+                    turnOver[i] = sideSphere[i].transform.Find("TurnOver").gameObject;
+                    TurnOverCS[i] = turnOver[i].GetComponent<TurnOver>();
+                    sideNumber[i] = sideColorNumber[Random.Range(0, colorNum)];
+                }
+            }
+            else if (i > 6 && i % 7 == 6)   //最右列のとき
+            {
+                if (i == 41 && isPlanet[29])//隅の惑星がなければ隅の衛星も作らない
+                {
+
+                }
+                else if (i != 41 && isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - 1]) //惑星最右列を見て、両隣がなければ作らない
+                {
+
+                }
+                else
+                {
+                    //プレハブを元に、インスタンスを生成、
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
+                    //各衛星の子オブジェクトのTextを得る
+                    turnOver[i] = sideSphere[i].transform.Find("TurnOver").gameObject;
+                    TurnOverCS[i] = turnOver[i].GetComponent<TurnOver>();
+                    sideNumber[i] = sideColorNumber[Random.Range(0, colorNum)];
+                }
+            }
+            else if (i > 35 && i < 41)  //最下行の時
+            {
+                if (isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - (width - 1)])//惑星最下列を見て、両隣がなければ作らない
+                {
+
+                }
+                else
+                {
+                    //プレハブを元に、インスタンスを生成、
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
+                    //各衛星の子オブジェクトのTextを得る
+                    turnOver[i] = sideSphere[i].transform.Find("TurnOver").gameObject;
+                    TurnOverCS[i] = turnOver[i].GetComponent<TurnOver>();
+                    sideNumber[i] = sideColorNumber[Random.Range(0, colorNum)];
+                }
+            }
+            else
+            {
+                if (isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - (width - 1)] && isPlanet[i - (i / width) - 1] && isPlanet[i - (i / width)])//四方に惑星がない場合は衛星を作らない
+                {
+
+                }
+                else
+                {
+                    //プレハブを元に、インスタンスを生成、
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
+                    //各衛星の子オブジェクトのTextを得る
+                    turnOver[i] = sideSphere[i].transform.Find("TurnOver").gameObject;
+                    TurnOverCS[i] = turnOver[i].GetComponent<TurnOver>();
+                    sideNumber[i] = sideColorNumber[Random.Range(0, colorNum)];
+                }
+            }
+        }
+    }
+
+    void AlphaFlgDeray()
+    {
+        //for (int i = 0; i < mainPanel; i++)
+        //{
+        //    if (flgCheck[i])
+        //    {
+
+        //        //ランダムな数値にいれかえ
+        //        mainNumber[i] = mainColorNumber[Random.Range(0, 2)];
+        //        //mainNumber[i] = mainColorNumber[0];
+        //        sideNumber[(i / 3) + i] = sideColorNumber[Random.Range(0, 2)];
+        //        sideNumber[(i / 3) + i + 1] = sideColorNumber[Random.Range(0, 2)];
+        //        sideNumber[(i / 3) + i + 5] = sideColorNumber[Random.Range(0, 2)];
+        //        sideNumber[(i / 3) + i + 4] = sideColorNumber[Random.Range(0, 2)];
+
+        //        rainbowRand[rainbowTarget] = i; //条件を満たした惑星の位置を把握しておく
+        //        rainbowTarget += 1;
+        //    }
+        //    mainColorNum += mainNumber[i];  //[0]^[3]合計を得る
+        //}
+
+        //if (ComboCS.comboCount >= 3 && !rainbow) //条件を満たした惑星のどこかに3コンボ以上で虹惑星を１つだす 草
+        //{
+        //    int i = rainbowRand[Random.Range(0, ComboCS.comboCount)];
+        //    rainbow = true;
+        //    sideNumber[i / (width - 1) + i + rainbowNumber[Random.Range(0, 4)]] = sideColorNumber[2];
+        //}
+
+        //for (int j = 0; j < 4; j++)  //[0]^[9]の合計と色*4を見る { 4, 32, 128, 512}草
+        //{
+        //    while (mainColorNum == (mainColorNumber[j] * mainPanel))  //9色同じだったら処理を繰り返す
+        //    {
+        //        mainColorNum = 0;   //一度numを0にし
+        //        for (int f = 0; f < mainPanel; f++)
+        //        {
+        //            if (flgCheck[f]) mainNumber[f] = mainColorNumber[Random.Range(0, 2)]; //消したマスをランダムな色に変えて
+        //            mainColorNum += mainNumber[f];       //もう一度[0]^[9]の合計を得る
+        //        }
+        //    }
+        //}
+        Bonus();    //ボーナスパネル設定
+                    //for (int f = 0; f < mainPanel; f++) flgCheck[f] = false; //念のため別のforでfalseにする
+        mainColorNum = 0;
+        ColorChange();   //パネルの色変更
+        rainbow = false;
+        rainbowTarget = 0;
     }
 }
 

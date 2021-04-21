@@ -14,7 +14,7 @@ public class Combo : MonoBehaviour
     float blinkingSpeed = 2.0f;
     GameObject combo; //コンボの元
     GameObject canvas;
-    Transform canvasTransform;
+    Transform canvasTransform;//キャンバスではなく空オブジェに変更
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +22,7 @@ public class Combo : MonoBehaviour
         comboText.color = new Color(255, 255, 255, 0);  //コンボ表記透明
 
         combo = (GameObject)Resources.Load("ComboCount");
-        canvas = GameObject.Find("Canvas");
+        canvas = GameObject.Find("center");
         canvasTransform = canvas.GetComponent<Transform>();
     }
 

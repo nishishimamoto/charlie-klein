@@ -237,6 +237,9 @@ public class test3 : MonoBehaviour
                 if (!isAlphaLast)
                 {
                     AlphaFlgDeray();
+                    ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                    if (ComboCS.comboCount >= 5) ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                    if (ComboCS.comboCount >= 9) ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
                     isAlphaLast = true;
 
                     for (int i = 0; i < mainPanel; i++)
@@ -257,10 +260,8 @@ public class test3 : MonoBehaviour
                             //MainGenerate();
 
                             ExplosionCS.particle[i].Play(); //条件を満たした惑星が爆発
-                            if(ComboCS.comboCount < 3) ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
-                            else if(ComboCS.comboCount < 6) ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
 
-                                                                                      //Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
+                            //Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
                             ColorChange();   //パネルの色変更
 
                             sideSphere[(i / (width - 1)) + i].SetActive(false);

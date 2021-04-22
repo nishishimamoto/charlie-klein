@@ -2728,7 +2728,12 @@ PrefabInstance:
     - target: {fileID: 4975975616466038757, guid: a02389ee0bc4ba2448cae9c0865ca5a7,
         type: 3}
       propertyPath: m_Text
-      value: 2021/04/15/16:53
+      value: 2021/04/22/15:06
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975975616466038757, guid: a02389ee0bc4ba2448cae9c0865ca5a7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a02389ee0bc4ba2448cae9c0865ca5a7, type: 3}
@@ -2739,7 +2744,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6499048900609897838}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c15390c0adc70324c90fe95bab1830d1, type: 3}
   m_Name: 

@@ -15,6 +15,7 @@ public class test2 : MonoBehaviour
 
     const int mainPanel = 30;    //メインパネルの数
     const int sidePanel = 42;    //サイドパネルの数
+    const int nextPanel = 10;    //ネクストパネルの数
     const int width = 7;   //横の数
     const int height = 6;    //縦の数
 
@@ -49,6 +50,9 @@ public class test2 : MonoBehaviour
     Color[] mainSphereColor = new Color[mainPanel];  //マテリアル色を変えるための仮入れ
     Color tmpMainColor;
     Renderer[] mainSphereRenderer = new Renderer[mainPanel];    //実際にオブジェクトの色を変更する
+
+    GameObject[] nextSphere = new GameObject[nextPanel]; //ネクストスフィアをいれる
+
 
     int[] mainColorNumber = { 4, 32, 128, 512 };    //メイン色の配列(赤、青、緑、黄)
     int[] sideColorNumber = { 1, 8, 32, 128 };     //サイド色の配列(赤、青、緑、黄)
@@ -94,11 +98,40 @@ public class test2 : MonoBehaviour
     [SerializeField] GameObject side;
     [SerializeField] bool[] isPlanet = new bool[mainPanel];
 
-    public static string oldSceneName;  //リザルトから戻る用
+    int[,] satelmap = new int[6, 7] { {  0,  1,  1,  1,  8, 32, 32 }, 
+                                      {  0,  1,  8,  8,  8,128, 32 }, 
+                                      {  0, 32, 32,  8,128,128, 32 },
+                                      {  0,128, 32, 32,  1,128,128 }, 
+                                      {  0,128, 32,  1,  1,  1,  8 },
+                                      {  0,128,128,  1,  8,  8,  8 } };
+
+    int[,] nextSatel = new int[10, 2] { {  8,   8 }, {   8,  1 },
+                                        {  8,   1 }, {   1,  1 },
+                                        { 32,  32 }, {  32,128 },
+                                        { 32, 128 }, { 128,128 },
+                                        { 32, 128 }, { 128, 32 } };
+
+
+                                        //{ 32, 128 }, { 128, 32 },
+                                        //{ 32, 128 }, { 128, 32 },
+                                        //{ 32, 128 }, { 128, 32 },
+                                        //{ 32, 128 }, { 128, 32 },
+                                        //{ 32, 128 }, { 128, 32 } };
+public static string oldSceneName;  //リザルトから戻る用
 
     // Start is called before the first frame update
     void Start()
     {
+
+        //for (int h = 0; h < 6; h++) 
+        //{
+        //    for(int w = 0; w < 7; w++)
+        //    {
+        //        satelmap[h, w] = sideColorNumber[2];
+        //    }
+
+
+        //}
 
         for(int i = 0; i < 4; i++)
         {
@@ -165,6 +198,7 @@ public class test2 : MonoBehaviour
                     sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+                    
                 }
             }
             else if (i > 0 && i % 7 == 0) //最左列のとき
@@ -183,6 +217,7 @@ public class test2 : MonoBehaviour
                     sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+                    
                 }
             }
             else if (i > 6 && i % 7 == 6)   //最右列のとき
@@ -201,6 +236,7 @@ public class test2 : MonoBehaviour
                     sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+                 
                 }
             }
             else if (i > 35 && i < 41)  //最下行の時
@@ -215,6 +251,7 @@ public class test2 : MonoBehaviour
                     sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+
                 }
             }
             else
@@ -229,6 +266,7 @@ public class test2 : MonoBehaviour
                     sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+
                 }
             }
 
@@ -237,6 +275,21 @@ public class test2 : MonoBehaviour
             //sideSphere[(i / (width - 1)) + i + width + 1] = Instantiate(side, new Vector3(-7 + (2 * (i % (width - 1))), 3 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
             //sideSphere[(i / (width - 1)) + i + 1] = Instantiate(side, new Vector3(-5 + (2 * (i % (width - 1))), 3 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
         }
+
+
+        for (int i = 0; i < sidePanel; i++)
+        {
+            if (i%7!=0) {
+                if (i < 7) sideNumber[i] = satelmap[0, i];
+                else if (i < 14) sideNumber[i] = satelmap[1, i % 7];
+                else if (i < 21) sideNumber[i] = satelmap[2, i % 14];
+                else if (i < 28) sideNumber[i] = satelmap[3, i % 21];
+                else if (i < 35) sideNumber[i] = satelmap[4, i % 28];
+                else if (i < 42) sideNumber[i] = satelmap[5, i % 35];
+            }
+        }
+        //sideNumber[7] = satelmap[0, 0];
+        //Debug.Log(sideNumber[7]);
 
         scoreText = Score.GetComponent<Text>();
         //timerText = Timer.GetComponent<Text>();
@@ -312,9 +365,29 @@ public class test2 : MonoBehaviour
                 sideNumber[(check / (width - 1)) + check + width + 1] = sideColorNumber[Random.Range(0, 4)];
                 sideNumber[(check / (width - 1)) + check + width] = sideColorNumber[Random.Range(0, 4)];
 
-                //mainColorNum += mainNumber[check];  //[0]^[3]合計を得る草
+                sideNumber[(check / (width - 1)) + check] = nextSatel[0, 0];
+                sideNumber[(check / (width - 1)) + check + width] = nextSatel[0, 1];
+                sideNumber[(check / (width - 1)) + check + 1] = nextSatel[1, 0];
+                sideNumber[(check / (width - 1)) + check + width + 1]=nextSatel[1, 1];
 
-                rainbowRand[rainbowTarget] = check; //条件を満たした惑星の位置を把握しておく
+                for (int i = 0; i <= 6; i += 2)
+                {
+                    nextSatel[i, 0] = nextSatel[i + 2, 0];
+                    nextSatel[i, 1] = nextSatel[i + 2, 1];
+                    nextSatel[i + 1, 0] = nextSatel[i + 2 + 1, 0];
+                    nextSatel[i + 1, 1] = nextSatel[i + 2 + 1, 1];
+                    if (i == 6)
+                    {
+                        nextSatel[8, 0] = sideColorNumber[Random.Range(0, 4)];
+                        nextSatel[8, 1] = sideColorNumber[Random.Range(0, 4)];
+                        nextSatel[9, 0] = sideColorNumber[Random.Range(0, 4)];
+                        nextSatel[9, 1] = sideColorNumber[Random.Range(0, 4)];
+                    }
+                }
+
+                    //mainColorNum += mainNumber[check];  //[0]^[3]合計を得る草
+
+                    rainbowRand[rainbowTarget] = check; //条件を満たした惑星の位置を把握しておく
                 rainbowTarget += 1;
 
                 //if (isAddScore)

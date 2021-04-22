@@ -612,7 +612,7 @@ public class Isha_Singlshot : MonoBehaviour
     {
         //リザルト画面へ
         oldSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene("testresurt");
+        SceneManager.LoadScene("MasterResult");
     }
 
     void ClearCheck()

@@ -1937,6 +1937,7 @@ GameObject:
   - component: {fileID: 6539218744546035411}
   - component: {fileID: 6539218744546035408}
   - component: {fileID: 6539218744546035409}
+  - component: {fileID: 4994586660634373736}
   m_Layer: 5
   m_Name: Cursol
   m_TagString: Untagged
@@ -2043,6 +2044,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4994586660634373736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6539218744546035375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53f2a88551a4d6c478d06407ceca827b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SE: {fileID: 0}
+  axis_ver: 0
+  axis_hor: 0
+  move: {fileID: 8300000, guid: 83d5a6e199e53c94083209a73ad27675, type: 3}
+  dicide: {fileID: 8300000, guid: ad25ea6952687694dbb145e661bf19c6, type: 3}
 --- !u!1 &6539218744572681981
 GameObject:
   m_ObjectHideFlags: 0
@@ -2495,6 +2513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboTime: 0
   comboCount: 0
+  canvas: {fileID: 0}
 --- !u!1 &6539218745065232728
 GameObject:
   m_ObjectHideFlags: 0

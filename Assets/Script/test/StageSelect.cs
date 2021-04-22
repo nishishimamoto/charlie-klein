@@ -21,6 +21,7 @@ public class StageSelect : MonoBehaviour
         //各ステージの情報リセット
         Isha_SinglshotReSet();
         test3ReSet();
+        Test2ReSet();
     }
 
     // Update is called once per frame

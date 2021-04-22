@@ -925,7 +925,7 @@ public class test2 : MonoBehaviour
     {
         //リザルト画面へ
         oldSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene("ZunaResult");
+        SceneManager.LoadScene("MasterResult");
     }
 
     void ClearCheck()

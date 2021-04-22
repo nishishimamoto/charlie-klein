@@ -805,7 +805,7 @@ public class test3 : MonoBehaviour
     {
         //リザルト画面へ
         oldSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene("testresurt");
+        SceneManager.LoadScene("MasterResult");
     }
 
     void TimeLimmit()

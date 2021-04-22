@@ -16,6 +16,7 @@ public class test3 : MonoBehaviour
     TurnOver[] TurnOverCS = new TurnOver[sidePanel];
     [SerializeField] Thinking ThinkingCS;
     [SerializeField] Bom BomCS;
+    [SerializeField] MassBox MassBoxCS;
 
     const int mainPanel = 30;    //メインパネルの数
     const int sidePanel = 42;    //サイドパネルの数
@@ -103,6 +104,7 @@ public class test3 : MonoBehaviour
     float lightTime = 8f;
     float alphaDerayTime = 0;
     bool isAlphaLast;
+    bool isMass;
 
     // Start is called before the first frame update
     void Start()
@@ -128,6 +130,7 @@ public class test3 : MonoBehaviour
         TimerCS.maxTime = 20.0f;
         TimerCS.timeCount = TimerCS.maxTime;
         score = 0;  //スコアの初期化
+        MassBoxCS.MassInit(mainPanel);  //massbox初期化
     }
 
     // Update is called once per frame
@@ -273,6 +276,8 @@ public class test3 : MonoBehaviour
                             sideSphere[(i / (width - 1)) + i + 1].SetActive(false);
                             sideSphere[(i / (width - 1)) + i + width].SetActive(false);
                             sideSphere[(i / (width - 1)) + i + width + 1].SetActive(false);
+
+                            MassBoxCS.MassDelete(mainPanel);    //MassBoxをすべて消す
                         }
                     }
                 }
@@ -707,32 +712,7 @@ public class test3 : MonoBehaviour
     }
     void PointBlinking()
     {
-        //for (int i = 0; i < mainPanel; i++)
-        //{
-        //    if (!isPlanet[i])
-        //    {
-
-        //        judgNum = mainNumber[i];
-
-        //        if (judgNum == sideNumber[(i / (width - 1)) + i] * 4 || sideNumber[(i / (width - 1)) + i] == 32)
-        //            if (judgNum == sideNumber[(i / (width - 1)) + i + 1] * 4 || sideNumber[(i / (width - 1)) + i + 1] == 32)
-        //                if (judgNum == sideNumber[(i / (width - 1)) + i + width + 1] * 4 || sideNumber[(i / (width - 1)) + i + width + 1] == 32)
-        //                    if (judgNum == sideNumber[(i / (width - 1)) + i + width] * 4 || sideNumber[(i / (width - 1)) + i + width] == 32) //色を満たした
-        //                    {
-        //                        float blinking = 0f;
-        //                        float blinkingSpeed = 2.0f;
-        //                        blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅(-1~1)
-
-        //                        //mainSphere[i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);草
-        //                        sideSphere[(i / (width - 1)) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-        //                        sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-        //                        sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-        //                        sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-        //                        //Debug.Log(blinking);
-        //                    }
-        //        judgNum = 0;
-        //    }
-        //}
+        MassBoxCS.Mass(mainPanel);
 
         for (int i = 0; i < mainPanel; i++)
         {
@@ -741,32 +721,37 @@ public class test3 : MonoBehaviour
                 judgNum = mainNumber[0];
 
                 if (sideNumber[(i / (width - 1)) + i] * 4 == sideNumber[(i / (width - 1)) + i + 1] * 4)
+                {
                     if (sideNumber[(i / (width - 1)) + i + 1] * 4 == sideNumber[(i / (width - 1)) + i + width + 1] * 4)
+                    {
                         if (sideNumber[(i / (width - 1)) + i + width + 1] * 4 == sideNumber[(i / (width - 1)) + i + width] * 4)
                         {
-                            if (mainNumber[0] == sideNumber[(i / (width - 1)) + i + width] * 4) //色を満たした
-                            {
-                                float blinking = 0f;
-                                float blinkingSpeed = 2.0f;
-                                blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅(-1~1)
+                            float blinking = 0f;
+                            float blinkingSpeed = 2.0f;
+                            blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅(-1~1)
 
-                                sideSphere[(i / (width - 1)) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                            }
-                            else
-                            {
-                                float blinking = 0f;
-                                float blinkingSpeed = 2.0f;
-                                blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅(-1~1)
+                            sideSphere[(i / (width - 1)) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                            sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                            sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+                            sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
 
-                                sideSphere[(i / (width - 1)) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                            }
+                            MassBoxCS.isBox[i] = true;
+                            isMass = true;
                         }
+                        else isMass = false;
+                    }else isMass = false;
+                }else isMass = false;
+
+
+                if (!isMass && MassBoxCS.isBox[i])
+                {
+                    sideSphere[(i / (width - 1)) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6);
+                    sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6);
+                    sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6);
+                    sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6);
+
+                    MassBoxCS.isBox[i] = false;
+                }
 
                 judgNum = 0;
             }
@@ -805,12 +790,13 @@ public class test3 : MonoBehaviour
     {
         //リザルト画面へ
         oldSceneName = SceneManager.GetActiveScene().name;
+        //SceneManager.LoadScene("testresurt");
         SceneManager.LoadScene("MasterResult");
     }
 
     void TimeLimmit()
     {
-        if (TimerCS.maxTime > 10) TimerCS.maxTime = 20 - (score / 3000);
+        if (TimerCS.maxTime > 10) TimerCS.maxTime = 20 - (score / 5000);
         //if (TimerCS.maxTime > 10) TimerCS.maxTime = 60;
         else if (TimerCS.maxTime <= 10) TimerCS.maxTime = 10;
     }
@@ -974,6 +960,19 @@ public class test3 : MonoBehaviour
                 }
             }
         }
+
+        int j = 15;
+
+        //do
+        //{
+        //  j = Random.Range(0, 29);
+        //} while (isPlanet[j]);
+
+        sideNumber[(j / (width - 1)) + j] = sideColorNumber[0];
+        sideNumber[(j / (width - 1)) + j + 1] = sideColorNumber[0];
+        sideNumber[(j / (width - 1)) + j + width + 1] = sideColorNumber[0];
+        sideNumber[(j / (width - 1)) + j + width] = sideColorNumber[0];
+
     }
 
     void AlphaFlgDeray()

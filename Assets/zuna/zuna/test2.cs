@@ -8,7 +8,7 @@ public class test2 : MonoBehaviour
 {
     [SerializeField] CursorSelect cursorSelectCS;
     [SerializeField] Turn1 TurnCS;
-    [SerializeField] Timer TimerCS;
+    [SerializeField] Z_Timer TimerCS;
     [SerializeField] Combo ComboCS;
     [SerializeField] Z_Explosion ExplosionCS;
     [SerializeField] Pause PauseCS;
@@ -913,11 +913,11 @@ public static string oldSceneName;  //リザルトから戻る用
             if ((Input.GetButtonDown("LB") || Input.GetButtonDown("RB") || TimerCS.timeOut) && TimerCS.countStart == true) //Xか制限時間でターン終了
             {
                 if (!alpha_Flg) PointCheck();
-                //TimerCS.timeCount = 30.0f;
-                //TimerCS.timeOut = false;
+                TimerCS.timeCount = 30.0f;
+                TimerCS.timeOut = false;
                 //TimerCS.countStart = false;
-                //TimerCS.bigTimerText.enabled = false;
-                //ComboCS.comboCount = 0; //コンボカウントリセット
+                TimerCS.bigTimerText.enabled = false;
+                ComboCS.comboCount = 0; //コンボカウントリセット
                 TurnCS.TurnCount();        //経過ターンの更新表示
                 Invoke("ClearCheck", 0.2f); //クリア条件を満たしたかチェック
             }
@@ -925,7 +925,6 @@ public static string oldSceneName;  //リザルトから戻る用
         else
         {
             if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
-            //リザルト画面へ
             Result();   //リザルトに遷移
         }
        

@@ -98,35 +98,14 @@ public class StageSelect : MonoBehaviour
         {
             case 0:
                 //SceneManager.LoadScene("zuna1");
-                SceneManager.LoadScene("Isha_Singlshot");
+                SceneManager.LoadScene(4);   //Isha_Singlshot読み込み
                 break;
             case 1:
                 //SceneManager.LoadScene("zuna2");
-                SceneManager.LoadScene("Test2");
+                SceneManager.LoadScene(7);    //Test2読み込み
                 break;
             case 2:
-                SceneManager.LoadScene("Test3");
-                break;
-            case 3:
-                SceneManager.LoadScene("nishi2");
-                break;
-            case 4:
-                SceneManager.LoadScene("Crescent Moon");
-                break;
-            case 5:
-                SceneManager.LoadScene("Mobius");
-                break;
-            case 6:
-                SceneManager.LoadScene("tatsuki01");
-                break;
-            case 7:
-                SceneManager.LoadScene("tatsuki02");
-                break;
-            case 8:
-                SceneManager.LoadScene("ishadou1");
-                break;
-            case 9:
-                SceneManager.LoadScene("ishadou2");
+                SceneManager.LoadScene(5);    //Test3読み込み
                 break;
         }
     }

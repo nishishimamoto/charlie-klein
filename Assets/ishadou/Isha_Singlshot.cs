@@ -207,6 +207,48 @@ public class Isha_Singlshot : MonoBehaviour
             }
        }
 
+        //生成された衛星が揃っていないか確認
+        for (int i = 0; i < mainPanel; i++)
+        {
+            if (!isPlanet[i])
+            {
+                if (i >= 1)
+                {
+                    //左が右と同じ色かチェック
+                    if (sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + 1])
+                    {
+                        int numSet = 0;
+                        int numUpSet = 0;
+                        int randSet = Random.Range(0, 4);
+                        
+                        //左が上と同じ色かチェック
+                        if (i >= 6 && sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
+                        {
+                            numSet = sideNumber[(i / (width - 1)) + i - 1];
+                            numUpSet = sideNumber[(i / (width - 1)) + i - width];
+                            sideNumber[(i / (width - 1)) + i] = Random.Range(0, 4);
+                            //左の色の変更
+                            while (numSet == sideNumber[(i / (width - 1)) + i] ||
+                                sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
+                            {
+                                sideNumber[(i / (width - 1)) + i] = Random.Range(0, 4);
+                            }
+                        }
+                        else
+                        {
+                            numSet = sideNumber[(i / (width - 1)) + i - 1];
+                            sideNumber[(i / (width - 1)) + i] = Random.Range(0, 4);
+                            //左の色の変更
+                            while (numSet == sideNumber[(i / (width - 1)) + i])
+                            {
+                                sideNumber[(i / (width - 1)) + i] = Random.Range(0, 4);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         scoreText = Score.GetComponent<Text>();
 
         ColorChange();   //パネルの色変更

@@ -7,6 +7,10 @@ public class SE_Play : MonoBehaviour
 {
     public AudioSource SE;
 
+    bool nanika;
+
+    [SerializeField] Pause pause;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +26,10 @@ public class SE_Play : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("LB")|| Input.GetButtonDown("RB"))
+
+        nanika = pause.isPause;
+
+        if ((Input.GetButtonDown("LB")|| Input.GetButtonDown("RB")) && !nanika)
         {
             SE.PlayOneShot(SE.clip);
         }

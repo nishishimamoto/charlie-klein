@@ -91,19 +91,19 @@ public class Isha_Singlshot : MonoBehaviour
             {
                 case 0:
                     //左上
-                    mainSphere[i] = Instantiate(main, new Vector3(9f, 2f, 0), Quaternion.identity);
+                    mainSphere[i] = Instantiate(main, new Vector3(7f, 2f, 0), Quaternion.identity);
                     break;
                 case 1:
                     //右上
-                    mainSphere[i] = Instantiate(main, new Vector3(11f, 2f, 0), Quaternion.identity);
+                    mainSphere[i] = Instantiate(main, new Vector3(9f, 2f, 0), Quaternion.identity);
                     break;
                 case 2:
                     //左下
-                    mainSphere[i] = Instantiate(main, new Vector3(9f, 0f, 0), Quaternion.identity);
+                    mainSphere[i] = Instantiate(main, new Vector3(7f, 0f, 0), Quaternion.identity);
                     break;
                 case 3:
                     //右下
-                    mainSphere[i] = Instantiate(main, new Vector3(11f, 0f, 0), Quaternion.identity);
+                    mainSphere[i] = Instantiate(main, new Vector3(9f, 0f, 0), Quaternion.identity);
                     break;
 
             }
@@ -618,7 +618,7 @@ public class Isha_Singlshot : MonoBehaviour
     void ClearCheck()
     {
 
-        TimerCS.timeCount += 2.0f * ComboCS.comboCount;
+        TimerCS.timeCount += 3.0f * ComboCS.comboCount;
         ComboCS.comboCount += 1;
         Debug.Log(ComboCS.comboCount);
         ColorChange();

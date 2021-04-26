@@ -86,7 +86,7 @@ Material:
     - _BumpScale: 5
     - _CityLightIntensity: 0
     - _CloudMapSpecularity: 0.02
-    - _CloudPanSpeed: 0.55
+    - _CloudPanSpeed: 0
     - _Cutoff: 0.5
     - _DetailMapSpecularity: -0.94
     - _DetailNormalMapScale: 1

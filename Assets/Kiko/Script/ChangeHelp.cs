@@ -3,17 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 //追加↓
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ChangeHelp : MonoBehaviour
 {
+    // eventSystemを取得するための変数宣言
+    [SerializeField] EventSystem eventSystem;
 
+    //画像差し替え用変数
     public Image image;
     private Sprite sprite;
+
+
+    //各ステージのタグ格納変数
+    [SerializeField] GameObject TYPE_A;
+    [SerializeField] GameObject TYPE_B;
+    [SerializeField] GameObject TYPE_C;
+
+
 
 
     // Use this for initialization
     void Start()
     {
+
 
     }
 
@@ -22,7 +35,7 @@ public class ChangeHelp : MonoBehaviour
     {
         //カーソルが
         // TYPE_A選択中の間Help_Aを表示する
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (eventSystem.currentSelectedGameObject.gameObject == TYPE_A)
         {
             sprite = Resources.Load<Sprite>("Help_A");
             image = this.GetComponent<Image>();
@@ -30,7 +43,7 @@ public class ChangeHelp : MonoBehaviour
         }
 
         // TYPE_B選択中の間Help_Bを表示する
-        if (Input.GetKeyDown(KeyCode.Y))
+        if (eventSystem.currentSelectedGameObject.gameObject == TYPE_B)
         {
             sprite = Resources.Load<Sprite>("Help_B");
             image = this.GetComponent<Image>();
@@ -38,7 +51,7 @@ public class ChangeHelp : MonoBehaviour
         }
 
         // TYPE_A選択中の間Help_Aを表示する
-        if (Input.GetKeyDown(KeyCode.X))
+        if (eventSystem.currentSelectedGameObject.gameObject == TYPE_C)
         {
             sprite = Resources.Load<Sprite>("Help_C");
             image = this.GetComponent<Image>();

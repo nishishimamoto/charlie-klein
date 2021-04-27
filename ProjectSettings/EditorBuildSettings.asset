@@ -33,10 +33,10 @@ EditorBuildSettings:
     path: Assets/zuna/zuna/zuna2.unity
     guid: d45594cd1d743544397aa4d00bf3bd42
   - enabled: 0
-    path: Assets/Script/Tatsuki929/tatsuki01.unity
+    path: Assets/nishi/test3/Script/Tatsuki929/tatsuki01.unity
     guid: b4b8bf04b978d04488e517aa3206a387
   - enabled: 0
-    path: Assets/Script/Tatsuki929/tatsuki02.unity
+    path: Assets/nishi/test3/Script/Tatsuki929/tatsuki02.unity
     guid: bc14fe5be19dce346ba3b41dce219b5b
   - enabled: 0
     path: Assets/ishadou/ishadou1.unity

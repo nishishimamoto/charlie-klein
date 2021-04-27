@@ -98,10 +98,10 @@ public class test2 : MonoBehaviour
     [SerializeField] GameObject side;
     [SerializeField] bool[] isPlanet = new bool[mainPanel];
 
-    int[,] satelmap = new int[6, 7] { {  0,  1,  1,  1,  8, 32, 32 }, 
-                                      {  0,  1,  8,  8,  8,128, 32 }, 
+    int[,] satelmap = new int[6, 7] { {  0,  1,  1,  1,  8, 32, 32 },
+                                      {  0,  1,  8,  8,  8,128, 32 },
                                       {  0, 32, 32,  8,128,128, 32 },
-                                      {  0,128, 32, 32,  1,128,128 }, 
+                                      {  0,128, 32, 32,  1,128,128 },
                                       {  0,128, 32,  1,  1,  1,  8 },
                                       {  0,128,128,  1,  8,  8,  8 } };
 
@@ -112,12 +112,12 @@ public class test2 : MonoBehaviour
                                         { 32, 128 }, { 128, 32 } };
 
 
-                                        //{ 32, 128 }, { 128, 32 },
-                                        //{ 32, 128 }, { 128, 32 },
-                                        //{ 32, 128 }, { 128, 32 },
-                                        //{ 32, 128 }, { 128, 32 },
-                                        //{ 32, 128 }, { 128, 32 } };
-public static string oldSceneName;  //リザルトから戻る用
+    //{ 32, 128 }, { 128, 32 },
+    //{ 32, 128 }, { 128, 32 },
+    //{ 32, 128 }, { 128, 32 },
+    //{ 32, 128 }, { 128, 32 },
+    //{ 32, 128 }, { 128, 32 } };
+    public static string oldSceneName;  //リザルトから戻る用
 
     // Start is called before the first frame update
     void Start()
@@ -133,7 +133,7 @@ public static string oldSceneName;  //リザルトから戻る用
 
         //}
 
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             mainSphere[i] = Instantiate(main, new Vector3(7.7f, 3.5f + (-1.5f * i), 0), Quaternion.identity);
             mainNumber[i] = mainColorNumber[i];
@@ -198,7 +198,7 @@ public static string oldSceneName;  //リザルトから戻る用
                     sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
-                    
+
                 }
             }
             else if (i > 0 && i % 7 == 0) //最左列のとき
@@ -217,7 +217,7 @@ public static string oldSceneName;  //リザルトから戻る用
                     sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
-                    
+
                 }
             }
             else if (i > 6 && i % 7 == 6)   //最右列のとき
@@ -236,7 +236,7 @@ public static string oldSceneName;  //リザルトから戻る用
                     sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
-                 
+
                 }
             }
             else if (i > 35 && i < 41)  //最下行の時
@@ -279,7 +279,8 @@ public static string oldSceneName;  //リザルトから戻る用
 
         for (int i = 0; i < sidePanel; i++)
         {
-            if (i%7!=0) {
+            if (i % 7 != 0)
+            {
                 if (i < 7) sideNumber[i] = satelmap[0, i];
                 else if (i < 14) sideNumber[i] = satelmap[1, i % 7];
                 else if (i < 21) sideNumber[i] = satelmap[2, i % 14];
@@ -368,7 +369,7 @@ public static string oldSceneName;  //リザルトから戻る用
                 sideNumber[(check / (width - 1)) + check] = nextSatel[0, 0];
                 sideNumber[(check / (width - 1)) + check + width] = nextSatel[0, 1];
                 sideNumber[(check / (width - 1)) + check + 1] = nextSatel[1, 0];
-                sideNumber[(check / (width - 1)) + check + width + 1]=nextSatel[1, 1];
+                sideNumber[(check / (width - 1)) + check + width + 1] = nextSatel[1, 1];
 
                 for (int i = 0; i <= 6; i += 2)
                 {
@@ -385,9 +386,9 @@ public static string oldSceneName;  //リザルトから戻る用
                     }
                 }
 
-                    //mainColorNum += mainNumber[check];  //[0]^[3]合計を得る草
+                //mainColorNum += mainNumber[check];  //[0]^[3]合計を得る草
 
-                    rainbowRand[rainbowTarget] = check; //条件を満たした惑星の位置を把握しておく
+                rainbowRand[rainbowTarget] = check; //条件を満たした惑星の位置を把握しておく
                 rainbowTarget += 1;
 
                 //if (isAddScore)
@@ -419,11 +420,11 @@ public static string oldSceneName;  //リザルトから戻る用
 
                 b_t = 1;
 
-                
+
             }
-            else if (b_t<5 && b_t>0)
+            else if (b_t < 5 && b_t > 0)
             {
-                bravo_Time += Time.deltaTime*3;
+                bravo_Time += Time.deltaTime * 3;
                 if (b_t == 4 && bravo_Time > 1.5f)
                 {
                     ExplosionCS.particle[(check / (width - 1)) + check + width + 1].Play(); //条件を満たした惑星が爆発
@@ -451,12 +452,12 @@ public static string oldSceneName;  //リザルトから戻る用
                     ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
                     b_t = 2;
                 }
-                
+
                 Invoke("ClearCheck", 0.2f); //クリア条件を満たしたかチェック
                 ColorChange();   //パネルの色変更
-                
+
             }
-            
+
         }
         else if (check > (mainPanel - 1))    //最後に盤面を変える
         {
@@ -629,7 +630,7 @@ public static string oldSceneName;  //リザルトから戻る用
                                 addScoreCount += 1;
                                 addOrLoss[i] = 1;
                                 if (targetNum[0] > 0) targetNum[0] -= 1;
-                                targetText[0].text =  "x " + targetNum[0];
+                                targetText[0].text = "x " + targetNum[0];
                             }
                             else if (mainNumber[1] == sideNumber[(i / (width - 1)) + i + width] * 4) //色を満たした
                             {
@@ -735,7 +736,7 @@ public static string oldSceneName;  //リザルトから戻る用
         //        break;
         //    default:
         //        break;
-    //}
+        //}
 
         for (int i = 0; i < sidePanel; i++)
         {
@@ -927,7 +928,7 @@ public static string oldSceneName;  //リザルトから戻る用
             if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
             Result();   //リザルトに遷移
         }
-       
+
 
         //if (TimerCS.timeCount <= 0f) //Xか制限時間でターン終了
         //{
@@ -985,7 +986,7 @@ public static string oldSceneName;  //リザルトから戻る用
             for (int i = 0; i < sidePanel; i++)
             {
 
-                if(sideNumber[i] * 4 == mainNumber[0])
+                if (sideNumber[i] * 4 == mainNumber[0])
                 {
                     checkColorNum += 1;
                 }
@@ -1002,7 +1003,7 @@ public static string oldSceneName;  //リザルトから戻る用
 
     void ClearCheck()
     {
-        
+
         if (targetNum[0] <= 0 && targetNum[1] <= 0 && targetNum[2] <= 0 && targetNum[3] <= 0)
         {
             gameClear.SetActive(true);

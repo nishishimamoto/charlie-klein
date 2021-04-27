@@ -94,6 +94,10 @@ public class test2 : MonoBehaviour
     public Texture NormalmapTexture;
     float bravo_Time = 0f;
 
+    public int[] targetMax = new int[4];
+    public static int TurnMax;
+    public int TurnMAX=20;
+
     [SerializeField] GameObject main;
     [SerializeField] GameObject side;
     [SerializeField] bool[] isPlanet = new bool[mainPanel];
@@ -133,11 +137,13 @@ public class test2 : MonoBehaviour
 
         //}
 
+        TurnMax = TurnMAX;
+
         for (int i = 0; i < 4; i++)
         {
             mainSphere[i] = Instantiate(main, new Vector3(7.7f, 3.5f + (-1.5f * i), 0), Quaternion.identity);
             mainNumber[i] = mainColorNumber[i];
-            targetNum[i] = 3;
+            targetNum[i] = targetMax[i];
             targetText[i].text = "x " + targetNum[i];
         }
 
@@ -277,18 +283,18 @@ public class test2 : MonoBehaviour
         }
 
 
-        for (int i = 0; i < sidePanel; i++)
-        {
-            if (i % 7 != 0)
-            {
-                if (i < 7) sideNumber[i] = satelmap[0, i];
-                else if (i < 14) sideNumber[i] = satelmap[1, i % 7];
-                else if (i < 21) sideNumber[i] = satelmap[2, i % 14];
-                else if (i < 28) sideNumber[i] = satelmap[3, i % 21];
-                else if (i < 35) sideNumber[i] = satelmap[4, i % 28];
-                else if (i < 42) sideNumber[i] = satelmap[5, i % 35];
-            }
-        }
+        //for (int i = 0; i < sidePanel; i++)
+        //{
+        //    if (i % 7 != 0)
+        //    {
+        //        if (i < 7) sideNumber[i] = satelmap[0, i];
+        //        else if (i < 14) sideNumber[i] = satelmap[1, i % 7];
+        //        else if (i < 21) sideNumber[i] = satelmap[2, i % 14];
+        //        else if (i < 28) sideNumber[i] = satelmap[3, i % 21];
+        //        else if (i < 35) sideNumber[i] = satelmap[4, i % 28];
+        //        else if (i < 42) sideNumber[i] = satelmap[5, i % 35];
+        //    }
+        //}
         //sideNumber[7] = satelmap[0, 0];
         //Debug.Log(sideNumber[7]);
 
@@ -306,6 +312,7 @@ public class test2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        TurnMax = TurnMAX;
         if (!PauseCS.isPause)
         {
             if (!alpha_Flg)
@@ -366,25 +373,25 @@ public class test2 : MonoBehaviour
                 sideNumber[(check / (width - 1)) + check + width + 1] = sideColorNumber[Random.Range(0, 4)];
                 sideNumber[(check / (width - 1)) + check + width] = sideColorNumber[Random.Range(0, 4)];
 
-                sideNumber[(check / (width - 1)) + check] = nextSatel[0, 0];
-                sideNumber[(check / (width - 1)) + check + width] = nextSatel[0, 1];
-                sideNumber[(check / (width - 1)) + check + 1] = nextSatel[1, 0];
-                sideNumber[(check / (width - 1)) + check + width + 1] = nextSatel[1, 1];
+                //sideNumber[(check / (width - 1)) + check] = nextSatel[0, 0];
+                //sideNumber[(check / (width - 1)) + check + width] = nextSatel[0, 1];
+                //sideNumber[(check / (width - 1)) + check + 1] = nextSatel[1, 0];
+                //sideNumber[(check / (width - 1)) + check + width + 1] = nextSatel[1, 1];
 
-                for (int i = 0; i <= 6; i += 2)
-                {
-                    nextSatel[i, 0] = nextSatel[i + 2, 0];
-                    nextSatel[i, 1] = nextSatel[i + 2, 1];
-                    nextSatel[i + 1, 0] = nextSatel[i + 2 + 1, 0];
-                    nextSatel[i + 1, 1] = nextSatel[i + 2 + 1, 1];
-                    if (i == 6)
-                    {
-                        nextSatel[8, 0] = sideColorNumber[Random.Range(0, 4)];
-                        nextSatel[8, 1] = sideColorNumber[Random.Range(0, 4)];
-                        nextSatel[9, 0] = sideColorNumber[Random.Range(0, 4)];
-                        nextSatel[9, 1] = sideColorNumber[Random.Range(0, 4)];
-                    }
-                }
+                //for (int i = 0; i <= 6; i += 2)
+                //{
+                //    nextSatel[i, 0] = nextSatel[i + 2, 0];
+                //    nextSatel[i, 1] = nextSatel[i + 2, 1];
+                //    nextSatel[i + 1, 0] = nextSatel[i + 2 + 1, 0];
+                //    nextSatel[i + 1, 1] = nextSatel[i + 2 + 1, 1];
+                //    if (i == 6)
+                //    {
+                //        nextSatel[8, 0] = sideColorNumber[Random.Range(0, 4)];
+                //        nextSatel[8, 1] = sideColorNumber[Random.Range(0, 4)];
+                //        nextSatel[9, 0] = sideColorNumber[Random.Range(0, 4)];
+                //        nextSatel[9, 1] = sideColorNumber[Random.Range(0, 4)];
+                //    }
+                //}
 
                 //mainColorNum += mainNumber[check];  //[0]^[3]合計を得る草
 
@@ -909,7 +916,7 @@ public class test2 : MonoBehaviour
 
     void TurnEnd()
     {
-        if (TurnCS.nowTurn < 21)
+        if (TurnCS.nowTurn < (TurnMax+1))
         {
             if ((Input.GetButtonDown("LB") || Input.GetButtonDown("RB") || TimerCS.timeOut) && TimerCS.countStart == true) //Xか制限時間でターン終了
             {
@@ -1009,7 +1016,7 @@ public class test2 : MonoBehaviour
             gameClear.SetActive(true);
             Invoke("Result", 3.0f);
         }
-        else if (TurnCS.nowTurn >= 20)
+        else if (TurnCS.nowTurn >= TurnMax)
         {
             gameOver.SetActive(true);
             Invoke("Result", 3.0f);

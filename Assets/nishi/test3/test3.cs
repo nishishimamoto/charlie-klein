@@ -111,6 +111,8 @@ public class test3 : MonoBehaviour
     bool isLifeSECheck;
     bool is5countSE;
     bool isBomSE;
+    bool isBomFlg;
+    float bomChangeTime = 0;
     bool isOneMassSE;
 
     // Start is called before the first frame update
@@ -161,28 +163,32 @@ public class test3 : MonoBehaviour
                     }
                     else if (TurnCS.isTurnStart)
                     {
-                        if (!TimerCS.countStart)
+                        if (!isBomFlg)
                         {
-                            TimeReSet();    //スコアに応じてタイムのリセット
-                            ThinkingCS.ThinkingTime(); //n秒で強制的にスタートさせる
-                            if (ThinkingCS.thinkingTime <= 0)
+                            if (!TimerCS.countStart)
                             {
-                                Test3SECS.audioSource.PlayOneShot(Test3SECS.thinkingSE);
-                                TimerCS.countStart = true;
-                                thinkingObjects.SetActive(false);
+                                TimeReSet();    //スコアに応じてタイムのリセット
+                                ThinkingCS.ThinkingTime(); //n秒で強制的にスタートさせる
+                                if (ThinkingCS.thinkingTime <= 0)
+                                {
+                                    Test3SECS.audioSource.PlayOneShot(Test3SECS.thinkingSE);
+                                    TimerCS.countStart = true;
+                                    thinkingObjects.SetActive(false);
+                                }
                             }
-                        }
-                        if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
-                        else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
-                                                                                   //PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
-                        PointBlinking();            //4つ揃ったときの点滅
-                                                    //ColorChange();              //パネルの色変更
-                        if (BomCS.bomGauge == BomCS.maxBomGauge) Bom();
-                        TimerCS.TimerCount();       //制限時間のカウントと表示
-                        TurnEnd();                  //ターン終了時の処理
+                            if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
+                            else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
+                                                                                       //PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
+                            PointBlinking();            //4つ揃ったときの点滅
+                                                        //ColorChange();              //パネルの色変更
+                            TimerCS.TimerCount();       //制限時間のカウントと表示
+                            TurnEnd();                  //ターン終了時の処理
 
-                        //SelectImageMove();  //現在選んでいるパネルの可視化 ここで呼ぶ
-                        cursorSelectCS.SelectImageMove(chooseMain);
+                            //SelectImageMove();  //現在選んでいるパネルの可視化 ここで呼ぶ
+                            cursorSelectCS.SelectImageMove(chooseMain);
+
+                        }
+                        Bom();  //ボムの処理
                     }
                     LifeDisplay();
                 }
@@ -936,39 +942,68 @@ public class test3 : MonoBehaviour
     void Bom()
     {
         if (Input.GetButtonDown("B"))
+            if (BomCS.bomGauge == BomCS.maxBomGauge) isBomFlg = true;
+
+        if (isBomFlg)
         {
-            for(int i = 0; i < sidePanel; i++)  //各衛星がいくつあるか調べる
+            if (bomChangeTime <= 0) //1回だけよばれる
             {
-                if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[0]) numberChange[0] += 1;
-                else if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[1]) numberChange[1] += 1;
-                else if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[2]) numberChange[2] += 1;
-            }
-
-            //それぞれの量を比べてどれが一番と二番に大きいか見る
-            for (int i = 0; i < colorNum; i++)
-            {
-                if (manyNumber[0] < numberChange[i])
+                for (int i = 0; i < sidePanel; i++)  //各衛星がいくつあるか調べる
                 {
-                    manyNumber[1] = manyNumber[0];
-                    manyNumber[0] = numberChange[i];
-                    manyColor[1] = manyColor[0];
-                    manyColor[0] = sideColorNumber[i];
+                    if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[0]) numberChange[0] += 1;
+                    else if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[1]) numberChange[1] += 1;
+                    else if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[2]) numberChange[2] += 1;
                 }
-                else if (manyNumber[1] < numberChange[i])
+
+                //それぞれの量を比べてどれが一番と二番に大きいか見る
+                for (int i = 0; i < colorNum; i++)
                 {
-                    manyNumber[1] = numberChange[i];
-                    manyColor[1] = sideColorNumber[i];
+                    if (manyNumber[0] < numberChange[i])
+                    {
+                        manyNumber[1] = manyNumber[0];
+                        manyNumber[0] = numberChange[i];
+                        manyColor[1] = manyColor[0];
+                        manyColor[0] = sideColorNumber[i];
+                    }
+                    else if (manyNumber[1] < numberChange[i])
+                    {
+                        manyNumber[1] = numberChange[i];
+                        manyColor[1] = sideColorNumber[i];
+                    }
                 }
             }
 
-            for (int i = 0; i < sidePanel; i++)
-            {
-                if (sideSphere[i] != null && sideNumber[i] == manyColor[1]) sideNumber[i] = manyColor[0];
-            }
+            bomChangeTime += Time.deltaTime;
 
-            ColorChange();
-            BomCS.bomGauge = 0;
-            isBomSE = false;
+            if (bomChangeTime < 0.8f)  //膨らんでしぼむ演出
+            {
+                for (int i = 0; i < sidePanel; i++)
+                {
+                    if (sideSphere[i] != null && sideNumber[i] == manyColor[1] && bomChangeTime <= 0.3f)
+                    panelAnim[i].transform.localScale = new Vector3(1 + (0.3f * bomChangeTime * 4), 1 + (0.3f * bomChangeTime * 4), 1 + (0.3f * bomChangeTime * 4));
+                    else if (sideSphere[i] != null && sideNumber[i] == manyColor[1] && bomChangeTime >= 0.7f)
+                    panelAnim[i].transform.localScale = new Vector3(1.4f - (0.3f * bomChangeTime * 3), 1.4f - (0.3f * bomChangeTime * 3), 1.4f - (0.3f * bomChangeTime * 3));
+                }
+            }
+            else if (bomChangeTime >= 0.8f)
+            {
+                for (int i = 0; i < sidePanel; i++)
+                {
+                    if (sideSphere[i] != null && sideNumber[i] == manyColor[1])
+                    {
+                        sideNumber[i] = manyColor[0];
+                        panelAnim[i].transform.localScale = new Vector3(1, 1, 1);
+                    }
+                }
+
+                ColorChange();
+                BomCS.bomGauge = 0;
+                bomChangeTime = 0;
+                manyNumber[0] = 0;
+                manyNumber[1] = 1;
+                isBomSE = false;
+                isBomFlg = false;
+            }
         }
     }
 

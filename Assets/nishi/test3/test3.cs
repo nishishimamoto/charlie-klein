@@ -649,6 +649,7 @@ public class test3 : MonoBehaviour
                             sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
 
                             MassBoxCS.isBox[i] = true;
+                            MassBoxCS.massColor[i] = sideNumber[(i / (width - 1)) + i + width];
                             isMass = true;
                             if (!MassBoxCS.isMassSE[i])
                             {

@@ -8,6 +8,7 @@ public class MassBox : MonoBehaviour
     GameObject[] boxSprite;
     public bool[] isBox;
     public bool[] isMassSE;
+    public int[] massColor;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +26,7 @@ public class MassBox : MonoBehaviour
         boxSprite = new GameObject[main];
         isBox = new bool [main];
         isMassSE = new bool[main];
+        massColor = new int[main];
 
         for (int i = 0; i < main; i++)
         {
@@ -39,6 +41,7 @@ public class MassBox : MonoBehaviour
         {
             if (isBox[i] && !boxSprite[i].activeSelf) boxSprite[i].SetActive(true);
             else if (!isBox[i] && boxSprite[i].activeSelf) boxSprite[i].SetActive(false);
+            MassColorChange(i); //色を変える
         }
     }
 
@@ -49,6 +52,27 @@ public class MassBox : MonoBehaviour
             boxSprite[i].SetActive(false);
             isBox[i] = false;
             isMassSE[i] = false;
+        }
+    }
+
+    void MassColorChange(int i)
+    {
+        switch (massColor[i])
+        {
+            case 1:
+                if(boxSprite[i].GetComponent<SpriteRenderer>().color != Color.cyan) boxSprite[i].GetComponent<SpriteRenderer>().color = Color.cyan;
+                break;
+            case 8:
+                if (boxSprite[i].GetComponent<SpriteRenderer>().color != Color.red) boxSprite[i].GetComponent<SpriteRenderer>().color = Color.red;
+                break;
+            case 32:
+                if (boxSprite[i].GetComponent<SpriteRenderer>().color != Color.yellow) boxSprite[i].GetComponent<SpriteRenderer>().color = Color.yellow;
+                break;
+            case 128:
+                if (boxSprite[i].GetComponent<SpriteRenderer>().color != Color.blue) boxSprite[i].GetComponent<SpriteRenderer>().color = Color.blue;
+                break;
+            default:
+                break;
         }
     }
 }

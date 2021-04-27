@@ -53,8 +53,8 @@ public class test3timer : MonoBehaviour
 
     void ChangeSliderColor()
     {
-        if (timeCount <= 5 && timerSlider.color == Color.yellow) timerSlider.color = Color.red;
-        else if (timeCount <= 10 && timerSlider.color == Color.white) timerSlider.color = Color.yellow;
-        else if (timeCount > 10 && timerSlider.color != Color.white) timerSlider.color = Color.white;
+        if (timeCount <= 5 && timerSlider.color != Color.red) timerSlider.color = Color.red;
+        else if (timeCount <= 10 && timeCount > 5 && timerSlider.color != Color.yellow) timerSlider.color = Color.yellow;
+        else if (timeCount > 10 && timerSlider.color != new Color32(0, 255, 255, 170)) timerSlider.color = new Color32(0, 255, 255, 170);
     }
 }

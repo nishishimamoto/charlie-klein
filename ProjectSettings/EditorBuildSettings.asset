@@ -48,7 +48,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Result.unity
     guid: 11558175410157d44bebcfa040765c70
   - enabled: 0
-    path: Assets/nishi/teststages/Test2.unity
+    path: 
     guid: 1ff48a64954fdcf41a2843265bcc94a0
   - enabled: 1
     path: Assets/MasterScene/MasterResult.unity
@@ -71,4 +71,37 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/zuna/zuna/Test2.unity
     guid: 602159092c8f8df4ea01f0889dcb561f
+  - enabled: 1
+    path: Assets/zuna/zuna/ZunaScene/Zuna_StageSelect.unity
+    guid: 903f9d11c9ebc7c42a81d98a896882e1
+  - enabled: 1
+    path: Assets/zuna/zuna/ZunaScene/Z_1.unity
+    guid: 559639eb5f87f284894ec4aea0011642
+  - enabled: 1
+    path: Assets/zuna/zuna/ZunaScene/Z_2.unity
+    guid: e7e44a1989f2926468f52e44575f788a
+  - enabled: 1
+    path: Assets/zuna/zuna/ZunaScene/Z_3.unity
+    guid: 2b42f0c320316c447a49bb043d73909f
+  - enabled: 1
+    path: Assets/zuna/zuna/ZunaScene/Z_4.unity
+    guid: 92c3aea1fcab4e44e9e8835edde488c9
+  - enabled: 1
+    path: Assets/zuna/zuna/ZunaScene/Z_5.unity
+    guid: eb926f100bfcce04ca9d0f7737c4a0ed
+  - enabled: 1
+    path: Assets/zuna/zuna/ZunaScene/Z_6.unity
+    guid: 8164fa0b698a88c4696b40244e732f78
+  - enabled: 1
+    path: Assets/zuna/zuna/ZunaScene/Z_7.unity
+    guid: a26e4f9f78121ac4fac39698aceeaa0e
+  - enabled: 1
+    path: Assets/zuna/zuna/ZunaScene/Z_8.unity
+    guid: 6bf7e7410715a244f9f1e57405938981
+  - enabled: 1
+    path: Assets/zuna/zuna/ZunaScene/Z_9.unity
+    guid: b4f0d649cb64c5e46a59fc80977f1609
+  - enabled: 1
+    path: Assets/zuna/zuna/ZunaScene/Z_10.unity
+    guid: 21618d7794b6e88428920b993b525010
   m_configObjects: {}

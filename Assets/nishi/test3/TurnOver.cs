@@ -34,7 +34,7 @@ public class TurnOver : MonoBehaviour
 
         lifeBeat = Mathf.Sin(Mathf.PI * beatSpeed * Time.time); //sin波取得 点滅
         transform.localScale = new Vector3(1 + (Mathf.Abs(lifeBeat) / 8), 1 + (Mathf.Abs(lifeBeat) / 8), 1);
-        satelite.transform.localScale = new Vector3(1 + (Mathf.Abs(lifeBeat) / 8), 1 + (Mathf.Abs(lifeBeat) / 8), 1);
+        satelite.transform.localScale = new Vector3(1 + (Mathf.Abs(lifeBeat) / 8), 1 + (Mathf.Abs(lifeBeat) / 8), 1 + (Mathf.Abs(lifeBeat) / 8));
 
     }
 

@@ -7,6 +7,7 @@ public class MassBox : MonoBehaviour
     [SerializeField] GameObject massSprite;
     GameObject[] boxSprite;
     public bool[] isBox;
+    public bool[] isMassSE;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,7 @@ public class MassBox : MonoBehaviour
     {
         boxSprite = new GameObject[main];
         isBox = new bool [main];
+        isMassSE = new bool[main];
 
         for (int i = 0; i < main; i++)
         {
@@ -46,6 +48,7 @@ public class MassBox : MonoBehaviour
         {
             boxSprite[i].SetActive(false);
             isBox[i] = false;
+            isMassSE[i] = false;
         }
     }
 }

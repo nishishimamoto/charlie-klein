@@ -17,6 +17,7 @@ public class test3 : MonoBehaviour
     [SerializeField] Thinking ThinkingCS;
     [SerializeField] Bom BomCS;
     [SerializeField] MassBox MassBoxCS;
+    [SerializeField] Test3SE Test3SECS;
 
     const int mainPanel = 30;    //メインパネルの数
     const int sidePanel = 42;    //サイドパネルの数
@@ -106,6 +107,11 @@ public class test3 : MonoBehaviour
     float alphaDerayTime = 0;
     bool isAlphaLast;
     bool isMass;
+    bool isLifeSE;
+    bool isLifeSECheck;
+    bool is5countSE;
+    bool isBomSE;
+    bool isOneMassSE;
 
     // Start is called before the first frame update
     void Start()
@@ -147,7 +153,11 @@ public class test3 : MonoBehaviour
                     {
                         LifeLimmit();   //寿命0の衛星があったらリザルトに飛ぶ
                         TurnCS.GameStart();
-                        if (!gameFinish) SphereCreate(); //消した衛星の表示
+                        if (!gameFinish)
+                        {
+                            TurnSE();
+                            SphereCreate(); //消した衛星の表示
+                        }
                     }
                     else if (TurnCS.isTurnStart)
                     {
@@ -157,6 +167,7 @@ public class test3 : MonoBehaviour
                             ThinkingCS.ThinkingTime(); //n秒で強制的にスタートさせる
                             if (ThinkingCS.thinkingTime <= 0)
                             {
+                                Test3SECS.audioSource.PlayOneShot(Test3SECS.thinkingSE);
                                 TimerCS.countStart = true;
                                 thinkingObjects.SetActive(false);
                             }
@@ -219,6 +230,8 @@ public class test3 : MonoBehaviour
                     addOrLoss[check] = 9;
                 }
                 if (ComboCS.comboCount > 0) ComboCS.BoardCombo(check); //爆破箇所にコンボのパネル
+                if (ComboCS.comboCount <= 15) Test3SECS.audioSource.pitch = 1 + (0.1f * ComboCS.comboCount);
+                Test3SECS.audioSource.PlayOneShot(Test3SECS.comboSE);   //コンボカウントのSE
                 check += 1;
             }
         }
@@ -245,9 +258,9 @@ public class test3 : MonoBehaviour
                 if (!isAlphaLast)
                 {
                     AlphaFlgDeray();
-                    ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
-                    if (ComboCS.comboCount >= 5) ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
-                    if (ComboCS.comboCount >= 9) ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                    if (ComboCS.comboCount >= 13) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion2SE);
+                    else if (ComboCS.comboCount >= 6) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion1SE);
+                    else ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
                     isAlphaLast = true;
 
                     for (int i = 0; i < mainPanel; i++)
@@ -556,10 +569,19 @@ public class test3 : MonoBehaviour
         ComboCS.comboCount += 1;
         addScoreCount -= 1;
         BomCS.bomGauge += 100 + (50 * ComboCS.comboCount);
+        if (!isBomSE && BomCS.bomGauge >= BomCS.maxBomGauge)
+        {
+            Test3SECS.audioSource.PlayOneShot(Test3SECS.bomChargeSE);
+            isBomSE = true;
+        }
     }
     void TurnEnd()
     {
-
+        if (TimerCS.timeCount <= 5 && !is5countSE)
+        {
+            Test3SECS.audioSource.PlayOneShot(Test3SECS.timerSE);
+            is5countSE = true;
+        }
         if ((Input.GetButtonDown("A") || TimerCS.timeCount <= 0) && TimerCS.countStart == true) //Aか制限時間でターン終了
         {
             //時間が１になってしまうので０にしてテキスト更新
@@ -574,11 +596,14 @@ public class test3 : MonoBehaviour
             ComboCS.comboCount = 0; //コンボカウントリセット
             LifeDown(); //衛星の寿命を縮める
             ThinkingCS.thinkingTime = maxThinkingTime;
-            //thinkingObjects.SetActive(true);
+            thinkingObjects.SetActive(true);
             TurnCS.turn += 1;
             TurnCS.isTurnStart = false;
             lightTime = 8;
-
+            Test3SECS.audioSource.Stop();   //タイマーが途中だったら止める
+            is5countSE = false;
+            isLifeSE = false;
+            isLifeSECheck = false;
             //TurnCS.TurnCount();        //経過ターンの更新表示
         }
         //else
@@ -625,11 +650,15 @@ public class test3 : MonoBehaviour
 
                             MassBoxCS.isBox[i] = true;
                             isMass = true;
+                            if (!MassBoxCS.isMassSE[i])
+                            {
+                                MassBoxCS.isMassSE[i] = true;
+                                isOneMassSE = true;
+                            }
                         }
                         else isMass = false;
                     }else isMass = false;
                 }else isMass = false;
-
 
                 if (!isMass && MassBoxCS.isBox[i])
                 {
@@ -639,10 +668,16 @@ public class test3 : MonoBehaviour
                     sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6);
 
                     MassBoxCS.isBox[i] = false;
+                    MassBoxCS.isMassSE[i] = false;
                 }
 
                 judgNum = 0;
             }
+        }
+        if (isOneMassSE)
+        {
+            Test3SECS.audioSource.PlayOneShot(Test3SECS.massSE);
+            isOneMassSE = false;
         }
     }
 
@@ -703,11 +738,17 @@ public class test3 : MonoBehaviour
             if (TurnOverCS[i] != null && TurnOverCS[i].lifeSpan == 0 && TurnCS.turn > 2)
             {
                 sideSphere[i].transform.Translate(0f, 0f, -1);
-                if (!gameOverVeil.activeSelf) gameOverVeil.SetActive(true);
+                if (!gameOverVeil.activeSelf)
+                {
+                    gameOverVeil.SetActive(true);
+                    Test3SECS.audioSource.PlayOneShot(Test3SECS.gameOverSE);
+                }
                 if(!gameOverText.activeSelf) gameOverText.SetActive(true);
                 //Invoke("Result", 0.5f);
                 gameFinish = true;
             }
+            //寿命が尽きそうな衛星があったらSE
+            if (TurnOverCS[i] != null && TurnOverCS[i].lifeSpan == 1 && !isLifeSECheck) isLifeSE = true;
         }
     }
 
@@ -882,50 +923,13 @@ public class test3 : MonoBehaviour
 
     void AlphaFlgDeray()
     {
-        //for (int i = 0; i < mainPanel; i++)
-        //{
-        //    if (flgCheck[i])
-        //    {
-
-        //        //ランダムな数値にいれかえ
-        //        mainNumber[i] = mainColorNumber[Random.Range(0, 2)];
-        //        //mainNumber[i] = mainColorNumber[0];
-        //        sideNumber[(i / 3) + i] = sideColorNumber[Random.Range(0, 2)];
-        //        sideNumber[(i / 3) + i + 1] = sideColorNumber[Random.Range(0, 2)];
-        //        sideNumber[(i / 3) + i + 5] = sideColorNumber[Random.Range(0, 2)];
-        //        sideNumber[(i / 3) + i + 4] = sideColorNumber[Random.Range(0, 2)];
-
-        //        rainbowRand[rainbowTarget] = i; //条件を満たした惑星の位置を把握しておく
-        //        rainbowTarget += 1;
-        //    }
-        //    mainColorNum += mainNumber[i];  //[0]^[3]合計を得る
-        //}
-
-        //if (ComboCS.comboCount >= 3 && !rainbow) //条件を満たした惑星のどこかに3コンボ以上で虹惑星を１つだす 草
-        //{
-        //    int i = rainbowRand[Random.Range(0, ComboCS.comboCount)];
-        //    rainbow = true;
-        //    sideNumber[i / (width - 1) + i + rainbowNumber[Random.Range(0, 4)]] = sideColorNumber[2];
-        //}
-
-        //for (int j = 0; j < 4; j++)  //[0]^[9]の合計と色*4を見る { 4, 32, 128, 512}草
-        //{
-        //    while (mainColorNum == (mainColorNumber[j] * mainPanel))  //9色同じだったら処理を繰り返す
-        //    {
-        //        mainColorNum = 0;   //一度numを0にし
-        //        for (int f = 0; f < mainPanel; f++)
-        //        {
-        //            if (flgCheck[f]) mainNumber[f] = mainColorNumber[Random.Range(0, 2)]; //消したマスをランダムな色に変えて
-        //            mainColorNum += mainNumber[f];       //もう一度[0]^[9]の合計を得る
-        //        }
-        //    }
-        //}
         Bonus();    //ボーナスパネル設定
                     //for (int f = 0; f < mainPanel; f++) flgCheck[f] = false; //念のため別のforでfalseにする
         mainColorNum = 0;
         ColorChange();   //パネルの色変更
         rainbow = false;
         rainbowTarget = 0;
+        //Test3SECS.audioSource.pitch = 1;
     }
 
     void Bom()
@@ -963,6 +967,7 @@ public class test3 : MonoBehaviour
 
             ColorChange();
             BomCS.bomGauge = 0;
+            isBomSE = false;
         }
     }
 
@@ -986,6 +991,17 @@ public class test3 : MonoBehaviour
                 turnOver[i].SetActive(true);
             }
         }
+    }
+
+    void TurnSE()
+    {
+        if (!isLifeSECheck)
+        {
+            Test3SECS.audioSource.pitch = 1;
+            if (isLifeSE) Test3SECS.audioSource.PlayOneShot(Test3SECS.lifeSE);
+            else if (!isLifeSE) Test3SECS.audioSource.PlayOneShot(Test3SECS.turnSE);
+        }
+        isLifeSECheck = true;
     }
 }
 

@@ -91,19 +91,19 @@ public class Isha_Singlshot : MonoBehaviour
             {
                 case 0:
                     //左上
-                    mainSphere[i] = Instantiate(main, new Vector3(9f, 2f, 0), Quaternion.identity);
+                    mainSphere[i] = Instantiate(main, new Vector3(7f, 2f, 0), Quaternion.identity);
                     break;
                 case 1:
                     //右上
-                    mainSphere[i] = Instantiate(main, new Vector3(11f, 2f, 0), Quaternion.identity);
+                    mainSphere[i] = Instantiate(main, new Vector3(9f, 2f, 0), Quaternion.identity);
                     break;
                 case 2:
                     //左下
-                    mainSphere[i] = Instantiate(main, new Vector3(9f, 0f, 0), Quaternion.identity);
+                    mainSphere[i] = Instantiate(main, new Vector3(7f, 0f, 0), Quaternion.identity);
                     break;
                 case 3:
                     //右下
-                    mainSphere[i] = Instantiate(main, new Vector3(11f, 0f, 0), Quaternion.identity);
+                    mainSphere[i] = Instantiate(main, new Vector3(9f, 0f, 0), Quaternion.identity);
                     break;
 
             }
@@ -206,6 +206,48 @@ public class Isha_Singlshot : MonoBehaviour
                 }
             }
        }
+
+        //生成された衛星が揃っていないか確認
+        for (int i = 0; i < mainPanel; i++)
+        {
+            if (!isPlanet[i])
+            {
+                if (i >= 1)
+                {
+                    //左が右と同じ色かチェック
+                    if (sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + 1])
+                    {
+                        int numSet = 0;
+                        int numUpSet = 0;
+                        int randSet = Random.Range(0, 4);
+                        
+                        //左が上と同じ色かチェック
+                        if (i >= 6 && sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
+                        {
+                            numSet = sideNumber[(i / (width - 1)) + i - 1];
+                            numUpSet = sideNumber[(i / (width - 1)) + i - width];
+                            sideNumber[(i / (width - 1)) + i] = Random.Range(0, 4);
+                            //左の色の変更
+                            while (numSet == sideNumber[(i / (width - 1)) + i] ||
+                                sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
+                            {
+                                sideNumber[(i / (width - 1)) + i] = Random.Range(0, 4);
+                            }
+                        }
+                        else
+                        {
+                            numSet = sideNumber[(i / (width - 1)) + i - 1];
+                            sideNumber[(i / (width - 1)) + i] = Random.Range(0, 4);
+                            //左の色の変更
+                            while (numSet == sideNumber[(i / (width - 1)) + i])
+                            {
+                                sideNumber[(i / (width - 1)) + i] = Random.Range(0, 4);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         scoreText = Score.GetComponent<Text>();
 
@@ -618,7 +660,7 @@ public class Isha_Singlshot : MonoBehaviour
     void ClearCheck()
     {
 
-        TimerCS.timeCount += 2.0f * ComboCS.comboCount;
+        TimerCS.timeCount += 3.0f * ComboCS.comboCount;
         ComboCS.comboCount += 1;
         Debug.Log(ComboCS.comboCount);
         ColorChange();

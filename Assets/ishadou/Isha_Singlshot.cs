@@ -8,11 +8,12 @@ public class Isha_Singlshot : MonoBehaviour
 {
     [SerializeField] Cursor cursorSelectCS;
     [SerializeField] Turn TurnCS;
-    [SerializeField] Timer TimerCS;
+    [SerializeField] test3timer TimerCS;
     [SerializeField] Combo ComboCS;
     [SerializeField] Explosion ExplosionCS;
     [SerializeField] Pause PauseCS;
     [SerializeField] Image BonusGauge;
+    [SerializeField] GameSE gameSECS;
 
     [SerializeField] Image Needle;
     float needleAngle;
@@ -38,6 +39,9 @@ public class Isha_Singlshot : MonoBehaviour
 
     bool isHorizontal;     //十字キーの左右入力がニュートラルにもどったか
     bool isVertical;    //十字キーの上下入力がニュートラルにもどったか
+
+    bool chargeSE;
+    bool overCS;
 
     //[SerializeField] Image[] sideImage; //サイドスフィアをいれる
     GameObject[] sideSphere = new GameObject[sidePanel]; //サイドスフィアをいれる
@@ -404,6 +408,8 @@ public class Isha_Singlshot : MonoBehaviour
             }
             else
             {
+                gameSECS.audioSource.PlayOneShot(gameSECS.explosion2SE);
+
                 for (int f = 0; f < mainPanel; f++) flgCheck[f] = false; //念のため別のforでfalseにする
                 mainColorNum = 0;
                 ColorChange();   //パネルの色変更
@@ -577,6 +583,11 @@ public class Isha_Singlshot : MonoBehaviour
         if (BonusGauge.fillAmount >= 1)
         {
             BonusText.gameObject.SetActive(true);
+            if (chargeSE == false)
+            {
+                gameSECS.audioSource.PlayOneShot(gameSECS.bomChargeSE);
+                chargeSE = true;
+            }
         }
         else
         {
@@ -599,7 +610,7 @@ public class Isha_Singlshot : MonoBehaviour
                 alpha();
                 BsCnt = 1;
                 TimerCS.countStart = true;
-
+                chargeSE = false;
                 Needle.gameObject.SetActive(false);
                 
                 TheWorld.gameObject.SetActive(false);
@@ -692,10 +703,17 @@ public class Isha_Singlshot : MonoBehaviour
     void TurnEnd()
     {
 
-        if (TimerCS.timeCount <= 0f) //制限時間でゲーム終了
+        if (TimerCS.timeCount <= 5 && !gameSECS.is5countSE)
         {
+            gameSECS.audioSource.PlayOneShot(gameSECS.timerSE);
+            gameSECS.is5countSE = true;
+        }
+        if (TimerCS.timeCount <= 0f && overCS == false) //制限時間でゲーム終了
+        {
+            overCS = true;
+            gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
             if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
-            Result();   //リザルトに遷移
+            Invoke("Result", 3.0f);  //リザルトに遷移
         }
     }
 

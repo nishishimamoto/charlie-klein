@@ -93,7 +93,7 @@ public class Isha_Singlshot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        BonusGauge.fillAmount = 0.9f;
+        BonusGauge.fillAmount = 0f;
         BonusFlg = 0;
         BonusTime = 10;
         BonusText.gameObject.SetActive (false);
@@ -425,6 +425,7 @@ public class Isha_Singlshot : MonoBehaviour
     {
         if (Input.GetButtonDown("Back"))
         {
+            BonusGauge.fillAmount = 0.95f;
             if (HeavensTime == 0)
             {
                 HeavensTime = 1;

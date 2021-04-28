@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class StageSelect : MonoBehaviour
 {
-    int cursol = 0;
+    public static int cursol = 0;
     int oldCursol;
     bool isVertical;
     bool isHorizontal;
@@ -49,22 +49,6 @@ public class StageSelect : MonoBehaviour
             isVertical = true;
             ButtonSize();
         }
-        //if (0 > Input.GetAxis("ClossHorizontal") && !isHorizontal)    //↓入力時
-        //{
-        //    oldCursol = cursol;
-        //    if (cursol % 2 == 1) cursol -= 1;
-        //    else cursol += 1;
-        //    isHorizontal = true;
-        //    ButtonSize();
-        //}
-        //if (0 < Input.GetAxis("ClossHorizontal") && !isHorizontal)  //↑入力時
-        //{
-        //    oldCursol = cursol;
-        //    if (cursol % 2 == 0) cursol += 1;
-        //    else cursol -= 1;
-        //    isHorizontal = true;
-        //    ButtonSize();
-        //}
 
         if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
         if (0 == Input.GetAxis("ClossHorizontal") && !isBlinking) isHorizontal = false;
@@ -78,12 +62,8 @@ public class StageSelect : MonoBehaviour
 
         if (isBlinking) Blinking();
 
-
-        //GetComponent<RectTransform>().anchoredPosition
-        //        = new Vector2(-150 + ((cursol % 2) * 300), 130 + ((cursol / 2) * -70));
-
         GetComponent<RectTransform>().anchoredPosition
-        = new Vector2(0, 100 + (cursol * -100));
+        = new Vector2(-63, 131 + (cursol * -100));
     }
 
     void Blinking()
@@ -102,7 +82,7 @@ public class StageSelect : MonoBehaviour
                 break;
             case 1:
                 //SceneManager.LoadScene("zuna2");
-                SceneManager.LoadScene(7);    //Test2読み込み
+                SceneManager.LoadScene(8);    //zuna_StageSelect読み込み
                 break;
             case 2:
                 SceneManager.LoadScene(5);    //Test3読み込み

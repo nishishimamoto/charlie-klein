@@ -23,7 +23,7 @@ public class Turn1 : MonoBehaviour
     private void Start()
     {
         turnText = GetComponent<Text>();
-        turnText.text = "" + (20 - nowTurn);
+        turnText.text = "" + (test2.TurnMax - nowTurn);
 
 
         canvas = GameObject.Find("Canvas");
@@ -42,7 +42,7 @@ public class Turn1 : MonoBehaviour
     public void TurnCount()
     {
         nowTurn++;
-        if (nowTurn < 21) turnText.text = "" + (20 - nowTurn);
+        if (nowTurn < (test2.TurnMax+1)) turnText.text = "" + (test2.TurnMax - nowTurn);
         Debug.Log(nowTurn);
     }
 

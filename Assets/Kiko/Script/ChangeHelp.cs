@@ -7,55 +7,62 @@ using UnityEngine.EventSystems;
 
 public class ChangeHelp : MonoBehaviour
 {
-    // eventSystemを取得するための変数宣言
-    [SerializeField] EventSystem eventSystem;
 
     //画像差し替え用変数
     public Image image;
     private Sprite sprite;
 
+    // eventSystemを取得するための変数宣言
+    [SerializeField] EventSystem eventSystem;
 
-    //各ステージのタグ格納変数
-    [SerializeField] GameObject TYPE_A;
-    [SerializeField] GameObject TYPE_B;
-    [SerializeField] GameObject TYPE_C;
+    //前回選択時のgetCursol格納用
+    int OldCursol = StageSelect.cursol;
 
-
-
-
-    // Use this for initialization
-    void Start()
-    {
-
-
-    }
+    //StageSelectのCursolを取得する用
+    int getCursol;
 
     // Update is called once per frame
     void Update()
     {
-        //カーソルが
-        // TYPE_A選択中の間Help_Aを表示する
-        if (eventSystem.currentSelectedGameObject.gameObject == TYPE_A)
+        getCursol = StageSelect.cursol;
+        //Debug.Log(getCursol);
+
+        //前回選択時のカーソルと比較
+        //中身が違ったら
+        if (getCursol != OldCursol)
         {
-            sprite = Resources.Load<Sprite>("Help_A");
-            image = this.GetComponent<Image>();
-            image.sprite = sprite;
+            HelpImageChange();
         }
 
-        // TYPE_B選択中の間Help_Bを表示する
-        if (eventSystem.currentSelectedGameObject.gameObject == TYPE_B)
+    }
+
+    void HelpImageChange()
+    {
+
+        //今選択中のカーソルが
+        switch (getCursol)
         {
-            sprite = Resources.Load<Sprite>("Help_B");
-            image = this.GetComponent<Image>();
-            image.sprite = sprite;
+            //TYPE_AならHelp_Aを表示する
+            case 0:
+                sprite = Resources.Load<Sprite>("Help_A");
+                image = this.GetComponent<Image>();
+                image.sprite = sprite;
+                break;
+            //TYPE_BならHelp_Bを表示する
+            case 1:
+                sprite = Resources.Load<Sprite>("Help_B");
+                image = this.GetComponent<Image>();
+                image.sprite = sprite;
+                break;
+            //TYPE_CならHelp_Cを表示する
+            case 2:
+                sprite = Resources.Load<Sprite>("Help_C");
+                image = this.GetComponent<Image>();
+                image.sprite = sprite;
+                break;
         }
 
-        // TYPE_A選択中の間Help_Aを表示する
-        if (eventSystem.currentSelectedGameObject.gameObject == TYPE_C)
-        {
-            sprite = Resources.Load<Sprite>("Help_C");
-            image = this.GetComponent<Image>();
-            image.sprite = sprite;
-        }
+        //現在の選択中カーソルを前回選択カーソルに変える
+        OldCursol = getCursol;
     }
 }

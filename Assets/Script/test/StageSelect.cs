@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class StageSelect : MonoBehaviour
 {
-    int cursol = 0;
+    public static int cursol = 0;
     int oldCursol;
     bool isVertical;
     bool isHorizontal;
@@ -49,22 +49,6 @@ public class StageSelect : MonoBehaviour
             isVertical = true;
             ButtonSize();
         }
-        //if (0 > Input.GetAxis("ClossHorizontal") && !isHorizontal)    //↓入力時
-        //{
-        //    oldCursol = cursol;
-        //    if (cursol % 2 == 1) cursol -= 1;
-        //    else cursol += 1;
-        //    isHorizontal = true;
-        //    ButtonSize();
-        //}
-        //if (0 < Input.GetAxis("ClossHorizontal") && !isHorizontal)  //↑入力時
-        //{
-        //    oldCursol = cursol;
-        //    if (cursol % 2 == 0) cursol += 1;
-        //    else cursol -= 1;
-        //    isHorizontal = true;
-        //    ButtonSize();
-        //}
 
         if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
         if (0 == Input.GetAxis("ClossHorizontal") && !isBlinking) isHorizontal = false;
@@ -78,12 +62,8 @@ public class StageSelect : MonoBehaviour
 
         if (isBlinking) Blinking();
 
-
-        //GetComponent<RectTransform>().anchoredPosition
-        //        = new Vector2(-150 + ((cursol % 2) * 300), 130 + ((cursol / 2) * -70));
-
         GetComponent<RectTransform>().anchoredPosition
-        = new Vector2(0, 100 + (cursol * -100));
+        = new Vector2(-63, 131 + (cursol * -100));
     }
 
     void Blinking()
@@ -98,35 +78,14 @@ public class StageSelect : MonoBehaviour
         {
             case 0:
                 //SceneManager.LoadScene("zuna1");
-                SceneManager.LoadScene("Isha_Singlshot");
+                SceneManager.LoadScene(4);   //Isha_Singlshot読み込み
                 break;
             case 1:
                 //SceneManager.LoadScene("zuna2");
-                SceneManager.LoadScene("Test2");
+                SceneManager.LoadScene(8);    //zuna_StageSelect読み込み
                 break;
             case 2:
-                SceneManager.LoadScene("Test3");
-                break;
-            case 3:
-                SceneManager.LoadScene("nishi2");
-                break;
-            case 4:
-                SceneManager.LoadScene("Crescent Moon");
-                break;
-            case 5:
-                SceneManager.LoadScene("Mobius");
-                break;
-            case 6:
-                SceneManager.LoadScene("tatsuki01");
-                break;
-            case 7:
-                SceneManager.LoadScene("tatsuki02");
-                break;
-            case 8:
-                SceneManager.LoadScene("ishadou1");
-                break;
-            case 9:
-                SceneManager.LoadScene("ishadou2");
+                SceneManager.LoadScene(5);    //Test3読み込み
                 break;
         }
     }

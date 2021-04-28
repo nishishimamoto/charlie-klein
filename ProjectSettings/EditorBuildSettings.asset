@@ -11,54 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StageSelect.unity
     guid: aaed9940932182443a953287bc79df5f
-  - enabled: 0
-    path: Assets/Scenes/Stage3.unity
-    guid: 55e3407481eec284e920fbec0444411a
-  - enabled: 0
-    path: Assets/Kiko/Crescent Moon.unity
-    guid: 84034e8b6d0271049959ee67446d3b22
-  - enabled: 0
-    path: Assets/Kiko/Mobius.unity
-    guid: a24e3c84ae6f958469627c1fd3d9e69a
-  - enabled: 0
-    path: Assets/nishi/nishi1.unity
-    guid: 554bdaa295921a84eadbd8a0918de72b
-  - enabled: 0
-    path: Assets/nishi/nishi2.unity
-    guid: 45c1d8f16c06dcf4d967f5164dd299fe
-  - enabled: 0
-    path: Assets/zuna/zuna/zuna1.unity
-    guid: 6d2d9f52f191beb4f8ef2d6cb506f06a
-  - enabled: 0
-    path: Assets/zuna/zuna/zuna2.unity
-    guid: d45594cd1d743544397aa4d00bf3bd42
-  - enabled: 0
-    path: Assets/Script/Tatsuki929/tatsuki01.unity
-    guid: b4b8bf04b978d04488e517aa3206a387
-  - enabled: 0
-    path: Assets/Script/Tatsuki929/tatsuki02.unity
-    guid: bc14fe5be19dce346ba3b41dce219b5b
-  - enabled: 0
-    path: Assets/ishadou/ishadou1.unity
-    guid: dee43700c6ff2bc4fb0310cb5fad4c6e
-  - enabled: 0
-    path: Assets/ishadou/ishadou2.unity
-    guid: 24b3b2f72a3625b4ebe6fa9d14fa7dd7
-  - enabled: 0
-    path: Assets/Scenes/Result.unity
-    guid: 11558175410157d44bebcfa040765c70
-  - enabled: 0
-    path: 
-    guid: 1ff48a64954fdcf41a2843265bcc94a0
   - enabled: 1
     path: Assets/MasterScene/MasterResult.unity
     guid: b3227ead078c28c4a93c21721e017749
   - enabled: 1
     path: Assets/nishi/teststages/testresurt.unity
     guid: 35914677b614f0d4abe3f280f4d1028e
-  - enabled: 0
-    path: Assets/nishi/test3/test3resurt.unity
-    guid: 044f1fe6ee8b4b343be1f7a7123c67b0
   - enabled: 1
     path: Assets/ishadou/Isha_Singlshot.unity
     guid: 6618c15b7c33c454cab042e0e99a85c1

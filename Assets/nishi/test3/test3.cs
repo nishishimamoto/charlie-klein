@@ -17,6 +17,7 @@ public class test3 : MonoBehaviour
     [SerializeField] Thinking ThinkingCS;
     [SerializeField] Bom BomCS;
     [SerializeField] MassBox MassBoxCS;
+    [SerializeField] GameSE Test3SECS;
 
     const int mainPanel = 30;    //メインパネルの数
     const int sidePanel = 42;    //サイドパネルの数
@@ -106,7 +107,8 @@ public class test3 : MonoBehaviour
     float alphaDerayTime = 0;
     bool isAlphaLast;
     bool isMass;
-
+    bool isBomFlg;
+    float bomChangeTime = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -147,31 +149,40 @@ public class test3 : MonoBehaviour
                     {
                         LifeLimmit();   //寿命0の衛星があったらリザルトに飛ぶ
                         TurnCS.GameStart();
-                        if (!gameFinish) SphereCreate(); //消した衛星の表示
+                        if (!gameFinish)
+                        {
+                            TurnSE();
+                            SphereCreate(); //消した衛星の表示
+                        }
                     }
                     else if (TurnCS.isTurnStart)
                     {
-                        if (!TimerCS.countStart)
+                        if (!isBomFlg)
                         {
-                            TimeReSet();    //スコアに応じてタイムのリセット
-                            ThinkingCS.ThinkingTime(); //n秒で強制的にスタートさせる
-                            if (ThinkingCS.thinkingTime <= 0)
+                            if (!TimerCS.countStart)
                             {
-                                TimerCS.countStart = true;
-                                thinkingObjects.SetActive(false);
+                                TimeReSet();    //スコアに応じてタイムのリセット
+                                ThinkingCS.ThinkingTime(); //n秒で強制的にスタートさせる
+                                if (ThinkingCS.thinkingTime <= 0)
+                                {
+                                    Test3SECS.audioSource.PlayOneShot(Test3SECS.thinkingSE);
+                                    TimerCS.countStart = true;
+                                    thinkingObjects.SetActive(false);
+                                }
                             }
-                        }
-                        if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
-                        else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
-                                                                                   //PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
-                        PointBlinking();            //4つ揃ったときの点滅
-                                                    //ColorChange();              //パネルの色変更
-                        if (BomCS.bomGauge == BomCS.maxBomGauge) Bom();
-                        TimerCS.TimerCount();       //制限時間のカウントと表示
-                        TurnEnd();                  //ターン終了時の処理
+                            if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
+                            else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
+                                                                                       //PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
+                            PointBlinking();            //4つ揃ったときの点滅
+                                                        //ColorChange();              //パネルの色変更
+                            TimerCS.TimerCount();       //制限時間のカウントと表示
+                            TurnEnd();                  //ターン終了時の処理
 
-                        //SelectImageMove();  //現在選んでいるパネルの可視化 ここで呼ぶ
-                        cursorSelectCS.SelectImageMove(chooseMain);
+                            //SelectImageMove();  //現在選んでいるパネルの可視化 ここで呼ぶ
+                            cursorSelectCS.SelectImageMove(chooseMain);
+
+                        }
+                        Bom();  //ボムの処理
                     }
                     LifeDisplay();
                 }
@@ -219,6 +230,8 @@ public class test3 : MonoBehaviour
                     addOrLoss[check] = 9;
                 }
                 if (ComboCS.comboCount > 0) ComboCS.BoardCombo(check); //爆破箇所にコンボのパネル
+                if (ComboCS.comboCount <= 15) Test3SECS.audioSource.pitch = 1 + (0.1f * ComboCS.comboCount);
+                Test3SECS.audioSource.PlayOneShot(Test3SECS.comboSE);   //コンボカウントのSE
                 check += 1;
             }
         }
@@ -245,9 +258,9 @@ public class test3 : MonoBehaviour
                 if (!isAlphaLast)
                 {
                     AlphaFlgDeray();
-                    ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
-                    if (ComboCS.comboCount >= 5) ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
-                    if (ComboCS.comboCount >= 9) ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                    if (ComboCS.comboCount >= 13) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion2SE);
+                    else if (ComboCS.comboCount >= 6) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion1SE);
+                    else ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
                     isAlphaLast = true;
 
                     for (int i = 0; i < mainPanel; i++)
@@ -556,10 +569,19 @@ public class test3 : MonoBehaviour
         ComboCS.comboCount += 1;
         addScoreCount -= 1;
         BomCS.bomGauge += 100 + (50 * ComboCS.comboCount);
+        if (!Test3SECS.isBomSE && BomCS.bomGauge >= BomCS.maxBomGauge)
+        {
+            Test3SECS.audioSource.PlayOneShot(Test3SECS.bomChargeSE);
+            Test3SECS.isBomSE = true;
+        }
     }
     void TurnEnd()
     {
-
+        if (TimerCS.timeCount <= 5 && !Test3SECS.is5countSE)
+        {
+            Test3SECS.audioSource.PlayOneShot(Test3SECS.timerSE);
+            Test3SECS.is5countSE = true;
+        }
         if ((Input.GetButtonDown("A") || TimerCS.timeCount <= 0) && TimerCS.countStart == true) //Aか制限時間でターン終了
         {
             //時間が１になってしまうので０にしてテキスト更新
@@ -574,11 +596,14 @@ public class test3 : MonoBehaviour
             ComboCS.comboCount = 0; //コンボカウントリセット
             LifeDown(); //衛星の寿命を縮める
             ThinkingCS.thinkingTime = maxThinkingTime;
-            //thinkingObjects.SetActive(true);
+            thinkingObjects.SetActive(true);
             TurnCS.turn += 1;
             TurnCS.isTurnStart = false;
             lightTime = 8;
-
+            Test3SECS.audioSource.Stop();   //タイマーが途中だったら止める
+            Test3SECS.is5countSE = false;
+            Test3SECS.isLifeSE = false;
+            Test3SECS.isLifeSECheck = false;
             //TurnCS.TurnCount();        //経過ターンの更新表示
         }
         //else
@@ -624,12 +649,17 @@ public class test3 : MonoBehaviour
                             sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
 
                             MassBoxCS.isBox[i] = true;
+                            MassBoxCS.massColor[i] = sideNumber[(i / (width - 1)) + i + width];
                             isMass = true;
+                            if (!MassBoxCS.isMassSE[i])
+                            {
+                                MassBoxCS.isMassSE[i] = true;
+                                Test3SECS.isOneMassSE = true;
+                            }
                         }
                         else isMass = false;
                     }else isMass = false;
                 }else isMass = false;
-
 
                 if (!isMass && MassBoxCS.isBox[i])
                 {
@@ -639,10 +669,16 @@ public class test3 : MonoBehaviour
                     sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6);
 
                     MassBoxCS.isBox[i] = false;
+                    MassBoxCS.isMassSE[i] = false;
                 }
 
                 judgNum = 0;
             }
+        }
+        if (Test3SECS.isOneMassSE)
+        {
+            Test3SECS.audioSource.PlayOneShot(Test3SECS.massSE);
+            Test3SECS.isOneMassSE = false;
         }
     }
 
@@ -703,11 +739,17 @@ public class test3 : MonoBehaviour
             if (TurnOverCS[i] != null && TurnOverCS[i].lifeSpan == 0 && TurnCS.turn > 2)
             {
                 sideSphere[i].transform.Translate(0f, 0f, -1);
-                if (!gameOverVeil.activeSelf) gameOverVeil.SetActive(true);
+                if (!gameOverVeil.activeSelf)
+                {
+                    gameOverVeil.SetActive(true);
+                    Test3SECS.audioSource.PlayOneShot(Test3SECS.gameOverSE);
+                }
                 if(!gameOverText.activeSelf) gameOverText.SetActive(true);
                 //Invoke("Result", 0.5f);
                 gameFinish = true;
             }
+            //寿命が尽きそうな衛星があったらSE
+            if (TurnOverCS[i] != null && TurnOverCS[i].lifeSpan == 1 && !Test3SECS.isLifeSECheck) Test3SECS.isLifeSE = true;
         }
     }
 
@@ -882,87 +924,82 @@ public class test3 : MonoBehaviour
 
     void AlphaFlgDeray()
     {
-        //for (int i = 0; i < mainPanel; i++)
-        //{
-        //    if (flgCheck[i])
-        //    {
-
-        //        //ランダムな数値にいれかえ
-        //        mainNumber[i] = mainColorNumber[Random.Range(0, 2)];
-        //        //mainNumber[i] = mainColorNumber[0];
-        //        sideNumber[(i / 3) + i] = sideColorNumber[Random.Range(0, 2)];
-        //        sideNumber[(i / 3) + i + 1] = sideColorNumber[Random.Range(0, 2)];
-        //        sideNumber[(i / 3) + i + 5] = sideColorNumber[Random.Range(0, 2)];
-        //        sideNumber[(i / 3) + i + 4] = sideColorNumber[Random.Range(0, 2)];
-
-        //        rainbowRand[rainbowTarget] = i; //条件を満たした惑星の位置を把握しておく
-        //        rainbowTarget += 1;
-        //    }
-        //    mainColorNum += mainNumber[i];  //[0]^[3]合計を得る
-        //}
-
-        //if (ComboCS.comboCount >= 3 && !rainbow) //条件を満たした惑星のどこかに3コンボ以上で虹惑星を１つだす 草
-        //{
-        //    int i = rainbowRand[Random.Range(0, ComboCS.comboCount)];
-        //    rainbow = true;
-        //    sideNumber[i / (width - 1) + i + rainbowNumber[Random.Range(0, 4)]] = sideColorNumber[2];
-        //}
-
-        //for (int j = 0; j < 4; j++)  //[0]^[9]の合計と色*4を見る { 4, 32, 128, 512}草
-        //{
-        //    while (mainColorNum == (mainColorNumber[j] * mainPanel))  //9色同じだったら処理を繰り返す
-        //    {
-        //        mainColorNum = 0;   //一度numを0にし
-        //        for (int f = 0; f < mainPanel; f++)
-        //        {
-        //            if (flgCheck[f]) mainNumber[f] = mainColorNumber[Random.Range(0, 2)]; //消したマスをランダムな色に変えて
-        //            mainColorNum += mainNumber[f];       //もう一度[0]^[9]の合計を得る
-        //        }
-        //    }
-        //}
         Bonus();    //ボーナスパネル設定
                     //for (int f = 0; f < mainPanel; f++) flgCheck[f] = false; //念のため別のforでfalseにする
         mainColorNum = 0;
         ColorChange();   //パネルの色変更
         rainbow = false;
         rainbowTarget = 0;
+        //Test3SECS.audioSource.pitch = 1;
     }
 
     void Bom()
     {
         if (Input.GetButtonDown("B"))
+            if (BomCS.bomGauge == BomCS.maxBomGauge) isBomFlg = true;
+
+        if (isBomFlg)
         {
-            for(int i = 0; i < sidePanel; i++)  //各衛星がいくつあるか調べる
+            if (bomChangeTime <= 0) //1回だけよばれる
             {
-                if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[0]) numberChange[0] += 1;
-                else if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[1]) numberChange[1] += 1;
-                else if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[2]) numberChange[2] += 1;
-            }
-
-            //それぞれの量を比べてどれが一番と二番に大きいか見る
-            for (int i = 0; i < colorNum; i++)
-            {
-                if (manyNumber[0] < numberChange[i])
+                for (int i = 0; i < sidePanel; i++)  //各衛星がいくつあるか調べる
                 {
-                    manyNumber[1] = manyNumber[0];
-                    manyNumber[0] = numberChange[i];
-                    manyColor[1] = manyColor[0];
-                    manyColor[0] = sideColorNumber[i];
+                    if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[0]) numberChange[0] += 1;
+                    else if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[1]) numberChange[1] += 1;
+                    else if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[2]) numberChange[2] += 1;
                 }
-                else if (manyNumber[1] < numberChange[i])
+
+                //それぞれの量を比べてどれが一番と二番に大きいか見る
+                for (int i = 0; i < colorNum; i++)
                 {
-                    manyNumber[1] = numberChange[i];
-                    manyColor[1] = sideColorNumber[i];
+                    if (manyNumber[0] < numberChange[i])
+                    {
+                        manyNumber[1] = manyNumber[0];
+                        manyNumber[0] = numberChange[i];
+                        manyColor[1] = manyColor[0];
+                        manyColor[0] = sideColorNumber[i];
+                    }
+                    else if (manyNumber[1] < numberChange[i])
+                    {
+                        manyNumber[1] = numberChange[i];
+                        manyColor[1] = sideColorNumber[i];
+                    }
+                }
+                Test3SECS.audioSource.PlayOneShot(Test3SECS.bomSE1);
+            }
+
+            bomChangeTime += Time.deltaTime;
+
+            if (bomChangeTime < 0.8f)  //膨らんでしぼむ演出
+            {
+                for (int i = 0; i < sidePanel; i++)
+                {
+                    if (sideSphere[i] != null && sideNumber[i] == manyColor[1] && bomChangeTime <= 0.3f)
+                    panelAnim[i].transform.localScale = new Vector3(1 + (0.3f * bomChangeTime * 4), 1 + (0.3f * bomChangeTime * 4), 1 + (0.3f * bomChangeTime * 4));
+                    else if (sideSphere[i] != null && sideNumber[i] == manyColor[1] && bomChangeTime >= 0.7f)
+                    panelAnim[i].transform.localScale = new Vector3(1.4f - (0.3f * bomChangeTime * 3), 1.4f - (0.3f * bomChangeTime * 3), 1.4f - (0.3f * bomChangeTime * 3));
                 }
             }
-
-            for (int i = 0; i < sidePanel; i++)
+            else if (bomChangeTime >= 0.8f)
             {
-                if (sideSphere[i] != null && sideNumber[i] == manyColor[1]) sideNumber[i] = manyColor[0];
+                for (int i = 0; i < sidePanel; i++)
+                {
+                    if (sideSphere[i] != null && sideNumber[i] == manyColor[1])
+                    {
+                        sideNumber[i] = manyColor[0];
+                        panelAnim[i].transform.localScale = new Vector3(1, 1, 1);
+                    }
+                }
+                Test3SECS.audioSource.Stop();
+                Test3SECS.audioSource.PlayOneShot(Test3SECS.bomSE2);
+                ColorChange();
+                BomCS.bomGauge = 0;
+                bomChangeTime = 0;
+                manyNumber[0] = 0;
+                manyNumber[1] = 1;
+                Test3SECS.isBomSE = false;
+                isBomFlg = false;
             }
-
-            ColorChange();
-            BomCS.bomGauge = 0;
         }
     }
 
@@ -986,6 +1023,17 @@ public class test3 : MonoBehaviour
                 turnOver[i].SetActive(true);
             }
         }
+    }
+
+    void TurnSE()
+    {
+        if (!Test3SECS.isLifeSECheck)
+        {
+            Test3SECS.audioSource.pitch = 1;
+            if (Test3SECS.isLifeSE) Test3SECS.audioSource.PlayOneShot(Test3SECS.lifeSE);
+            else if (!Test3SECS.isLifeSE) Test3SECS.audioSource.PlayOneShot(Test3SECS.turnSE);
+        }
+        Test3SECS.isLifeSECheck = true;
     }
 }
 

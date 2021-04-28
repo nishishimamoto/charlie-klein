@@ -16,7 +16,7 @@ public class Z_Turn: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        scoreText.text = "" + (20 - test2.turn);
+        scoreText.text = "" + (test2.TurnMax - test2.turn);
         
     }
 }

@@ -11,6 +11,7 @@ public class test3timer : MonoBehaviour
     public float timeCount;            //制限時間
     public bool timeOut;
     public bool countStart;
+    float bigTimerBlinking = 1;
 
     [SerializeField] Image timerSlider;
     [SerializeField] public Text bigTimerText;
@@ -35,6 +36,19 @@ public class test3timer : MonoBehaviour
             timeCount -= Time.deltaTime;    //制限時間のカウントダウン
             if (timeCount <= 5)
             {
+                bigTimerBlinking -= Time.deltaTime;
+                if (bigTimerBlinking <= 0) bigTimerBlinking = 1;
+                else if (bigTimerBlinking <= 0.4)
+                {
+                    bigTimerText.color = new Color(255, 255, 255, bigTimerBlinking);
+                    bigTimerText.transform.localScale = new Vector3(1.4f - bigTimerBlinking, 1.4f - bigTimerBlinking, 1);
+                }
+                if (bigTimerBlinking == 1)
+                {
+                    bigTimerText.color = new Color(255, 255, 255, 0.4f);
+                    bigTimerText.transform.localScale = new Vector3(1, 1, 1);
+                }
+
                 bigTimerText.enabled = true;   //5秒前から表示
                 bigTimerText.text = Mathf.Ceil(timeCount).ToString("f0");  //時間の表示
             }
@@ -53,8 +67,8 @@ public class test3timer : MonoBehaviour
 
     void ChangeSliderColor()
     {
-        if (timeCount <= 5 && timerSlider.color == Color.yellow) timerSlider.color = Color.red;
-        else if (timeCount <= 10 && timerSlider.color == Color.white) timerSlider.color = Color.yellow;
-        else if (timeCount > 10 && timerSlider.color != Color.white) timerSlider.color = Color.white;
+        if (timeCount <= 5 && timerSlider.color != Color.red) timerSlider.color = Color.red;
+        else if (timeCount <= 10 && timeCount > 5 && timerSlider.color != Color.yellow) timerSlider.color = Color.yellow;
+        else if (timeCount > 10 && timerSlider.color != new Color32(0, 255, 255, 170)) timerSlider.color = new Color32(0, 255, 255, 170);
     }
 }

@@ -1731,7 +1731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f0ec96c625f2524e907de445f310fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTime: 20
+  maxTime: 6
   timeCount: 0
   timeOut: 0
   countStart: 0
@@ -7949,7 +7949,7 @@ GameObject:
   - component: {fileID: 2118388651}
   - component: {fileID: 2118388653}
   m_Layer: 0
-  m_Name: test3SE
+  m_Name: GameSE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8081,12 +8081,19 @@ MonoBehaviour:
   lifeSE: {fileID: 8300000, guid: 1871064d15a0ef0498785a4765ff587b, type: 3}
   timerSE: {fileID: 8300000, guid: 402b40ca392c75f42b176cca01ee1696, type: 3}
   turnSE: {fileID: 8300000, guid: c00d0547325b5d04fa17374c1c6bf18d, type: 3}
-  gameOverSE: {fileID: 8300000, guid: 7b2ddd001c587314ab863952e24d5db8, type: 3}
+  gameOverSE: {fileID: 8300000, guid: e0d4e1557d3543b4698b90c1f5c56c18, type: 3}
   bomChargeSE: {fileID: 8300000, guid: a53bba270f02ec64faabadcb65fdce42, type: 3}
   thinkingSE: {fileID: 8300000, guid: 14602e57467ec574dafa7113cf561c94, type: 3}
   massSE: {fileID: 8300000, guid: 7b2ddd001c587314ab863952e24d5db8, type: 3}
+  bomSE1: {fileID: 8300000, guid: c537116f6ebe24c489071cfa573fc502, type: 3}
+  bomSE2: {fileID: 8300000, guid: 5d2e16053ad181d4583aa339d2347104, type: 3}
   explosion1SE: {fileID: 8300000, guid: f88261e7ddca2564d8a6bd21bd176b8f, type: 3}
   explosion2SE: {fileID: 8300000, guid: f88261e7ddca2564d8a6bd21bd176b8f, type: 3}
+  isLifeSE: 0
+  isLifeSECheck: 0
+  is5countSE: 0
+  isBomSE: 0
+  isOneMassSE: 0
   audioSource: {fileID: 0}
 --- !u!198 &2123240325 stripped
 ParticleSystem:

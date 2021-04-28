@@ -17,7 +17,7 @@ public class test3 : MonoBehaviour
     [SerializeField] Thinking ThinkingCS;
     [SerializeField] Bom BomCS;
     [SerializeField] MassBox MassBoxCS;
-    [SerializeField] Test3SE Test3SECS;
+    [SerializeField] GameSE Test3SECS;
 
     const int mainPanel = 30;    //メインパネルの数
     const int sidePanel = 42;    //サイドパネルの数
@@ -107,14 +107,8 @@ public class test3 : MonoBehaviour
     float alphaDerayTime = 0;
     bool isAlphaLast;
     bool isMass;
-    bool isLifeSE;
-    bool isLifeSECheck;
-    bool is5countSE;
-    bool isBomSE;
     bool isBomFlg;
     float bomChangeTime = 0;
-    bool isOneMassSE;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -575,18 +569,18 @@ public class test3 : MonoBehaviour
         ComboCS.comboCount += 1;
         addScoreCount -= 1;
         BomCS.bomGauge += 100 + (50 * ComboCS.comboCount);
-        if (!isBomSE && BomCS.bomGauge >= BomCS.maxBomGauge)
+        if (!Test3SECS.isBomSE && BomCS.bomGauge >= BomCS.maxBomGauge)
         {
             Test3SECS.audioSource.PlayOneShot(Test3SECS.bomChargeSE);
-            isBomSE = true;
+            Test3SECS.isBomSE = true;
         }
     }
     void TurnEnd()
     {
-        if (TimerCS.timeCount <= 5 && !is5countSE)
+        if (TimerCS.timeCount <= 5 && !Test3SECS.is5countSE)
         {
             Test3SECS.audioSource.PlayOneShot(Test3SECS.timerSE);
-            is5countSE = true;
+            Test3SECS.is5countSE = true;
         }
         if ((Input.GetButtonDown("A") || TimerCS.timeCount <= 0) && TimerCS.countStart == true) //Aか制限時間でターン終了
         {
@@ -607,9 +601,9 @@ public class test3 : MonoBehaviour
             TurnCS.isTurnStart = false;
             lightTime = 8;
             Test3SECS.audioSource.Stop();   //タイマーが途中だったら止める
-            is5countSE = false;
-            isLifeSE = false;
-            isLifeSECheck = false;
+            Test3SECS.is5countSE = false;
+            Test3SECS.isLifeSE = false;
+            Test3SECS.isLifeSECheck = false;
             //TurnCS.TurnCount();        //経過ターンの更新表示
         }
         //else
@@ -660,7 +654,7 @@ public class test3 : MonoBehaviour
                             if (!MassBoxCS.isMassSE[i])
                             {
                                 MassBoxCS.isMassSE[i] = true;
-                                isOneMassSE = true;
+                                Test3SECS.isOneMassSE = true;
                             }
                         }
                         else isMass = false;
@@ -681,10 +675,10 @@ public class test3 : MonoBehaviour
                 judgNum = 0;
             }
         }
-        if (isOneMassSE)
+        if (Test3SECS.isOneMassSE)
         {
             Test3SECS.audioSource.PlayOneShot(Test3SECS.massSE);
-            isOneMassSE = false;
+            Test3SECS.isOneMassSE = false;
         }
     }
 
@@ -755,7 +749,7 @@ public class test3 : MonoBehaviour
                 gameFinish = true;
             }
             //寿命が尽きそうな衛星があったらSE
-            if (TurnOverCS[i] != null && TurnOverCS[i].lifeSpan == 1 && !isLifeSECheck) isLifeSE = true;
+            if (TurnOverCS[i] != null && TurnOverCS[i].lifeSpan == 1 && !Test3SECS.isLifeSECheck) Test3SECS.isLifeSE = true;
         }
     }
 
@@ -971,6 +965,7 @@ public class test3 : MonoBehaviour
                         manyColor[1] = sideColorNumber[i];
                     }
                 }
+                Test3SECS.audioSource.PlayOneShot(Test3SECS.bomSE1);
             }
 
             bomChangeTime += Time.deltaTime;
@@ -995,13 +990,14 @@ public class test3 : MonoBehaviour
                         panelAnim[i].transform.localScale = new Vector3(1, 1, 1);
                     }
                 }
-
+                Test3SECS.audioSource.Stop();
+                Test3SECS.audioSource.PlayOneShot(Test3SECS.bomSE2);
                 ColorChange();
                 BomCS.bomGauge = 0;
                 bomChangeTime = 0;
                 manyNumber[0] = 0;
                 manyNumber[1] = 1;
-                isBomSE = false;
+                Test3SECS.isBomSE = false;
                 isBomFlg = false;
             }
         }
@@ -1031,13 +1027,13 @@ public class test3 : MonoBehaviour
 
     void TurnSE()
     {
-        if (!isLifeSECheck)
+        if (!Test3SECS.isLifeSECheck)
         {
             Test3SECS.audioSource.pitch = 1;
-            if (isLifeSE) Test3SECS.audioSource.PlayOneShot(Test3SECS.lifeSE);
-            else if (!isLifeSE) Test3SECS.audioSource.PlayOneShot(Test3SECS.turnSE);
+            if (Test3SECS.isLifeSE) Test3SECS.audioSource.PlayOneShot(Test3SECS.lifeSE);
+            else if (!Test3SECS.isLifeSE) Test3SECS.audioSource.PlayOneShot(Test3SECS.turnSE);
         }
-        isLifeSECheck = true;
+        Test3SECS.isLifeSECheck = true;
     }
 }
 

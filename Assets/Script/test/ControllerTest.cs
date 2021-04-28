@@ -23,5 +23,6 @@ public class ControllerTest : MonoBehaviour
         if (Input.GetButtonDown("B")) Debug.Log("B");
         if (Input.GetButtonDown("Start")) Debug.Log("Start");
         if (Input.GetButtonDown("Back")) Debug.Log("Back");
+        if (Input.GetButtonDown("R3")) Debug.Log("R3");
     }
 }

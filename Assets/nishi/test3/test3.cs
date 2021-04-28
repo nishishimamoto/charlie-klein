@@ -109,6 +109,10 @@ public class test3 : MonoBehaviour
     bool isMass;
     bool isBomFlg;
     float bomChangeTime = 0;
+
+    bool isDebug;
+    bool isTimerStop;
+    [SerializeField] GameObject DebugText;
     // Start is called before the first frame update
     void Start()
     {
@@ -134,6 +138,8 @@ public class test3 : MonoBehaviour
         TimerCS.timeCount = TimerCS.maxTime;
         score = 0;  //スコアの初期化
         MassBoxCS.MassInit(mainPanel);  //massbox初期化
+
+        DebugText.SetActive(false);
     }
 
     // Update is called once per frame
@@ -175,7 +181,7 @@ public class test3 : MonoBehaviour
                                                                                        //PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
                             PointBlinking();            //4つ揃ったときの点滅
                                                         //ColorChange();              //パネルの色変更
-                            TimerCS.TimerCount();       //制限時間のカウントと表示
+                            if(!isTimerStop) TimerCS.TimerCount();       //制限時間のカウントと表示
                             TurnEnd();                  //ターン終了時の処理
 
                             //SelectImageMove();  //現在選んでいるパネルの可視化 ここで呼ぶ
@@ -193,6 +199,8 @@ public class test3 : MonoBehaviour
                 }
             }else if(gameFinish) Invoke("Result", 2);
         }
+
+        DebugMode();
     }
 
     //***
@@ -1034,6 +1042,34 @@ public class test3 : MonoBehaviour
             else if (!Test3SECS.isLifeSE) Test3SECS.audioSource.PlayOneShot(Test3SECS.turnSE);
         }
         Test3SECS.isLifeSECheck = true;
+    }
+
+    void DebugMode()
+    {
+        if (Input.GetButtonDown("R3") && !isDebug)
+        {
+            isDebug = true;
+            DebugText.SetActive(true);
+        }
+        else if (Input.GetButtonDown("R3") && isDebug)
+        {
+            isDebug = false;
+            DebugText.SetActive(false);
+        }
+
+        if (isDebug)
+        {
+            if (Input.GetButtonDown("B"))
+                if (BomCS.bomGauge < BomCS.maxBomGauge)
+                {
+                    BomCS.bomGauge = 50000;
+                    Test3SECS.audioSource.PlayOneShot(Test3SECS.bomChargeSE);
+                }
+            if (Input.GetButtonDown("Y") && !isTimerStop) isTimerStop = true;
+            else if (Input.GetButtonDown("Y") && isTimerStop) isTimerStop = false;
+
+            if (Input.GetButtonDown("X") && !isTimerStop) TimerCS.timeCount = 5;
+        }
     }
 }
 

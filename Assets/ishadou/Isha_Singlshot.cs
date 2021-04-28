@@ -6,12 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class Isha_Singlshot : MonoBehaviour
 {
-    [SerializeField] CursorSelect cursorSelectCS;
+    [SerializeField] Cursor cursorSelectCS;
     [SerializeField] Turn TurnCS;
     [SerializeField] Timer TimerCS;
     [SerializeField] Combo ComboCS;
     [SerializeField] Explosion ExplosionCS;
     [SerializeField] Pause PauseCS;
+    [SerializeField] Image BonusGauge;
+
+    [SerializeField] Image Needle;
+    float needleAngle;
 
     const int mainPanel = 30;    //メインパネルの数
     const int sidePanel = 42;    //サイドパネルの数
@@ -24,7 +28,9 @@ public class Isha_Singlshot : MonoBehaviour
     int[] sideNumber = new int[sidePanel];     //4*4のナンバー
     int tmpNumber;          //数字入れ替え時の一時保存
     int[] bonusLevel = new int[sidePanel]; //サイドパネルのボーナス確認 (0=なし,1=あり)
-    bool[] bonusFlg = new bool[sidePanel]; //このターン既にボーナスパネルになったかどうか
+    int BonusFlg = 0; //ボーナスタイム発動したか否か
+    int BsCnt = 0;
+    float BonusTime = 0;
     int tmpBonus;         //ボーナス入れ替え時の一時保存
     public static int score;      //スコア
 
@@ -57,6 +63,8 @@ public class Isha_Singlshot : MonoBehaviour
 
     [SerializeField] GameObject Score;  //スコアのテキストオブジェクト
     Text scoreText;
+    [SerializeField] GameObject BonusText;
+    [SerializeField] GameObject TheWorld;
     int[] targetNum = new int[4];
     [SerializeField] Text[] targetText = new Text[1];
     [SerializeField] GameObject gameClear;
@@ -85,6 +93,18 @@ public class Isha_Singlshot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        BonusGauge.fillAmount = 0.9f;
+        BonusFlg = 0;
+        BonusTime = 10;
+        BonusText.gameObject.SetActive (false);
+
+        BsCnt = 1;
+
+        Needle.gameObject.SetActive(false);
+        needleAngle = 0;
+
+        TheWorld.gameObject.SetActive(false);
+
         for (int i = 0; i < 4; i++)
         {
             switch (i)
@@ -105,9 +125,25 @@ public class Isha_Singlshot : MonoBehaviour
                     //右下
                     mainSphere[i] = Instantiate(main, new Vector3(9f, 0f, 0), Quaternion.identity);
                     break;
+                //case 4:
+                //    //次の次　左下
+                //    mainSphere[i] = Instantiate(main, new Vector3(8f, -2f, 0), Quaternion.identity);
+                //    break;
+                //case 5:
+                //    //次の次　左下
+                //    mainSphere[i] = Instantiate(main, new Vector3(9f, -2f, 0), Quaternion.identity);
+                //    break;
+                //case 6:
+                //    //次の次　左下
+                //    mainSphere[i] = Instantiate(main, new Vector3(8f, -3f, 0), Quaternion.identity);
+                //    break;
+                //case 7:
+                //    //次の次　左下
+                //    mainSphere[i] = Instantiate(main, new Vector3(9f, -3f, 0), Quaternion.identity);
+                //    break;
 
             }
-            mainNumber[i] = ColorNumber[Random.Range(0, 4)];
+            mainNumber[i] = ColorNumber[Random.Range(1, 4)];
         }
         
         for (int i = 0; i < mainPanel; i++)
@@ -135,7 +171,7 @@ public class Isha_Singlshot : MonoBehaviour
                 else
                 {
                     //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 4.5f - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = ColorNumber[Random.Range(0, 4)];
                 }
@@ -153,7 +189,7 @@ public class Isha_Singlshot : MonoBehaviour
                 else
                 {
                     //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 4.5f - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = ColorNumber[Random.Range(0, 4)];
                 }
@@ -171,7 +207,7 @@ public class Isha_Singlshot : MonoBehaviour
                 else
                 {
                     //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 4.5f - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = ColorNumber[Random.Range(0, 4)];
                 }
@@ -185,7 +221,7 @@ public class Isha_Singlshot : MonoBehaviour
                 else
                 {
                     //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 4.5f - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = ColorNumber[Random.Range(0, 4)];
                 }
@@ -199,7 +235,7 @@ public class Isha_Singlshot : MonoBehaviour
                 else
                 {
                     //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 4.5f - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = ColorNumber[Random.Range(0, 4)];
 
@@ -219,29 +255,29 @@ public class Isha_Singlshot : MonoBehaviour
                     {
                         int numSet = 0;
                         int numUpSet = 0;
-                        int randSet = Random.Range(0, 4);
+                        int randSet = ColorNumber[Random.Range(0, 4)];
                         
                         //左が上と同じ色かチェック
                         if (i >= 6 && sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
                         {
                             numSet = sideNumber[(i / (width - 1)) + i - 1];
                             numUpSet = sideNumber[(i / (width - 1)) + i - width];
-                            sideNumber[(i / (width - 1)) + i] = Random.Range(0, 4);
+                            sideNumber[(i / (width - 1)) + i] = ColorNumber[Random.Range(0, 4)];
                             //左の色の変更
                             while (numSet == sideNumber[(i / (width - 1)) + i] ||
                                 sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
                             {
-                                sideNumber[(i / (width - 1)) + i] = Random.Range(0, 4);
+                                sideNumber[(i / (width - 1)) + i] = ColorNumber[Random.Range(0, 4)];
                             }
                         }
                         else
                         {
                             numSet = sideNumber[(i / (width - 1)) + i - 1];
-                            sideNumber[(i / (width - 1)) + i] = Random.Range(0, 4);
+                            sideNumber[(i / (width - 1)) + i] = ColorNumber[Random.Range(0, 4)];
                             //左の色の変更
                             while (numSet == sideNumber[(i / (width - 1)) + i])
                             {
-                                sideNumber[(i / (width - 1)) + i] = Random.Range(0, 4);
+                                sideNumber[(i / (width - 1)) + i] = ColorNumber[Random.Range(0, 4)];
                             }
                         }
                     }
@@ -279,13 +315,15 @@ public class Isha_Singlshot : MonoBehaviour
 
             cursorSelectCS.SelectImageMove(chooseMain);
 
-            if (!alpha_Flg)
+            if (!alpha_Flg || BonusFlg == 1)
             {
-                
+                Bonus();
             }
-            else if(alpha_Flg) alpha();
+            else if (alpha_Flg)
+            {
+                alpha();
+            }
         }
-
     }
 
     //***
@@ -327,7 +365,6 @@ public class Isha_Singlshot : MonoBehaviour
 
                 ScoreAdd();
 
-
                 ////ランダムな数値にいれかえ
                 //MainGenerate();
 
@@ -367,13 +404,16 @@ public class Isha_Singlshot : MonoBehaviour
             }
             else
             {
-                Bonus();    //ボーナスパネル設定
                 for (int f = 0; f < mainPanel; f++) flgCheck[f] = false; //念のため別のforでfalseにする
                 mainColorNum = 0;
                 ColorChange();   //パネルの色変更
                 check = 0;
                 rainbow = false;
                 alpha_Flg = false;
+                if (BsCnt == 1)
+                {
+                    BonusGauge.fillAmount += 0.05f * ComboCS.comboCount;
+                }
                 ComboCS.comboCount = 0;
                 rainbowTarget = 0;
             }
@@ -395,8 +435,14 @@ public class Isha_Singlshot : MonoBehaviour
             }
         }
 
-        //パネル反時計回り
-        if (Input.GetButtonDown("LB"))
+        if (Input.GetButtonDown("X") && BonusGauge.fillAmount >= 1)
+        {
+            BonusFlg = 1;
+            TheWorld.gameObject.SetActive(true);
+        }
+
+            //パネル反時計回り
+            if (Input.GetButtonDown("LB"))
         {
             panelMove[0] = true;
             if (!TimerCS.countStart) TimerCS.countStart = true;
@@ -463,9 +509,9 @@ public class Isha_Singlshot : MonoBehaviour
                     if (sideNumber[(i / (width - 1)) + i + 1] == sideNumber[(i / (width - 1)) + i + width + 1])
                         if (sideNumber[(i / (width - 1)) + i + width + 1] == sideNumber[(i / (width - 1)) + i + width])
                         {
+                            
                             flgCheck[i] = true;
                             alpha_Flg = true;
-
                         }
 
             }
@@ -527,13 +573,39 @@ public class Isha_Singlshot : MonoBehaviour
     //***
     void Bonus()
     {
-        for (int f = 0; f < sidePanel; f++)
+        if (BonusGauge.fillAmount >= 1)
         {
-            //ボーナスフラグがあれば+1なければ-1(下限0)
-            if (bonusLevel[f] > 0 && !bonusFlg[f]) bonusLevel[f] -= 1;
-            if (bonusFlg[f]) bonusLevel[f] = 1;
+            BonusText.gameObject.SetActive(true);
+        }
+        else
+        {
+            BonusText.gameObject.SetActive(false);
+        }
 
-            bonusFlg[f] = false;
+        if (BonusFlg == 1)
+        {
+            TimerCS.countStart = false;
+            BsCnt = 0;
+            Needle.gameObject.SetActive(true);
+            needleAngle = -36 * Time.deltaTime;
+            Needle.transform.Rotate(new Vector3(0f, 0f, needleAngle));
+
+            BonusGauge.fillAmount = BonusTime / 10;
+            BonusTime -= Time.deltaTime;
+
+            if (BonusGauge.fillAmount <= 0)
+            {
+                alpha();
+                BsCnt = 1;
+                TimerCS.countStart = true;
+
+                Needle.gameObject.SetActive(false);
+                
+                TheWorld.gameObject.SetActive(false);
+                BonusTime = 10;
+                BonusGauge.fillAmount = 0;
+                BonusFlg = 0;
+            }
         }
     }
     //***
@@ -553,13 +625,6 @@ public class Isha_Singlshot : MonoBehaviour
             sideNumber[(chooseMain / (width - 1)) + chooseMain + 1] = sideNumber[(chooseMain / (width - 1)) + chooseMain + width + 1];
             sideNumber[(chooseMain / (width - 1)) + chooseMain + width + 1] = sideNumber[(chooseMain / (width - 1)) + chooseMain + width];
             sideNumber[(chooseMain / (width - 1)) + chooseMain + width] = tmpNumber;
-
-            //ボーナス入れ替え
-            tmpBonus = bonusLevel[(chooseMain / (width - 1)) + chooseMain];
-            bonusLevel[(chooseMain / (width - 1)) + chooseMain] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + 1];
-            bonusLevel[(chooseMain / (width - 1)) + chooseMain + 1] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + width + 1];
-            bonusLevel[(chooseMain / (width - 1)) + chooseMain + width + 1] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + width];
-            bonusLevel[(chooseMain / (width - 1)) + chooseMain + width] = tmpBonus;
 
             //オブジェクト入れ替え
             tmpObj = sideSphere[(chooseMain / (width - 1)) + chooseMain];
@@ -592,13 +657,6 @@ public class Isha_Singlshot : MonoBehaviour
             sideNumber[(chooseMain / (width - 1)) + chooseMain + width + 1] = sideNumber[(chooseMain / (width - 1)) + chooseMain + 1];
             sideNumber[(chooseMain / (width - 1)) + chooseMain + 1] = tmpNumber;
 
-            //ボーナス入れ替え
-            tmpBonus = bonusLevel[(chooseMain / (width - 1)) + chooseMain];
-            bonusLevel[(chooseMain / (width - 1)) + chooseMain] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + width];
-            bonusLevel[(chooseMain / (width - 1)) + chooseMain + width] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + width + 1];
-            bonusLevel[(chooseMain / (width - 1)) + chooseMain + width + 1] = bonusLevel[(chooseMain / (width - 1)) + chooseMain + 1];
-            bonusLevel[(chooseMain / (width - 1)) + chooseMain + 1] = tmpBonus;
-
             //オブジェクト入れ替え
             tmpObj = sideSphere[(chooseMain / (width - 1)) + chooseMain];
             sideSphere[(chooseMain / (width - 1)) + chooseMain] = sideSphere[(chooseMain / (width - 1)) + chooseMain + width];
@@ -622,7 +680,10 @@ public class Isha_Singlshot : MonoBehaviour
 
         ////スコア100と1コンボ50
         score += 100 + (50 * ComboCS.comboCount);
-
+        if (BsCnt == 0)
+        {
+            score += 100;
+        }
         scoreText.text = "" + score;
 
     }
@@ -660,9 +721,9 @@ public class Isha_Singlshot : MonoBehaviour
     void ClearCheck()
     {
 
-        TimerCS.timeCount += 3.0f * ComboCS.comboCount;
+        TimerCS.timeCount += 2.0f * ComboCS.comboCount;
         ComboCS.comboCount += 1;
-        Debug.Log(ComboCS.comboCount);
+        //Debug.Log(ComboCS.comboCount);
         ColorChange();
     }
 }

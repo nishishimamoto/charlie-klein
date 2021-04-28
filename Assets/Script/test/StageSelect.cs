@@ -18,6 +18,9 @@ public class StageSelect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //カーソルの初期位置指定
+        cursol = 0;
+
         //各ステージの情報リセット
         Isha_SinglshotReSet();
         test3ReSet();

@@ -36,6 +36,8 @@ public class test3timer : MonoBehaviour
             timeCount -= Time.deltaTime;    //制限時間のカウントダウン
             if (timeCount <= 5)
             {
+                bigTimerText.enabled = true;   //5秒前から表示
+
                 bigTimerBlinking -= Time.deltaTime;
                 if (bigTimerBlinking <= 0) bigTimerBlinking = 1;
                 else if (bigTimerBlinking <= 0.4)
@@ -48,13 +50,12 @@ public class test3timer : MonoBehaviour
                     bigTimerText.color = new Color(255, 255, 255, 0.4f);
                     bigTimerText.transform.localScale = new Vector3(1, 1, 1);
                 }
-
-                bigTimerText.enabled = true;   //5秒前から表示
                 bigTimerText.text = Mathf.Ceil(timeCount).ToString("f0");  //時間の表示
             }
             else if (timeCount > 5)
             {
                 bigTimerText.enabled = false;
+                bigTimerBlinking = 1;
             }
         }
         //else if (timeCount <= 0)

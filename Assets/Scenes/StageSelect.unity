@@ -549,11 +549,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 98730695}
   m_CullTransparentMesh: 0
---- !u!224 &261418683 stripped
+--- !u!224 &241519468 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4975975616466038754, guid: a02389ee0bc4ba2448cae9c0865ca5a7,
     type: 3}
-  m_PrefabInstance: {fileID: 4975975616523419993}
+  m_PrefabInstance: {fileID: 1929571497}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &276831524
 GameObject:
@@ -1201,7 +1201,7 @@ RectTransform:
   - {fileID: 953627112}
   - {fileID: 787432029}
   - {fileID: 72849685}
-  - {fileID: 261418683}
+  - {fileID: 241519468}
   - {fileID: 373170867}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -1397,7 +1397,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &4975975616523419993
+--- !u!1001 &1929571497
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1513,16 +1513,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: buildtimestamp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4975975616466038757, guid: a02389ee0bc4ba2448cae9c0865ca5a7,
-        type: 3}
-      propertyPath: m_Text
-      value: 2021/04/22/15:06
-      objectReference: {fileID: 0}
-    - target: {fileID: 4975975616466038757, guid: a02389ee0bc4ba2448cae9c0865ca5a7,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a02389ee0bc4ba2448cae9c0865ca5a7, type: 3}

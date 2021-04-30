@@ -95,6 +95,8 @@ public class test3 : MonoBehaviour
     [SerializeField] Text thinkingTimeText;
     [SerializeField] GameObject gameOverVeil;
     [SerializeField] GameObject gameOverText;
+    [SerializeField] GameObject canvas;
+    float gameOverTimer = 0;
 
     [SerializeField] GameObject main;
     [SerializeField] GameObject side;
@@ -140,6 +142,7 @@ public class test3 : MonoBehaviour
         MassBoxCS.MassInit(mainPanel);  //massbox初期化
 
         DebugText.SetActive(false);
+        oldSceneName = null;
     }
 
     // Update is called once per frame
@@ -197,7 +200,7 @@ public class test3 : MonoBehaviour
                     alpha();
                     LifeHide();
                 }
-            }else if(gameFinish) Invoke("Result", 2);
+            }else if(gameFinish) GameOver();
         }
 
         DebugMode();
@@ -720,10 +723,13 @@ public class test3 : MonoBehaviour
 
     void Result()
     {
-        //リザルト画面へ
-        oldSceneName = SceneManager.GetActiveScene().name;
-        //SceneManager.LoadScene("testresurt");
-        SceneManager.LoadScene("MasterResult");
+        if (oldSceneName == null)
+        {
+            //リザルト画面へ
+            oldSceneName = SceneManager.GetActiveScene().name;
+            //SceneManager.LoadScene("testresurt");
+            SceneManager.LoadScene("MasterResult");
+        }
     }
 
     void TimeLimmit()
@@ -750,10 +756,9 @@ public class test3 : MonoBehaviour
                 if (!gameOverVeil.activeSelf)
                 {
                     gameOverVeil.SetActive(true);
+                    canvas.SetActive(false);
                     Test3SECS.audioSource.PlayOneShot(Test3SECS.gameOverSE);
                 }
-                if(!gameOverText.activeSelf) gameOverText.SetActive(true);
-                //Invoke("Result", 0.5f);
                 gameFinish = true;
             }
             //寿命が尽きそうな衛星があったらSE
@@ -1042,6 +1047,20 @@ public class test3 : MonoBehaviour
             else if (!Test3SECS.isLifeSE) Test3SECS.audioSource.PlayOneShot(Test3SECS.turnSE);
         }
         Test3SECS.isLifeSECheck = true;
+    }
+
+    void GameOver()
+    {
+        gameOverTimer += Time.deltaTime;
+        if (gameOverTimer > 2)
+        {
+            Result();
+            gameOverTimer = 0;
+        }
+        else if (gameOverTimer > 1)
+        {
+            gameOverText.SetActive(true);
+        }
     }
 
     void DebugMode()

@@ -540,7 +540,13 @@ public class test2 : MonoBehaviour
     //***
     void PanelOperation()
     {
-        turn = TurnCS.nowTurn;
+        if (gameClear.activeSelf == false)
+        {
+            turn = TurnCS.nowTurn + 1;
+            if (gameOver.activeSelf == true)
+                turn = TurnMax;
+        }
+            
         //パネル反時計回り
         if (Input.GetButtonDown("LB"))
         {
@@ -920,6 +926,7 @@ public class test2 : MonoBehaviour
         {
             if ((Input.GetButtonDown("LB") || Input.GetButtonDown("RB") || TimerCS.timeOut) && TimerCS.countStart == true) //Xか制限時間でターン終了
             {
+
                 if (!alpha_Flg) PointCheck();
                 TimerCS.timeCount = 30.0f;
                 TimerCS.timeOut = false;
@@ -930,11 +937,11 @@ public class test2 : MonoBehaviour
                 Invoke("ClearCheck", 0.2f); //クリア条件を満たしたかチェック
             }
         }
-        else
-        {
-            if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
-            Result();   //リザルトに遷移
-        }
+        //else
+        //{
+        //    if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
+        //    Result();   //リザルトに遷移
+        //}
 
 
         //if (TimerCS.timeCount <= 0f) //Xか制限時間でターン終了

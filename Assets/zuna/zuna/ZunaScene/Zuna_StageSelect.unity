@@ -2725,6 +2725,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: buildtimestamp
       objectReference: {fileID: 0}
+    - target: {fileID: 4975975616466038755, guid: a02389ee0bc4ba2448cae9c0865ca5a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4975975616466038757, guid: a02389ee0bc4ba2448cae9c0865ca5a7,
         type: 3}
       propertyPath: m_Text

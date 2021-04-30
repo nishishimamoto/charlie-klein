@@ -73,6 +73,9 @@ public class Title : MonoBehaviour
                 SceneManager.LoadScene("StageSelect");
                 break;
             case 1:
+                SceneManager.LoadScene("Option");
+                break;
+            case 2:
 #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
 #else

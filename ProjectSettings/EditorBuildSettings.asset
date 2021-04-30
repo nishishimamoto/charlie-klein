@@ -62,4 +62,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/zuna/zuna/ZunaScene/Z_10.unity
     guid: 21618d7794b6e88428920b993b525010
+  - enabled: 1
+    path: Assets/Tatsuki929/Option.unity
+    guid: 9e41f92db36db9f4fa9e52c42e36a41a
   m_configObjects: {}

@@ -37,7 +37,6 @@ public class test3timer : MonoBehaviour
             if (timeCount <= 5)
             {
                 bigTimerText.enabled = true;   //5秒前から表示
-
                 bigTimerBlinking -= Time.deltaTime;
                 if (bigTimerBlinking <= 0) bigTimerBlinking = 1;
                 else if (bigTimerBlinking <= 0.4)

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -40,6 +42,10 @@ public class Isha_Singlshot : MonoBehaviour
     bool isHorizontal;     //十字キーの左右入力がニュートラルにもどったか
     bool isVertical;    //十字キーの上下入力がニュートラルにもどったか
 
+    bool isOperation;
+
+    bool isDebug;
+
     bool chargeSE;
     bool overCS;
 
@@ -68,7 +74,9 @@ public class Isha_Singlshot : MonoBehaviour
     [SerializeField] GameObject Score;  //スコアのテキストオブジェクト
     Text scoreText;
     [SerializeField] GameObject BonusText;
+    [SerializeField] GameObject TimeUpText;
     [SerializeField] GameObject TheWorld;
+    [SerializeField] GameObject DebugText;
     int[] targetNum = new int[4];
     [SerializeField] Text[] targetText = new Text[1];
     [SerializeField] GameObject gameClear;
@@ -108,6 +116,8 @@ public class Isha_Singlshot : MonoBehaviour
         needleAngle = 0;
 
         TheWorld.gameObject.SetActive(false);
+        TimeUpText.gameObject.SetActive(false);
+        DebugText.gameObject.SetActive(false);
 
         for (int i = 0; i < 4; i++)
         {
@@ -304,9 +314,11 @@ public class Isha_Singlshot : MonoBehaviour
         
         if (!PauseCS.isPause)
         {
-            if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
-            else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
-            
+            if (!isOperation)
+            {
+                if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
+                else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
+            }
 
             if (HeavensTime == 0)
             {
@@ -429,18 +441,53 @@ public class Isha_Singlshot : MonoBehaviour
     //***
     void PanelOperation()
     {
-        if (Input.GetButtonDown("Back"))
+        if (isDebug == false) // デバッグモードoff中
         {
-            BonusGauge.fillAmount = 0.95f;
-            if (HeavensTime == 0)
+            if (Input.GetButtonDown("Back")) //デバッグモードon
             {
-                HeavensTime = 1;
-            }
-            else
-            {
-                HeavensTime = 0;
+                DebugText.gameObject.SetActive(true);
+                isDebug = true;
+
+
+                var app = new ProcessStartInfo();
+                app.FileName = "notepad";
+                app.Arguments = "Assets/ishadou/DebugList.txt";
+
+                Process.Start(app);
+
             }
         }
+        else //デバッグモードon中
+        {
+            if (Input.GetKeyDown("t")) //時間停止
+            {
+                if (HeavensTime == 0)
+                {
+                    HeavensTime = 1;
+                }
+                else
+                {
+                    HeavensTime = 0;
+                }
+            }
+            if (Input.GetKeyDown("g")) //ゲージマックス
+            {
+                BonusGauge.fillAmount = 1f;
+            }
+            if (Input.GetKeyDown("f")) //残り10秒にする
+            {
+                TimerCS.timeCount = 10.0f;
+            }
+            if (Input.GetButtonDown("Back"))//デバッグモードoff
+            {
+                DebugText.gameObject.SetActive(false);
+                isDebug = false;
+            }
+
+
+        }
+
+
 
         if (Input.GetButtonDown("X") && BonusGauge.fillAmount >= 1)
         {
@@ -710,6 +757,8 @@ public class Isha_Singlshot : MonoBehaviour
         }
         if (TimerCS.timeCount <= 0f && overCS == false) //制限時間でゲーム終了
         {
+            TimeUpText.gameObject.SetActive(true);
+            isOperation = true;
             overCS = true;
             gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
             if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;

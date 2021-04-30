@@ -75,6 +75,10 @@ public class Z_StageSelect : MonoBehaviour
             isVertical = true;
             Invoke("SenceChange", 1.0f);
         }
+        if (Input.GetButtonDown("B"))
+        {
+            SceneManager.LoadScene("StageSelect");
+        }
 
         if (isBlinking) Blinking();
 

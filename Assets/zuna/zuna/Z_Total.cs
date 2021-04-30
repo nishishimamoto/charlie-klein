@@ -16,7 +16,7 @@ public class Z_Total: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        scoreText.text = "" + ((test2.TurnMax - test2.turn) * test2.score);
+        scoreText.text = "" + (test2.score+(test2.TurnMax - test2.turn) * test2.score);
 
     }
 }

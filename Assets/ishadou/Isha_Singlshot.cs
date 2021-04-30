@@ -40,6 +40,8 @@ public class Isha_Singlshot : MonoBehaviour
     bool isHorizontal;     //十字キーの左右入力がニュートラルにもどったか
     bool isVertical;    //十字キーの上下入力がニュートラルにもどったか
 
+    bool isOperation;
+
     bool chargeSE;
     bool overCS;
 
@@ -68,6 +70,7 @@ public class Isha_Singlshot : MonoBehaviour
     [SerializeField] GameObject Score;  //スコアのテキストオブジェクト
     Text scoreText;
     [SerializeField] GameObject BonusText;
+    [SerializeField] GameObject TimeUpText;
     [SerializeField] GameObject TheWorld;
     int[] targetNum = new int[4];
     [SerializeField] Text[] targetText = new Text[1];
@@ -108,6 +111,7 @@ public class Isha_Singlshot : MonoBehaviour
         needleAngle = 0;
 
         TheWorld.gameObject.SetActive(false);
+        TimeUpText.gameObject.SetActive(false);
 
         for (int i = 0; i < 4; i++)
         {
@@ -304,9 +308,11 @@ public class Isha_Singlshot : MonoBehaviour
         
         if (!PauseCS.isPause)
         {
-            if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
-            else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
-            
+            if (!isOperation)
+            {
+                if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
+                else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
+            }
 
             if (HeavensTime == 0)
             {
@@ -710,6 +716,8 @@ public class Isha_Singlshot : MonoBehaviour
         }
         if (TimerCS.timeCount <= 0f && overCS == false) //制限時間でゲーム終了
         {
+            TimeUpText.gameObject.SetActive(true);
+            isOperation = true;
             overCS = true;
             gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
             if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;

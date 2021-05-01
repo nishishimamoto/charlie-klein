@@ -782,9 +782,9 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 363192796}
   m_CullTransparentMesh: 0
---- !u!4 &373170867 stripped
+--- !u!4 &586373852 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 791405588576490894, guid: 537cdc37eb9563c4ebdb26e2c8fe5f5c,
+  m_CorrespondingSourceObject: {fileID: 2260669006036684993, guid: 537cdc37eb9563c4ebdb26e2c8fe5f5c,
     type: 3}
   m_PrefabInstance: {fileID: 1828116397}
   m_PrefabAsset: {fileID: 0}
@@ -1202,7 +1202,7 @@ RectTransform:
   - {fileID: 787432029}
   - {fileID: 72849685}
   - {fileID: 241519468}
-  - {fileID: 373170867}
+  - {fileID: 586373852}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1302,6 +1302,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2260669005995332051, guid: 537cdc37eb9563c4ebdb26e2c8fe5f5c,
+        type: 3}
+      propertyPath: eventSystem
+      value: 
+      objectReference: {fileID: 346340491}
+    - target: {fileID: 2260669006036684993, guid: 537cdc37eb9563c4ebdb26e2c8fe5f5c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 537cdc37eb9563c4ebdb26e2c8fe5f5c, type: 3}

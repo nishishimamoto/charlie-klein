@@ -18,6 +18,7 @@ public class test3 : MonoBehaviour
     [SerializeField] Bom BomCS;
     [SerializeField] MassBox MassBoxCS;
     [SerializeField] GameSE Test3SECS;
+    [SerializeField] CameraChange CameraChangeCS;
 
     const int mainPanel = 30;    //メインパネルの数
     const int sidePanel = 42;    //サイドパネルの数
@@ -101,6 +102,7 @@ public class test3 : MonoBehaviour
     [SerializeField] GameObject main;
     [SerializeField] GameObject side;
     [SerializeField] bool[] isPlanet = new bool[mainPanel];
+    [SerializeField] bool[] isSatellite = new bool[sidePanel];
 
     public static string oldSceneName;  //リザルトから戻る用
     bool gameFinish;    //ゲームが終わったかどうかの判定
@@ -109,6 +111,8 @@ public class test3 : MonoBehaviour
     float alphaDerayTime = 0;
     bool isAlphaLast;
     bool isMass;
+    bool isParfect = true;
+    [SerializeField] GameObject cursor;
     bool isBomFlg;
     float bomChangeTime = 0;
 
@@ -200,7 +204,9 @@ public class test3 : MonoBehaviour
                     alpha();
                     LifeHide();
                 }
-            }else if(gameFinish) GameOver();
+                Cursor();   //爆破中はカーソルをけす
+            }
+            else if(gameFinish) GameOver();
         }
 
         DebugMode();
@@ -225,6 +231,10 @@ public class test3 : MonoBehaviour
             }
             else if (alpha_Time >= 0.6f)//0.6以上になったらalpha_Timeを0に戻して爆破して次のをみる
             {
+                isSatellite[(check / (width - 1)) + check] = true;
+                isSatellite[(check / (width - 1)) + check + 1] = true;
+                isSatellite[(check / (width - 1)) + check + width] = true;
+                isSatellite[(check / (width - 1)) + check + width + 1] = true;
                 //ComboCS.comboCount += 1;
                 alpha_Time = 0;
                 //flgCheck[check] = false;
@@ -265,55 +275,7 @@ public class test3 : MonoBehaviour
             }
             else
             {
-                alphaDerayTime += Time.deltaTime;
-                if (!isAlphaLast)
-                {
-                    AlphaFlgDeray();
-                    if (ComboCS.comboCount >= 13) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion2SE);
-                    else if (ComboCS.comboCount >= 6) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion1SE);
-                    else ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
-                    isAlphaLast = true;
-
-                    for (int i = 0; i < mainPanel; i++)
-                    {
-                        if (flgCheck[i])
-                        {
-                            sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, colorNum)];
-                            sideNumber[(i / (width - 1)) + i + 1] = sideColorNumber[Random.Range(0, colorNum)];
-                            sideNumber[(i / (width - 1)) + i + width + 1] = sideColorNumber[Random.Range(0, colorNum)];
-                            sideNumber[(i / (width - 1)) + i + width] = sideColorNumber[Random.Range(0, colorNum)];
-
-                            TurnOverCS[(i / (width - 1)) + i].LifeCountReSet();
-                            TurnOverCS[(i / (width - 1)) + i + 1].LifeCountReSet();
-                            TurnOverCS[(i / (width - 1)) + i + width + 1].LifeCountReSet();
-                            TurnOverCS[(i / (width - 1)) + i + width].LifeCountReSet();
-
-                            ////ランダムな数値にいれかえ
-                            //MainGenerate();
-
-                            ExplosionCS.particle[i].Play(); //条件を満たした惑星が爆発
-
-                            //Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
-                            ColorChange();   //パネルの色変更
-
-                            sideSphere[(i / (width - 1)) + i].SetActive(false);
-                            sideSphere[(i / (width - 1)) + i + 1].SetActive(false);
-                            sideSphere[(i / (width - 1)) + i + width].SetActive(false);
-                            sideSphere[(i / (width - 1)) + i + width + 1].SetActive(false);
-
-                            MassBoxCS.MassDelete(mainPanel);    //MassBoxをすべて消す
-                        }
-                    }
-                }
-                else if (alphaDerayTime >= 2)
-                {
-
-                    alphaDerayTime = 0;
-                    check = 0;
-                    thinkingObjects.SetActive(true);
-                    isAlphaLast = false;
-                    alpha_Flg = false;
-                }
+                ParfectDestroy();
             }
         }
         else check += 1;
@@ -794,9 +756,15 @@ public class test3 : MonoBehaviour
                 sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", lightTime);
                 sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", lightTime);
 
+                isSatellite[(i / (width - 1)) + i] = false;
+                isSatellite[(i / (width - 1)) + i + 1] = false;
+                isSatellite[(i / (width - 1)) + i + width] = false;
+                isSatellite[(i / (width - 1)) + i + width + 1] = false;
                 //flgCheck[i] = false;
             }
         }
+
+        isParfect = true;
     }
 
     void SatelliteCreat()
@@ -1063,6 +1031,134 @@ public class test3 : MonoBehaviour
         }
     }
 
+    void ParfectDestroy()
+    {
+        if (alphaDerayTime == 0)
+        {
+            for (int i = 0; i < mainPanel; i++)
+            {
+                if (!isPlanet[i] && (!isSatellite[(i / (width - 1)) + i] ||
+                !isSatellite[(i / (width - 1)) + i + 1] ||
+                !isSatellite[(i / (width - 1)) + i + width] ||
+                !isSatellite[(i / (width - 1)) + i + width + 1]))    //半透明から透明へ
+                {
+                    isParfect = false;
+                }
+            }
+        }
+        alphaDerayTime += Time.deltaTime;
+        if (isParfect)
+        {
+            CameraChangeCS.isParfectCamera = true;
+            if (!isAlphaLast && alphaDerayTime >= 2)
+            {
+                AlphaFlgDeray();
+                if (ComboCS.comboCount >= 13) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion2SE);
+                else if (ComboCS.comboCount >= 6) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion1SE);
+                else ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                isAlphaLast = true;
+
+                for (int i = 0; i < mainPanel; i++)
+                {
+                    if (flgCheck[i])
+                    {
+                        sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, colorNum)];
+                        sideNumber[(i / (width - 1)) + i + 1] = sideColorNumber[Random.Range(0, colorNum)];
+                        sideNumber[(i / (width - 1)) + i + width + 1] = sideColorNumber[Random.Range(0, colorNum)];
+                        sideNumber[(i / (width - 1)) + i + width] = sideColorNumber[Random.Range(0, colorNum)];
+
+                        TurnOverCS[(i / (width - 1)) + i].LifeCountReSet();
+                        TurnOverCS[(i / (width - 1)) + i + 1].LifeCountReSet();
+                        TurnOverCS[(i / (width - 1)) + i + width + 1].LifeCountReSet();
+                        TurnOverCS[(i / (width - 1)) + i + width].LifeCountReSet();
+
+                        ////ランダムな数値にいれかえ
+                        //MainGenerate();
+
+                        ExplosionCS.particle[i].Play(); //条件を満たした惑星が爆発
+
+                        //Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
+                        ColorChange();   //パネルの色変更
+
+                        sideSphere[(i / (width - 1)) + i].SetActive(false);
+                        sideSphere[(i / (width - 1)) + i + 1].SetActive(false);
+                        sideSphere[(i / (width - 1)) + i + width].SetActive(false);
+                        sideSphere[(i / (width - 1)) + i + width + 1].SetActive(false);
+
+                        MassBoxCS.MassDelete(mainPanel);    //MassBoxをすべて消す
+                    }
+                }
+            }
+            else if (alphaDerayTime >= 5)
+            {
+
+                alphaDerayTime = 0;
+                check = 0;
+                thinkingObjects.SetActive(true);
+                isAlphaLast = false;
+                alpha_Flg = false;
+                CameraChangeCS.isParfectCamera = false;
+            }
+        }
+        else if(!isParfect)
+        {
+            if (!isAlphaLast)
+            {
+                AlphaFlgDeray();
+                if (ComboCS.comboCount >= 13) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion2SE);
+                else if (ComboCS.comboCount >= 6) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion1SE);
+                else ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                isAlphaLast = true;
+
+                for (int i = 0; i < mainPanel; i++)
+                {
+                    if (flgCheck[i])
+                    {
+                        sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, colorNum)];
+                        sideNumber[(i / (width - 1)) + i + 1] = sideColorNumber[Random.Range(0, colorNum)];
+                        sideNumber[(i / (width - 1)) + i + width + 1] = sideColorNumber[Random.Range(0, colorNum)];
+                        sideNumber[(i / (width - 1)) + i + width] = sideColorNumber[Random.Range(0, colorNum)];
+
+                        TurnOverCS[(i / (width - 1)) + i].LifeCountReSet();
+                        TurnOverCS[(i / (width - 1)) + i + 1].LifeCountReSet();
+                        TurnOverCS[(i / (width - 1)) + i + width + 1].LifeCountReSet();
+                        TurnOverCS[(i / (width - 1)) + i + width].LifeCountReSet();
+
+                        ////ランダムな数値にいれかえ
+                        //MainGenerate();
+
+                        ExplosionCS.particle[i].Play(); //条件を満たした惑星が爆発
+
+                        //Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
+                        ColorChange();   //パネルの色変更
+
+                        sideSphere[(i / (width - 1)) + i].SetActive(false);
+                        sideSphere[(i / (width - 1)) + i + 1].SetActive(false);
+                        sideSphere[(i / (width - 1)) + i + width].SetActive(false);
+                        sideSphere[(i / (width - 1)) + i + width + 1].SetActive(false);
+
+                        MassBoxCS.MassDelete(mainPanel);    //MassBoxをすべて消す
+                    }
+                }
+            }
+            else if (alphaDerayTime >= 2)
+            {
+
+                alphaDerayTime = 0;
+                check = 0;
+                thinkingObjects.SetActive(true);
+                isAlphaLast = false;
+                alpha_Flg = false;
+            }
+        }
+    }
+
+    void Cursor()
+    {
+        if (alpha_Flg && cursor.activeSelf) cursor.SetActive(false);
+        else if (!alpha_Flg && !cursor.activeSelf) cursor.SetActive(true);
+    }
+
     void DebugMode()
     {
         if (Input.GetButtonDown("R3") && !isDebug)
@@ -1091,4 +1187,3 @@ public class test3 : MonoBehaviour
         }
     }
 }
-

@@ -30,7 +30,7 @@ public class MassBox : MonoBehaviour
 
         for (int i = 0; i < main; i++)
         {
-            boxSprite[i] = Instantiate(massSprite, new Vector3(-6 + (2 * (i % 6)), 4 - (2 * (i / 6)), 2.0f), Quaternion.identity);
+            boxSprite[i] = Instantiate(massSprite, new Vector3(-6 + (2 * (i % 6)), 4 - (2 * (i / 6)), 0), Quaternion.identity);
             boxSprite[i].SetActive(false);
         }
     }

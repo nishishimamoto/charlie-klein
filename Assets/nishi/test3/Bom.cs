@@ -21,7 +21,7 @@ public class Bom : MonoBehaviour
         if (bomGauge > maxBomGauge) bomGauge = maxBomGauge;
         if (bomGauge == maxBomGauge && !bomText.activeSelf)
         {
-            bomSlider.color = Color.green;
+            bomSlider.color = Color.red;
             bomText.SetActive(true);
         }
         else if (bomGauge < maxBomGauge && bomText.activeSelf)

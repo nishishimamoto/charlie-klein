@@ -488,7 +488,7 @@ public class Isha_Singlshot : MonoBehaviour
         }
 
 
-
+        //確変
         if (Input.GetButtonDown("X") && BonusGauge.fillAmount >= 1)
         {
             BonusFlg = 1;
@@ -659,7 +659,8 @@ public class Isha_Singlshot : MonoBehaviour
                 TimerCS.countStart = true;
                 chargeSE = false;
                 Needle.gameObject.SetActive(false);
-                
+                gameSECS.is5countSE = false;
+
                 TheWorld.gameObject.SetActive(false);
                 BonusTime = 10;
                 BonusGauge.fillAmount = 0;

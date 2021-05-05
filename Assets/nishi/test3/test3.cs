@@ -98,11 +98,12 @@ public class test3 : MonoBehaviour
     [SerializeField] GameObject gameOverText;
     [SerializeField] GameObject canvas;
     float gameOverTimer = 0;
+    [SerializeField] GameObject magic;
 
     [SerializeField] GameObject main;
     [SerializeField] GameObject side;
     [SerializeField] bool[] isPlanet = new bool[mainPanel];
-    [SerializeField] bool[] isSatellite = new bool[sidePanel];
+    bool[] isSatellite = new bool[sidePanel];
 
     public static string oldSceneName;  //リザルトから戻る用
     bool gameFinish;    //ゲームが終わったかどうかの判定
@@ -1049,8 +1050,12 @@ public class test3 : MonoBehaviour
         alphaDerayTime += Time.deltaTime;
         if (isParfect)
         {
-            CameraChangeCS.isParfectCamera = true;
-            if (!isAlphaLast && alphaDerayTime >= 2)
+            if (!isAlphaLast && alphaDerayTime < 2)
+            {
+                magic.SetActive(true);
+                CameraChangeCS.isParfectCamera = true;
+            }
+            else if (!isAlphaLast && alphaDerayTime >= 2)
             {
                 AlphaFlgDeray();
                 if (ComboCS.comboCount >= 13) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion2SE);
@@ -1086,6 +1091,7 @@ public class test3 : MonoBehaviour
                         sideSphere[(i / (width - 1)) + i + width + 1].SetActive(false);
 
                         MassBoxCS.MassDelete(mainPanel);    //MassBoxをすべて消す
+                        magic.SetActive(false);
                     }
                 }
             }

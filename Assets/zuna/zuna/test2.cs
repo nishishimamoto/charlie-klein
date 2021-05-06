@@ -135,7 +135,8 @@ public class test2 : MonoBehaviour
         //    {
         //        satelmap[h, w] = sideColorNumber[2];
         //    }
-
+        ScreenCover.SetActive(true);
+        gameClear.SetActive(true);
 
         //}
         ScreenCover.SetActive(false);

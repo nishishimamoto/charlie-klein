@@ -1401,6 +1401,7 @@ MonoBehaviour:
   timerSlider: {fileID: 1915503328}
   timerBase: {fileID: 1287957271}
   bigTimerText: {fileID: 274358375}
+  TurnCS: {fileID: 17638415}
 --- !u!114 &274358375 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6539218743475380732, guid: 04937b75c777b93429e17ab1da170f52,
@@ -1567,7 +1568,7 @@ PrefabInstance:
     - target: {fileID: 6539218743475380730, guid: 04937b75c777b93429e17ab1da170f52,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6539218743497114692, guid: 04937b75c777b93429e17ab1da170f52,
         type: 3}
@@ -5368,6 +5369,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1513599558 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5369937405864575571, guid: 04937b75c777b93429e17ab1da170f52,
+    type: 3}
+  m_PrefabInstance: {fileID: 323058414}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1538639010
 GameObject:
   m_ObjectHideFlags: 0
@@ -5489,6 +5496,7 @@ MonoBehaviour:
   ComboCS: {fileID: 323058416}
   ExplosionCS: {fileID: 1037423004}
   PauseCS: {fileID: 323058415}
+  ScreenCover: {fileID: 1513599558}
   Score: {fileID: 323058418}
   targetText:
   - {fileID: 1335172292}

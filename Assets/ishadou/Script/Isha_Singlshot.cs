@@ -15,6 +15,8 @@ public class Isha_Singlshot : MonoBehaviour
     [SerializeField] Explosion ExplosionCS;
     [SerializeField] Pause PauseCS;
     [SerializeField] Image BonusGauge;
+    [SerializeField] Image BonusGaugeOut;
+    [SerializeField] Image BonusGaugeSand;
     [SerializeField] GameSE gameSECS;
 
     [SerializeField] Image Needle;
@@ -31,7 +33,7 @@ public class Isha_Singlshot : MonoBehaviour
     int[] sideNumber = new int[sidePanel];     //4*4のナンバー
     int tmpNumber;          //数字入れ替え時の一時保存
     int[] bonusLevel = new int[sidePanel]; //サイドパネルのボーナス確認 (0=なし,1=あり)
-    int BonusFlg = 0; //ボーナスタイム発動したか否か
+    public int BonusFlg = 0; //ボーナスタイム発動したか否か
     int BsCnt = 0;
     float BonusTime = 0;
     int tmpBonus;         //ボーナス入れ替え時の一時保存
@@ -73,9 +75,11 @@ public class Isha_Singlshot : MonoBehaviour
 
     [SerializeField] GameObject Score;  //スコアのテキストオブジェクト
     Text scoreText;
+    [SerializeField] GameObject Pause;
     [SerializeField] GameObject BonusText;
     [SerializeField] GameObject TimeUpText;
     [SerializeField] GameObject TheWorld;
+    [SerializeField] GameObject TimeUpBack;
     [SerializeField] GameObject DebugText;
     [SerializeField] GameObject ListText;
     int[] targetNum = new int[4];
@@ -107,6 +111,8 @@ public class Isha_Singlshot : MonoBehaviour
     void Start()
     {
         BonusGauge.fillAmount = 0f;
+        BonusGaugeOut.fillAmount = 0f;
+        BonusGaugeSand.fillAmount = 0f;
         BonusFlg = 0;
         BonusTime = 10;
         BonusText.gameObject.SetActive (false);
@@ -116,7 +122,9 @@ public class Isha_Singlshot : MonoBehaviour
         Needle.gameObject.SetActive(false);
         needleAngle = 0;
 
+        Pause.gameObject.SetActive(true);
         TheWorld.gameObject.SetActive(false);
+        TimeUpBack.gameObject.SetActive(false);
         TimeUpText.gameObject.SetActive(false);
         DebugText.gameObject.SetActive(false);
         ListText.gameObject.SetActive(false);
@@ -127,19 +135,19 @@ public class Isha_Singlshot : MonoBehaviour
             {
                 case 0:
                     //左上
-                    mainSphere[i] = Instantiate(main, new Vector3(7f, 2f, 0), Quaternion.identity);
+                    mainSphere[i] = Instantiate(main, new Vector3(7.125f, 3.625f, 0), Quaternion.identity);
                     break;
                 case 1:
                     //右上
-                    mainSphere[i] = Instantiate(main, new Vector3(9f, 2f, 0), Quaternion.identity);
+                    mainSphere[i] = Instantiate(main, new Vector3(8.875f, 3.625f, 0), Quaternion.identity);
                     break;
                 case 2:
                     //左下
-                    mainSphere[i] = Instantiate(main, new Vector3(7f, 0f, 0), Quaternion.identity);
+                    mainSphere[i] = Instantiate(main, new Vector3(7.125f, 1.875f, 0), Quaternion.identity);
                     break;
                 case 3:
                     //右下
-                    mainSphere[i] = Instantiate(main, new Vector3(9f, 0f, 0), Quaternion.identity);
+                    mainSphere[i] = Instantiate(main, new Vector3(8.875f, 1.875f, 0), Quaternion.identity);
                     break;
                 //case 4:
                 //    //次の次　左下
@@ -433,6 +441,8 @@ public class Isha_Singlshot : MonoBehaviour
                 if (BsCnt == 1)
                 {
                     BonusGauge.fillAmount += 0.05f * ComboCS.comboCount;
+                    BonusGaugeOut.fillAmount += 0.05f * ComboCS.comboCount;
+                    BonusGaugeSand.fillAmount += 0.05f * ComboCS.comboCount;
                 }
                 ComboCS.comboCount = 0;
                 rainbowTarget = 0;
@@ -469,10 +479,16 @@ public class Isha_Singlshot : MonoBehaviour
             if (Input.GetKeyDown("g")) //ゲージマックス
             {
                 BonusGauge.fillAmount = 1f;
+                BonusGaugeOut.fillAmount = 1f;
+                BonusGaugeSand.fillAmount = 1f;
             }
             if (Input.GetKeyDown("f")) //残り10秒にする
             {
                 TimerCS.timeCount = 10.0f;
+            }
+            if (Input.GetKeyDown("p")) //残り10秒にする
+            {
+                TimerCS.timeCount += 10.0f;
             }
             if (Input.GetButtonDown("Back"))//デバッグモードoff
             {
@@ -486,14 +502,14 @@ public class Isha_Singlshot : MonoBehaviour
 
 
         //確変
-        if (Input.GetButtonDown("X") && BonusGauge.fillAmount >= 1)
+        if (Input.GetButtonDown("X") && BonusGaugeSand.fillAmount >= 1)
         {
             BonusFlg = 1;
             TheWorld.gameObject.SetActive(true);
         }
 
-            //パネル反時計回り
-            if (Input.GetButtonDown("LB"))
+        //パネル反時計回り
+        if (Input.GetButtonDown("LB"))
         {
             panelMove[0] = true;
             if (!TimerCS.countStart) TimerCS.countStart = true;
@@ -624,7 +640,7 @@ public class Isha_Singlshot : MonoBehaviour
     //***
     void Bonus()
     {
-        if (BonusGauge.fillAmount >= 1)
+        if (BonusGaugeSand.fillAmount >= 1)
         {
             BonusText.gameObject.SetActive(true);
             if (chargeSE == false)
@@ -640,27 +656,33 @@ public class Isha_Singlshot : MonoBehaviour
 
         if (BonusFlg == 1)
         {
+            gameSECS.audioSource.Stop();
             TimerCS.countStart = false;
+            TimerCS.bigTimerText.enabled = false;
+
             BsCnt = 0;
             Needle.gameObject.SetActive(true);
             needleAngle = -36 * Time.deltaTime;
             Needle.transform.Rotate(new Vector3(0f, 0f, needleAngle));
 
             BonusGauge.fillAmount = BonusTime / 10;
+            BonusGaugeOut.fillAmount = BonusTime / 10;
+            BonusGaugeSand.fillAmount = BonusTime / 10;
             BonusTime -= Time.deltaTime;
 
-            if (BonusGauge.fillAmount <= 0)
+            if (BonusGaugeSand.fillAmount <= 0)
             {
                 alpha();
                 BsCnt = 1;
                 TimerCS.countStart = true;
                 chargeSE = false;
                 Needle.gameObject.SetActive(false);
-                gameSECS.is5countSE = false;
 
                 TheWorld.gameObject.SetActive(false);
                 BonusTime = 10;
                 BonusGauge.fillAmount = 0;
+                BonusGaugeOut.fillAmount = 0;
+                BonusGaugeSand.fillAmount = 0;
                 BonusFlg = 0;
             }
         }
@@ -751,11 +773,19 @@ public class Isha_Singlshot : MonoBehaviour
         if (TimerCS.timeCount <= 5 && !gameSECS.is5countSE)
         {
             gameSECS.audioSource.PlayOneShot(gameSECS.timerSE);
+            
             gameSECS.is5countSE = true;
         }
+        else if(TimerCS.timeCount > 5)
+        {
+            gameSECS.is5countSE = false;
+        }
+
         if (TimerCS.timeCount <= 0f && overCS == false) //制限時間でゲーム終了
         {
+            TimeUpBack.gameObject.SetActive(true);
             TimeUpText.gameObject.SetActive(true);
+
             isOperation = true;
             overCS = true;
             gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);

@@ -16,6 +16,7 @@ public class Z_Timer : MonoBehaviour
     [SerializeField] Image timerSlider;
     [SerializeField] Image timerBase;
     [SerializeField] public Text bigTimerText;
+    [SerializeField] Turn1 TurnCS;
 
     // Start is called before the first frame update
     void Start()
@@ -36,12 +37,13 @@ public class Z_Timer : MonoBehaviour
         if (timeCount > 0 && countStart)
         {
             timeCount -= Time.deltaTime;    //制限時間のカウントダウン
-            if (timeCount <= 5)
+            if (TurnCS.nowTurn >= (test2.TurnMax-5))
             {
                 bigTimerText.enabled = true;   //5秒前から表示
-                bigTimerText.text = Mathf.Ceil(timeCount).ToString("f0");  //時間の表示
+                bigTimerText.text = "" + (test2.TurnMax - TurnCS.nowTurn); //時間の表示
+                if(TurnCS.nowTurn>=20) bigTimerText.text = "0";
             }
-            else if (timeCount > 5)
+            else if (TurnCS.nowTurn <= (test2.TurnMax - 5))
             {
                 bigTimerText.enabled = false;
             }

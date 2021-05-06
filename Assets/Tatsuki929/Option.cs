@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Audio;
-
+using System.IO;
+using UnityEditor;
 public class Option : MonoBehaviour
 {
     public AudioMixer mixer;
@@ -13,7 +14,13 @@ public class Option : MonoBehaviour
 
     short cursol = 0, cursol_old = 0, cursol2 = 0, cursol_old2 = 0;
 
-    public bool isVertical, isHorizontal, isSound, isGraph, isBack, isBlinking;
+    public bool isVertical, isHorizontal, isSound, isGraph, isBack;
+
+    public bool source_SE, source_BGM;
+
+    float blinking = 0f;
+    float blinkingSpeed = 3.0f;
+    bool isBlinking;
 
     [SerializeField] GameObject obj_Sound;
     [SerializeField] GameObject obj_Graphic;
@@ -28,8 +35,8 @@ public class Option : MonoBehaviour
     [SerializeField] GameObject vol_obj_SE;
     [SerializeField] GameObject vol_obj_BGM;
 
-    [SerializeField] Text text_BGM;
-    [SerializeField] Text text_SE;
+    [SerializeField] Text text_BGM, text_SE,text_BGM_num, text_SE_num;
+    [SerializeField] GameObject opt_text;
 
     [SerializeField] SE_Cursol _Cursol;
 
@@ -38,26 +45,46 @@ public class Option : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        string a = Application.dataPath;
         mixer.GetFloat("SE", out vol_SE);
         mixer.GetFloat("BGM", out vol_BGM);
+        
+        
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        if (vol_BGM <= -30)
+        {
+            
+            source_BGM = true;
+
+        }
+        if (vol_SE <= -30)
+        {
+            
+            source_SE = true;
+
+        }
         if (!isBack && !isGraph && !isSound)
         {
             obj_Sound.SetActive(true);
-            obj_Graphic.SetActive(true);
+            //obj_Graphic.SetActive(true);
             obj_Back.SetActive(true);
             obj_Cursol.SetActive(true);
             vol_Setting.SetActive(false);
+            opt_text.SetActive(true);
+
             if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
             {
                  cursol_old = cursol;
                 //if (cursol >= 8) cursol -= 8;
                 //else cursol += 2;
-                if (cursol >= 2) cursol -= 2;
+                if (cursol >= 2) cursol -= 1;
                 else cursol += 1;
                 isVertical = true;
                 ButtonSize();
@@ -67,7 +94,7 @@ public class Option : MonoBehaviour
                 cursol_old = cursol;
                 //if (cursol <= 1) cursol += 8;
                 //else cursol -= 2;
-                if (cursol <= 0) cursol += 2;
+                if (cursol <= 0) cursol += 1;
                 else cursol -= 1;
                 isVertical = true;
                 ButtonSize();
@@ -76,17 +103,18 @@ public class Option : MonoBehaviour
         else if(isSound)
         {
             obj_Sound.SetActive(false);
-            obj_Graphic.SetActive(false);
+            //obj_Graphic.SetActive(false);
             obj_Back.SetActive(false);
             obj_Cursol.SetActive(false);
             vol_Setting.SetActive(true);
+            opt_text.SetActive(false);
 
-
+            
             ButtonSize2();
             Slider();
 
-            text_BGM.text = Mathf.Floor(((vol_BGM+80)/80)*100).ToString();
-            text_SE.text = Mathf.Floor(((vol_SE + 80) / 80)*100).ToString();
+            text_BGM_num.text = Mathf.Floor(((vol_BGM+30)/50)*100).ToString();
+            text_SE_num.text = Mathf.Floor(((vol_SE + 30) / 50)*100).ToString();
 
             if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
             {
@@ -110,8 +138,8 @@ public class Option : MonoBehaviour
             {
                 if (cursol2 == 0)
                 {
-                    vol_BGM -= 0.8f;
-                    if (vol_BGM < -80) { vol_BGM = -80; }
+                    vol_BGM -= 0.5f;
+                    if (vol_BGM < -30) { vol_BGM = -30; }
                     Debug.Log("vol_BGM = " + vol_BGM);
                     mixer.SetFloat("BGM", vol_BGM);
 
@@ -119,8 +147,8 @@ public class Option : MonoBehaviour
                 else if(cursol2 == 1)
                 {
                     _Cursol.SE.PlayOneShot(_Cursol.move);
-                    vol_SE -= 0.8f;
-                    if (vol_SE < -80) { vol_SE = -80; }
+                    vol_SE -= 0.5f;
+                    if (vol_SE < -30) { vol_SE = -30; }
                     Debug.Log("vol_SE = " + vol_SE);
                     mixer.SetFloat("SE", vol_SE);
 
@@ -131,16 +159,18 @@ public class Option : MonoBehaviour
             {
                 if (cursol2 == 0)
                 {
-                    vol_BGM += 0.8f;
-                    if (vol_BGM > 0) { vol_BGM = 0; }
+                    vol_BGM += 0.5f;
+                    source_BGM = false;
+                    if (vol_BGM > 20) { vol_BGM = 20; }
                     Debug.Log("vol_BGM = " + vol_BGM);
                     mixer.SetFloat("BGM", vol_BGM);
                 }
                 else if(cursol2 == 1)
                 {
                     _Cursol.SE.PlayOneShot(_Cursol.move);
-                    vol_SE += 0.8f;
-                    if (vol_SE > 0) { vol_SE = 0; }
+                    vol_SE += 0.5f;
+                    source_SE = false;
+                    if (vol_SE > 20) { vol_SE = 20; }
                     Debug.Log("vol_SE = " + vol_SE);
                     mixer.SetFloat("SE", vol_SE);
                   
@@ -152,8 +182,8 @@ public class Option : MonoBehaviour
             {
                 if (cursol2 == 0)
                 {
-                    vol_BGM -= 0.8f * 5;
-                    if (vol_BGM < -80) { vol_BGM = -80; }
+                    vol_BGM -= 0.5f * 5;
+                    if (vol_BGM < -30) { vol_BGM = -30; }
                     Debug.Log("vol_BGM = " + vol_BGM);
                     mixer.SetFloat("BGM", vol_BGM);
 
@@ -161,8 +191,8 @@ public class Option : MonoBehaviour
                 else if (cursol2 == 1)
                 {
                     _Cursol.SE.PlayOneShot(_Cursol.move);
-                    vol_SE -= 0.8f * 5;
-                    if (vol_SE < -80) { vol_SE = -80; }
+                    vol_SE -= 0.5f * 5;
+                    if (vol_SE < -30) { vol_SE = -30; }
                     Debug.Log("vol_SE = " + vol_SE);
                     mixer.SetFloat("SE", vol_SE);
 
@@ -172,8 +202,9 @@ public class Option : MonoBehaviour
             {
                 if (cursol2 == 0)
                 {
-                    vol_BGM += 0.8f * 5;
-                    if (vol_BGM > 0) { vol_BGM = 0; }
+                    vol_BGM += 0.5f * 5;
+                    source_BGM = false;
+                    if (vol_BGM > 20) { vol_BGM = 20; }
                     Debug.Log("vol_BGM = " + vol_BGM);
                     mixer.SetFloat("BGM", vol_BGM);
 
@@ -181,8 +212,9 @@ public class Option : MonoBehaviour
                 else if (cursol2 == 1)
                 {
                     _Cursol.SE.PlayOneShot(_Cursol.move);
-                    vol_SE += 0.8f * 5;
-                    if (vol_SE > 0) { vol_SE = 0; }
+                    vol_SE += 0.5f * 5;
+                    source_SE = false;
+                    if (vol_SE > 20) { vol_SE = 20; }
                     Debug.Log("vol_SE = " + vol_SE);
                     mixer.SetFloat("SE", vol_SE);
                 }
@@ -208,22 +240,18 @@ public class Option : MonoBehaviour
             }
             else if (cursol == 1)
             {
-                if (!isGraph) 
-                {
-                    isGraph = true;
-                }
-                else
-                {
-                    isGraph = false;
-                }
-            }
-            else if (cursol == 2)
-            {
                 if (!isBack)
                 {
-                    isBack = true;
-
-                    SceneManager.LoadScene("Title");
+                    using (StreamWriter sw = new StreamWriter(Application.dataPath+"/Resources/Volume"))
+                    //("../Resources/Volume"))
+                    {
+                        sw.WriteLine(vol_BGM);
+                        sw.WriteLine(vol_SE);
+                    }
+                        
+                        isBack = true;
+                    isBlinking = true;
+                    Invoke("toTitle",3f);
                 }
             }
         }
@@ -241,27 +269,27 @@ public class Option : MonoBehaviour
     {
         if (cursol == 0)
         {
-            obj_Sound.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
-            obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 0);
-            obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 0);
+            obj_Sound.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
+            obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
+            obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
 
             obj_Cursol.GetComponent<RectTransform>().transform.localPosition
                 = obj_Sound.GetComponent<RectTransform>().transform.localPosition;
-        }
+        }/*
         else if(cursol == 1)
         {
-            obj_Sound.GetComponent<RectTransform>().localScale =  new Vector3(1.0f, 1.0f, 0);
-            obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
-            obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 0);
+            obj_Sound.GetComponent<RectTransform>().localScale =  new Vector3(1.2f, 1.2f, 0);
+            obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
+            obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
 
             obj_Cursol.GetComponent<RectTransform>().transform.localPosition
                = obj_Graphic.GetComponent<RectTransform>().transform.localPosition;
-        }
-        else if (cursol == 2)
+        }*/
+        else if (cursol == 1)
         {
-            obj_Sound.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 0);
-            obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 0);
-            obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
+            obj_Sound.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
+            obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
+            obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
 
             obj_Cursol.GetComponent<RectTransform>().transform.localPosition
                = obj_Back.GetComponent<RectTransform>().transform.localPosition;
@@ -272,38 +300,95 @@ public class Option : MonoBehaviour
     {
         if (cursol2 == 0)
         {
-            obj_Cursol2.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
+            /*obj_Cursol2.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
 
             obj_Cursol2.GetComponent<RectTransform>().transform.localPosition
                 = new Vector3(5.0f, 100.0f, 0);
             
-            obj_Cursol2.GetComponent<RectTransform>().sizeDelta = new Vector2(310f,40f);
-            
+            obj_Cursol2.GetComponent<RectTransform>().sizeDelta = new Vector2(310f,40f);*/
+
+            //font
+            {
+                text_BGM.color = new Color32(212, 255, 127, 255);
+                text_SE.color = new Color32(170, 255, 255, 255);
+
+                text_BGM_num.color = new Color32(212, 255, 127, 255);
+                text_SE_num.color = new Color32(170, 255, 255, 255);
+
+                text_BGM.fontSize = 50;
+                text_SE.fontSize = 40;
+                text_BGM_num.fontSize = 50;
+                text_SE_num.fontSize = 40;
+            }
+
             vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.0f, 1.0f, 0);
+            vol_obj_Back.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
         }
         else if (cursol2 == 1)
-        {
+        {/*
             obj_Cursol2.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
             obj_Cursol2.GetComponent<RectTransform>().transform.localPosition
                = new Vector3(5.0f, 0.0f, 0);
-            obj_Cursol2.GetComponent<RectTransform>().sizeDelta = new Vector2(310f, 40f);
+            obj_Cursol2.GetComponent<RectTransform>().sizeDelta = new Vector2(310f, 40f);*/
+
+            //font
+            {
+                text_BGM.color = new Color32(170, 255, 255, 255);
+                text_SE.color = new Color32(212, 255, 127, 255);
+
+                text_BGM_num.color = new Color32(170, 255, 255, 255);
+                text_SE_num.color = new Color32(212, 255, 127, 255);
+
+                text_BGM.fontSize = 40;
+                text_SE.fontSize = 50;
+                text_BGM_num.fontSize = 40;
+                text_SE_num.fontSize = 50;
+            }
 
             vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.0f, 1.0f, 0);
+            vol_obj_Back.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
         }
         else if (cursol2 == 2)
-        {
+        {/*
             obj_Cursol2.GetComponent<RectTransform>().sizeDelta = new Vector2(160f,40f);
             obj_Cursol2.GetComponent<RectTransform>().localScale= new Vector3(1.44f, 1.44f, 0);
             obj_Cursol2.GetComponent<RectTransform>().transform.localPosition
-               = vol_obj_Back.GetComponent<RectTransform>().transform.localPosition;
+               = vol_obj_Back.GetComponent<RectTransform>().transform.localPosition;*/
+            //font
+            { 
+            text_BGM.color = new Color32(170,255,255,255);
+            text_SE.color = new Color32(170, 255, 255, 255);
+            
+            text_BGM_num.color = new Color32(170, 255, 255, 255);
+            text_SE_num.color = new Color32(170, 255, 255, 255);
+
+            text_BGM.fontSize = 40;
+            text_SE.fontSize = 40;
+            text_BGM_num.fontSize = 40;
+            text_SE_num.fontSize = 40;
+            }
 
             vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.2f, 1.2f, 0);
+            vol_obj_Back.GetComponent<Image>().color = new Color32(212, 255, 127, 255);
         }
     }
 
     void Slider()
     {
-        obj_Gauge_SE.GetComponent<RectTransform>().transform.localPosition = new Vector3(-180f+ Mathf.Floor(((vol_BGM + 80) / 80) * 100)*3.6f, 100,0);
-        obj_Gauge_BGM.GetComponent<RectTransform>().transform.localPosition = new Vector3(-180f+ Mathf.Floor(((vol_SE + 80) / 80) * 100)*3.6f, 0,0);
+        obj_Gauge_SE.GetComponent<RectTransform>(). transform.localPosition = new Vector3(-180f+ Mathf.Floor(((vol_BGM + 30) / 50) * 100)*3.6f, 75,0);
+        obj_Gauge_BGM.GetComponent<RectTransform>().transform.localPosition = new Vector3(-180f+ Mathf.Floor(((vol_SE + 30) / 50) * 100)*3.6f, -25,0);
     }
+
+    void toTitle()
+    {
+        SceneManager.LoadScene("Title");
+    }
+
+    void Blinking()
+    {
+        blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅
+        GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
+    }
+
+
 }

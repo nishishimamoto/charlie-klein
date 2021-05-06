@@ -9,8 +9,10 @@ public class SoundScript : MonoBehaviour
 
     public AudioMixerGroup Mixer;
 
-    private const short songs = 10;
+    public Option option;
 
+    private const short songs = 10;
+    bool isPlay;
 
     public bool Play=false;//再生しているか　falseで未再生
 
@@ -50,6 +52,20 @@ public class SoundScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (option != null)
+        {
+isPlay = option.source_BGM;
+        }
+        
+        if (isPlay)
+        {
+            audioSource.mute = true;
+        }
+        else
+        {
+            audioSource.mute = false;
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))//スペースを押し下げたとき
         {
 

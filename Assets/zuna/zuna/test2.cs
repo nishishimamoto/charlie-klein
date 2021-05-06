@@ -12,6 +12,7 @@ public class test2 : MonoBehaviour
     [SerializeField] Combo ComboCS;
     [SerializeField] Z_Explosion ExplosionCS;
     [SerializeField] Pause PauseCS;
+    [SerializeField] GameObject ScreenCover;
 
     const int mainPanel = 30;    //メインパネルの数
     const int sidePanel = 42;    //サイドパネルの数
@@ -71,6 +72,7 @@ public class test2 : MonoBehaviour
     [SerializeField] Text[] targetText = new Text[4];
     [SerializeField] GameObject gameClear;
     [SerializeField] GameObject gameOver;
+    [SerializeField] GameObject gameStart;
     //[SerializeField] GameObject Timer;  //制限時間のテキストオブジェクト
     //Text timerText;
     //float timeCount = 60.0f;            //制限時間
@@ -136,7 +138,7 @@ public class test2 : MonoBehaviour
 
 
         //}
-
+        ScreenCover.SetActive(false);
         TurnMax = TurnMAX;
 
         for (int i = 0; i < 4; i++)
@@ -282,6 +284,47 @@ public class test2 : MonoBehaviour
             //sideSphere[(i / (width - 1)) + i + 1] = Instantiate(side, new Vector3(-5 + (2 * (i % (width - 1))), 3 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
         }
 
+        //生成された衛星が揃っていないか確認
+        for (int i = 0; i < mainPanel; i++)
+        {
+            if (!isPlanet[i])
+            {
+                if (i >= 1)
+                {
+                    //左が右と同じ色かチェック
+                    if (sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + 1])
+                    {
+                        int numSet = 0;
+                        int numUpSet = 0;
+                        //int randSet = mainColorNumber[Random.Range(0, 4)];
+
+                        //左が上と同じ色かチェック
+                        if (i >= 6 && sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
+                        {
+                            numSet = sideNumber[(i / (width - 1)) + i - 1];
+                            numUpSet = sideNumber[(i / (width - 1)) + i - width];
+                            sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
+                            //左の色の変更
+                            while (numSet == sideNumber[(i / (width - 1)) + i] ||
+                                sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
+                            {
+                                sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
+                            }
+                        }
+                        else
+                        {
+                            numSet = sideNumber[(i / (width - 1)) + i - 1];
+                            sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
+                            //左の色の変更
+                            while (numSet == sideNumber[(i / (width - 1)) + i])
+                            {
+                                sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         //for (int i = 0; i < sidePanel; i++)
         //{
@@ -1020,11 +1063,13 @@ public class test2 : MonoBehaviour
 
         if (targetNum[0] <= 0 && targetNum[1] <= 0 && targetNum[2] <= 0 && targetNum[3] <= 0)
         {
+            ScreenCover.SetActive(true);
             gameClear.SetActive(true);
             Invoke("Result", 3.0f);
         }
         else if (TurnCS.nowTurn >= TurnMax)
         {
+            ScreenCover.SetActive(true);
             gameOver.SetActive(true);
             Invoke("Result", 3.0f);
         }

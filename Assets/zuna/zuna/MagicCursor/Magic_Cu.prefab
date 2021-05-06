@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   al_Max: 200
-  al_Min: 20
+  al_Min: 70
   al_Add: 0.5
 --- !u!1 &4419579712516190002
 GameObject:

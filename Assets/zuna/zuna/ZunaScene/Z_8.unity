@@ -1401,6 +1401,7 @@ MonoBehaviour:
   timerSlider: {fileID: 1915503328}
   timerBase: {fileID: 1287957271}
   bigTimerText: {fileID: 274358375}
+  TurnCS: {fileID: 17638415}
 --- !u!114 &274358375 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6539218743475380732, guid: 04937b75c777b93429e17ab1da170f52,
@@ -1567,7 +1568,7 @@ PrefabInstance:
     - target: {fileID: 6539218743475380730, guid: 04937b75c777b93429e17ab1da170f52,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6539218743497114692, guid: 04937b75c777b93429e17ab1da170f52,
         type: 3}

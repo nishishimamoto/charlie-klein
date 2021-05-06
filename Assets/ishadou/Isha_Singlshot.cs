@@ -77,6 +77,7 @@ public class Isha_Singlshot : MonoBehaviour
     [SerializeField] GameObject TimeUpText;
     [SerializeField] GameObject TheWorld;
     [SerializeField] GameObject DebugText;
+    [SerializeField] GameObject ListText;
     int[] targetNum = new int[4];
     [SerializeField] Text[] targetText = new Text[1];
     [SerializeField] GameObject gameClear;
@@ -118,6 +119,7 @@ public class Isha_Singlshot : MonoBehaviour
         TheWorld.gameObject.SetActive(false);
         TimeUpText.gameObject.SetActive(false);
         DebugText.gameObject.SetActive(false);
+        ListText.gameObject.SetActive(false);
 
         for (int i = 0; i < 4; i++)
         {
@@ -185,7 +187,7 @@ public class Isha_Singlshot : MonoBehaviour
                 else
                 {
                     //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 4.5f - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    sideSphere[i] = Instantiate(side, new Vector3(-5.5f + (2 * (i % width - 1)), 5f - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = ColorNumber[Random.Range(0, 4)];
                 }
@@ -203,7 +205,7 @@ public class Isha_Singlshot : MonoBehaviour
                 else
                 {
                     //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 4.5f - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    sideSphere[i] = Instantiate(side, new Vector3(-5.5f + (2 * (i % width - 1)), 5f - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = ColorNumber[Random.Range(0, 4)];
                 }
@@ -221,7 +223,7 @@ public class Isha_Singlshot : MonoBehaviour
                 else
                 {
                     //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 4.5f - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    sideSphere[i] = Instantiate(side, new Vector3(-5.5f + (2 * (i % width - 1)), 5f - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = ColorNumber[Random.Range(0, 4)];
                 }
@@ -235,7 +237,7 @@ public class Isha_Singlshot : MonoBehaviour
                 else
                 {
                     //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 4.5f - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    sideSphere[i] = Instantiate(side, new Vector3(-5.5f + (2 * (i % width - 1)), 5f - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = ColorNumber[Random.Range(0, 4)];
                 }
@@ -249,7 +251,7 @@ public class Isha_Singlshot : MonoBehaviour
                 else
                 {
                     //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 4.5f - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    sideSphere[i] = Instantiate(side, new Vector3(-5.5f + (2 * (i % width - 1)), 5f - (2 * (i / width)), 0.0f), Quaternion.identity);
                     panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
                     sideNumber[i] = ColorNumber[Random.Range(0, 4)];
 
@@ -446,14 +448,8 @@ public class Isha_Singlshot : MonoBehaviour
             if (Input.GetButtonDown("Back")) //デバッグモードon
             {
                 DebugText.gameObject.SetActive(true);
+                ListText.gameObject.SetActive(true);
                 isDebug = true;
-
-
-                var app = new ProcessStartInfo();
-                app.FileName = "notepad";
-                app.Arguments = "Assets/ishadou/DebugList.txt";
-
-                Process.Start(app);
 
             }
         }
@@ -481,6 +477,7 @@ public class Isha_Singlshot : MonoBehaviour
             if (Input.GetButtonDown("Back"))//デバッグモードoff
             {
                 DebugText.gameObject.SetActive(false);
+                ListText.gameObject.SetActive(false);
                 isDebug = false;
             }
 

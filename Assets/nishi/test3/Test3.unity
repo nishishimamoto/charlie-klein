@@ -32535,7 +32535,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.25
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -32655,8 +32655,13 @@ MonoBehaviour:
   massSE: {fileID: 8300000, guid: 7b2ddd001c587314ab863952e24d5db8, type: 3}
   bomSE1: {fileID: 8300000, guid: c537116f6ebe24c489071cfa573fc502, type: 3}
   bomSE2: {fileID: 8300000, guid: 5d2e16053ad181d4583aa339d2347104, type: 3}
-  explosion1SE: {fileID: 8300000, guid: f88261e7ddca2564d8a6bd21bd176b8f, type: 3}
-  explosion2SE: {fileID: 8300000, guid: f88261e7ddca2564d8a6bd21bd176b8f, type: 3}
+  explosion1SE: {fileID: 8300000, guid: 248698d3cd2605648865ab560fb523eb, type: 3}
+  explosion2SE: {fileID: 8300000, guid: 032d6df93ea53904e96caa2198a47a15, type: 3}
+  cursor: {fileID: 8300000, guid: 83d5a6e199e53c94083209a73ad27675, type: 3}
+  crick: {fileID: 8300000, guid: ad25ea6952687694dbb145e661bf19c6, type: 3}
+  magic: {fileID: 8300000, guid: f323bcfdf0720d3489d71f8b86981f00, type: 3}
+  pause: {fileID: 8300000, guid: e158d5aa475706345ace1004f6a84961, type: 3}
+  mobius: {fileID: 8300000, guid: ff2dd2f62fba62c4186f3cb178945ac4, type: 3}
   isLifeSE: 0
   isLifeSECheck: 0
   is5countSE: 0
@@ -32691,6 +32696,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pause
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582596449653501444, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6582596449653501445, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
         type: 3}

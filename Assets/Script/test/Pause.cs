@@ -8,6 +8,11 @@ public class Pause : MonoBehaviour
 {
     static int buttonNum = 4;   //再開、リトライ、ステージ選択、終了の4
 
+    public AudioClip cursorSE;
+    public AudioClip crickSE;
+    public AudioClip pauseSE;
+    public AudioSource audioSource;
+
     public bool isPause;
     bool isReallyEnd;   //本当に終了するか聞くやつ
 
@@ -38,7 +43,7 @@ public class Pause : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -49,17 +54,23 @@ public class Pause : MonoBehaviour
             reallyEndbuttons.SetActive(false);   //本当に終了しますか？を非表示
 
             //ポーズ
-            if (Input.GetButtonDown("Start"))   //Yを押したら終了
+            if (Input.GetButtonDown("Start"))
             {
                 if (isPause) isPause = false;
-                else if (!isPause) isPause = true;
+                else if (!isPause)
+                {
+                    audioSource.PlayOneShot(pauseSE);
+                    isPause = true;
+                }
             }
 
             if (isPause)
             {
-                buttons.SetActive(true);    //様々なポーズUIを表示
-                ScreenCover.SetActive(true);
-
+                if (!buttons.activeSelf)
+                {
+                    buttons.SetActive(true);    //様々なポーズUIを表示
+                    ScreenCover.SetActive(true);
+                }
                 //十字キーのパネル選択
                 if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
                 {
@@ -67,6 +78,7 @@ public class Pause : MonoBehaviour
                     if (cursol == (buttonNum - 1)) cursol -= (buttonNum - 1);
                     else cursol += 1;
                     isVertical = true;
+                    audioSource.PlayOneShot(cursorSE);
                     ButtonSize();
                 }
                 else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
@@ -75,16 +87,18 @@ public class Pause : MonoBehaviour
                     if (cursol == 0) cursol += (buttonNum - 1);
                     else cursol -= 1;
                     isVertical = true;
+                    audioSource.PlayOneShot(cursorSE);
                     ButtonSize();
                 }
 
                 if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
 
-                if (Input.GetButtonDown("A"))
+                if (Input.GetButtonDown("A") && !isBlinking)
                 {
                     isBlinking = true;
                     isVertical = true;
                     //SenceChange();
+                    audioSource.PlayOneShot(crickSE);
                     Invoke("SenceChange", 1.0f);
                 }
 
@@ -92,6 +106,7 @@ public class Pause : MonoBehaviour
                 {
                     oldCursol = cursol;
                     cursol = 0;
+                    audioSource.PlayOneShot(crickSE);
                     ButtonSize();
                 }
                 if (isBlinking) Blinking();
@@ -100,7 +115,7 @@ public class Pause : MonoBehaviour
                 pauseSelect.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 40 + (cursol * -80));
 
             }
-            else if (!isPause)  //ポーズ解除に伴っていろいろ消す
+            else if (!isPause && buttons.activeSelf)  //ポーズ解除に伴っていろいろ消す
             {
                 buttons.SetActive(false);   //様々なポーズUIを非表示
                 ScreenCover.SetActive(false);
@@ -118,6 +133,7 @@ public class Pause : MonoBehaviour
                 if (Endcursol == 1) Endcursol -= 1;
                 else Endcursol += 1;
                 isVertical = true;
+                audioSource.PlayOneShot(cursorSE);
                 ReallyEndButtonSize();
             }
             else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
@@ -126,17 +142,19 @@ public class Pause : MonoBehaviour
                 if (Endcursol == 0) Endcursol += 1;
                 else Endcursol -= 1;
                 isVertical = true;
+                audioSource.PlayOneShot(cursorSE);
                 ReallyEndButtonSize();
             }
 
             if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
 
-            if (Input.GetButtonDown("A"))
+            if (Input.GetButtonDown("A") && !isBlinking)
             {
                 isBlinking = true;
                 isVertical = true;
                 Invoke("ReallyEnd", 1.0f);
                 //ReallyEnd();
+                audioSource.PlayOneShot(crickSE);
             }
             if (isBlinking) Blinking();
 

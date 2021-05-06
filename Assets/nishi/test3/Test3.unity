@@ -26680,6 +26680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bomGauge: 0
   maxBomGauge: 20000
+  isBomUse: 0
   bomSlider: {fileID: 291969314}
   bomText: {fileID: 2064065229}
 --- !u!1 &832464992
@@ -27939,7 +27940,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bomGauge: 0
-  maxBomGauge: 20000
+  maxBomGauge: 10000
+  isBomUse: 0
   bomSlider: {fileID: 1495583879}
   bomText: {fileID: 2064065229}
 --- !u!1 &1183753940

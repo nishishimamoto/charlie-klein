@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class Bom : MonoBehaviour
 {
     public float bomGauge = 0;
-    public float maxBomGauge = 20000;
+    public float maxBomGauge = 15000;
+    public bool isBomUse;
     [SerializeField] Image bomSlider;
     [SerializeField] GameObject bomText;
     // Start is called before the first frame update

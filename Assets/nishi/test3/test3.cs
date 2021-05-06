@@ -1066,15 +1066,20 @@ public class test3 : MonoBehaviour
         {
             if (!isAlphaLast && alphaDerayTime < 2)
             {
-                magic.SetActive(true);
-                CameraChangeCS.isParfectCamera = true;
+                if (!magic.activeSelf)
+                {
+                    magic.SetActive(true);
+                    CameraChangeCS.isParfectCamera = true;
+                    Test3SECS.audioSource.PlayOneShot(Test3SECS.magic);
+                }
             }
             else if (!isAlphaLast && alphaDerayTime >= 2)
             {
                 AlphaFlgDeray();
-                if (ComboCS.comboCount >= 13) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion2SE);
-                else if (ComboCS.comboCount >= 6) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion1SE);
-                else ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                //if (ComboCS.comboCount >= 13) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion2SE);
+                //else if (ComboCS.comboCount >= 6) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion1SE);
+                //else ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
                 isAlphaLast = true;
 
                 for (int i = 0; i < mainPanel; i++)
@@ -1105,7 +1110,12 @@ public class test3 : MonoBehaviour
                         sideSphere[(i / (width - 1)) + i + width + 1].SetActive(false);
 
                         MassBoxCS.MassDelete(mainPanel);    //MassBoxをすべて消す
-                        magic.SetActive(false);
+                        if (magic.activeSelf)
+                        {
+                            Test3SECS.audioSource.Stop();
+                            magic.SetActive(false);
+                            Test3SECS.audioSource.PlayOneShot(Test3SECS.mobius);
+                        }
                     }
                 }
                 ComboCS.isMobius = true;

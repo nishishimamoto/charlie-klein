@@ -45,6 +45,8 @@ public class Isha_Singlshot : MonoBehaviour
     bool isVertical;    //十字キーの上下入力がニュートラルにもどったか
 
     bool isOperation;
+    bool isStart;
+    float StartTimer = 0;
 
     bool isDebug;
 
@@ -65,6 +67,8 @@ public class Isha_Singlshot : MonoBehaviour
     Color tmpMainColor;
     Renderer[] mainSphereRenderer = new Renderer[mainPanel];    //実際にオブジェクトの色を変更する
 
+    GameObject[] chainPos = new GameObject[30];
+
     int[] ColorNumber = { 1, 2, 3, 4 };    //メイン色の配列(赤、青、緑、黄)
     int[] sideColorNumber = { 1, 8, 32, 128 };     //サイド色の配列(赤、青、緑、黄)
     int[] rainbowNumber = { 0, 1, width, width + 1 };           //虹衛星を出すときに使う
@@ -78,13 +82,12 @@ public class Isha_Singlshot : MonoBehaviour
     [SerializeField] GameObject Pause;
     [SerializeField] GameObject BonusText;
     [SerializeField] GameObject TimeUpText;
+    [SerializeField] GameObject ReadyText;
+    [SerializeField] GameObject StartText;
     [SerializeField] GameObject TheWorld;
     [SerializeField] GameObject TimeUpBack;
     [SerializeField] GameObject DebugText;
     [SerializeField] GameObject ListText;
-    int[] targetNum = new int[4];
-    [SerializeField] Text[] targetText = new Text[1];
-    [SerializeField] GameObject gameClear;
 
     float alpha_Time = 0f;   //点滅させる時間
     float alpha_Sin;    //消すときに点滅させる
@@ -103,6 +106,7 @@ public class Isha_Singlshot : MonoBehaviour
 
     [SerializeField] GameObject main;
     [SerializeField] GameObject side;
+    [SerializeField] GameObject chain;
     [SerializeField] bool[] isPlanet = new bool[mainPanel];
 
     public static string oldSceneName;  //リザルトから戻る用
@@ -124,7 +128,7 @@ public class Isha_Singlshot : MonoBehaviour
 
         Pause.gameObject.SetActive(true);
         TheWorld.gameObject.SetActive(false);
-        TimeUpBack.gameObject.SetActive(false);
+        TimeUpBack.gameObject.SetActive(true);
         TimeUpText.gameObject.SetActive(false);
         DebugText.gameObject.SetActive(false);
         ListText.gameObject.SetActive(false);
@@ -169,7 +173,13 @@ public class Isha_Singlshot : MonoBehaviour
             }
             mainNumber[i] = ColorNumber[Random.Range(1, 4)];
         }
-        
+
+        for (int i = 0; i < 30; i++)
+        {
+            chainPos[i] = Instantiate(chain, new Vector3(-6.5f + (2 * (i % 6)), 4f - (2 * (i / 6)), 2.0f), Quaternion.identity);
+            chainPos[i].gameObject.SetActive(false);
+        }
+
         for (int i = 0; i < mainPanel; i++)
         {
             if (!isPlanet[i])
@@ -316,6 +326,10 @@ public class Isha_Singlshot : MonoBehaviour
         TimerCS.maxTime = 60.0f;
         TimerCS.timeCount = TimerCS.maxTime;
         score = 0;  //スコアの初期化
+
+        ReadyText.gameObject.SetActive(true);
+        StartText.gameObject.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -324,30 +338,52 @@ public class Isha_Singlshot : MonoBehaviour
         
         if (!PauseCS.isPause)
         {
-            if (!isOperation)
+            if (!isStart)
             {
-                if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
-                else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
+                StartTimer += Time.deltaTime;
+                if (StartTimer > 1.5f)
+                {
+                    ReadyText.gameObject.SetActive(false);
+                }
+                if(StartTimer > 2f)
+                {
+                    StartText.gameObject.SetActive(true);
+                }
+                if(StartTimer > 2.7f)
+                {
+                    StartText.gameObject.SetActive(false);
+                    isStart = true;
+                    if (!TimerCS.countStart) TimerCS.countStart = true;
+                    TimeUpBack.gameObject.SetActive(false);
+                }
             }
-
-            if (HeavensTime == 0)
+            else 
             {
-                PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
-                TimerCS.TimerCount();       //制限時間のカウントと表示
-            }
-            
-            TurnEnd();                  //ターン終了時の処理
-            
+                if (!isOperation)
+                {
+                    if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
+                    else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
+                }
 
-            cursorSelectCS.SelectImageMove(chooseMain);
+                if (HeavensTime == 0)
+                {
+                    PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
+                    TimerCS.TimerCount();       //制限時間のカウントと表示
+                }
 
-            if (!alpha_Flg || BonusFlg == 1)
-            {
-                Bonus();
-            }
-            else if (alpha_Flg)
-            {
-                alpha();
+                TurnEnd();                  //ターン終了時の処理
+
+
+                cursorSelectCS.SelectImageMove(chooseMain);
+
+                if (!alpha_Flg || BonusFlg == 1)
+                {
+                    Bonus();
+                }
+                else if (alpha_Flg)
+                {
+                    alpha();
+                }
             }
         }
     }
@@ -512,14 +548,14 @@ public class Isha_Singlshot : MonoBehaviour
         if (Input.GetButtonDown("LB"))
         {
             panelMove[0] = true;
-            if (!TimerCS.countStart) TimerCS.countStart = true;
+            //if (!TimerCS.countStart) TimerCS.countStart = true;
             //ComboCS.comboCount = 0;
         }
         //パネル時計回り
         else if (Input.GetButtonDown("RB"))
         {
             panelMove[1] = true;
-            if (!TimerCS.countStart) TimerCS.countStart = true;
+            //if (!TimerCS.countStart) TimerCS.countStart = true;
         }
 
         //十字キーのパネル選択
@@ -573,13 +609,30 @@ public class Isha_Singlshot : MonoBehaviour
             {
 
                 if (sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + 1])
+                {
                     if (sideNumber[(i / (width - 1)) + i + 1] == sideNumber[(i / (width - 1)) + i + width + 1])
+                    {
                         if (sideNumber[(i / (width - 1)) + i + width + 1] == sideNumber[(i / (width - 1)) + i + width])
                         {
-                            
+
                             flgCheck[i] = true;
                             alpha_Flg = true;
+                            if (BonusFlg == 1)
+                            {
+                                chainPos[i].gameObject.SetActive(true);
+                            }
+                            else
+                            {
+
+                                chainPos[i].gameObject.SetActive(false);
+                            }
                         }
+                        else
+                        {
+                            chainPos[i].gameObject.SetActive(false);
+                        }
+                    }
+                }
 
             }
         }

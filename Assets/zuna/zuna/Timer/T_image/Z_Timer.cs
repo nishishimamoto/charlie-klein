@@ -41,7 +41,7 @@ public class Z_Timer : MonoBehaviour
             {
                 bigTimerText.enabled = true;   //5秒前から表示
                 bigTimerText.text = "" + (test2.TurnMax - TurnCS.nowTurn); //時間の表示
-                if(TurnCS.nowTurn>=20) bigTimerText.text = "0";
+                if(TurnCS.nowTurn>=test2.TurnMax) bigTimerText.text = "0";
             }
             else if (TurnCS.nowTurn <= (test2.TurnMax - 5))
             {

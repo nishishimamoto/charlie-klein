@@ -92,6 +92,7 @@ public class test3 : MonoBehaviour
     public Material[] _material;           // 割り当てるマテリアル.
     public Texture NormalmapTexture;
 
+    [SerializeField] GameObject timerObjects;
     [SerializeField] GameObject thinkingObjects;
     [SerializeField] Text thinkingTimeText;
     [SerializeField] GameObject gameOverVeil;
@@ -147,6 +148,7 @@ public class test3 : MonoBehaviour
         MassBoxCS.MassInit(mainPanel);  //massbox初期化
 
         DebugText.SetActive(false);
+        timerObjects.SetActive(false);
         oldSceneName = null;
     }
 
@@ -182,6 +184,7 @@ public class test3 : MonoBehaviour
                                     Test3SECS.audioSource.PlayOneShot(Test3SECS.thinkingSE);
                                     TimerCS.countStart = true;
                                     thinkingObjects.SetActive(false);
+                                    timerObjects.SetActive(true);
                                 }
                             }
                             if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
@@ -535,14 +538,22 @@ public class test3 : MonoBehaviour
         //    + bonusLevel[(check / 3) + check + 5] + bonusLevel[(check / 3) + check + 4]));
 
         ////スコア100と1コンボ50
-        score += 100 + (50 * ComboCS.comboCount);
+        if (ComboCS.isMobius)
+        {
+            score += 5000;
+            if (!BomCS.isBomUse) BomCS.bomGauge += 5000;
+        }
+        else
+        {
+            score += 100 + (50 * ComboCS.comboCount);
+            if (!BomCS.isBomUse) BomCS.bomGauge += 100 + (20 * ComboCS.comboCount);
+        }
 
         scoreText.text = "" + score;
 
         ComboCS.comboTime = 5.0f;
         ComboCS.comboCount += 1;
         addScoreCount -= 1;
-        BomCS.bomGauge += 100 + (50 * ComboCS.comboCount);
         if (!Test3SECS.isBomSE && BomCS.bomGauge >= BomCS.maxBomGauge)
         {
             Test3SECS.audioSource.PlayOneShot(Test3SECS.bomChargeSE);
@@ -556,7 +567,7 @@ public class test3 : MonoBehaviour
             Test3SECS.audioSource.PlayOneShot(Test3SECS.timerSE);
             Test3SECS.is5countSE = true;
         }
-        if ((Input.GetButtonDown("A") || TimerCS.timeCount <= 0) && TimerCS.countStart == true) //Aか制限時間でターン終了
+        if ((Input.GetButtonDown("A") || TimerCS.timeCount <= -0.3f) && TimerCS.countStart == true) //Aか制限時間でターン終了
         {
             //時間が１になってしまうので０にしてテキスト更新
             TimerCS.timeCount = 0;
@@ -571,6 +582,7 @@ public class test3 : MonoBehaviour
             LifeDown(); //衛星の寿命を縮める
             ThinkingCS.thinkingTime = maxThinkingTime;
             thinkingObjects.SetActive(true);
+            timerObjects.SetActive(false);
             TurnCS.turn += 1;
             TurnCS.isTurnStart = false;
             lightTime = 8;
@@ -766,6 +778,7 @@ public class test3 : MonoBehaviour
         }
 
         isParfect = true;
+        BomCS.isBomUse = false;
     }
 
     void SatelliteCreat()
@@ -981,6 +994,7 @@ public class test3 : MonoBehaviour
                 manyNumber[1] = 1;
                 Test3SECS.isBomSE = false;
                 isBomFlg = false;
+                BomCS.isBomUse = true;
             }
         }
     }
@@ -1094,13 +1108,15 @@ public class test3 : MonoBehaviour
                         magic.SetActive(false);
                     }
                 }
+                ComboCS.isMobius = true;
+                ScoreAdd();
             }
             else if (alphaDerayTime >= 5)
             {
-
                 alphaDerayTime = 0;
                 check = 0;
                 thinkingObjects.SetActive(true);
+                timerObjects.SetActive(false);
                 isAlphaLast = false;
                 alpha_Flg = false;
                 CameraChangeCS.isParfectCamera = false;
@@ -1153,6 +1169,7 @@ public class test3 : MonoBehaviour
                 alphaDerayTime = 0;
                 check = 0;
                 thinkingObjects.SetActive(true);
+                timerObjects.SetActive(false);
                 isAlphaLast = false;
                 alpha_Flg = false;
             }

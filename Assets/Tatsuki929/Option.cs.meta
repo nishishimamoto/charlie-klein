@@ -3,7 +3,25 @@ guid: 2ecc3cc98d773164094eb1912dae367e
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - mixer: {fileID: 24100000, guid: 80648a659e3349240be6620610c5f1f5, type: 2}
+  - obj_Sound: {instanceID: 0}
+  - obj_Graphic: {instanceID: 0}
+  - obj_Back: {instanceID: 0}
+  - obj_Cursol: {instanceID: 0}
+  - obj_Cursol2: {instanceID: 0}
+  - vol_Setting: {instanceID: 0}
+  - option: {instanceID: 0}
+  - vol_obj_Back: {instanceID: 0}
+  - vol_obj_SE: {instanceID: 0}
+  - vol_obj_BGM: {instanceID: 0}
+  - text_BGM: {instanceID: 0}
+  - text_BGM_num: {instanceID: 0}
+  - text_SE: {instanceID: 0}
+  - text_SE_num: {instanceID: 0}
+  - _Cursol: {instanceID: 0}
+  - obj_Gauge_BGM: {instanceID: 0}
+  - obj_Gauge_SE: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

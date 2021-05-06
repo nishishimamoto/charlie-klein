@@ -19,6 +19,11 @@ public class Pause : MonoBehaviour
 
     bool isVertical;
 
+    float blinking = 0f;
+    float blinkingSpeed = 3.0f;
+    float blinkingTime = 0;
+    bool isBlinking;
+
     //[SerializeField] Text pauseText;
     [SerializeField] GameObject buttons;   //全てのポーズUIを子にもつ
     [SerializeField] GameObject[] button = new GameObject[buttonNum];  //カーソル選択時にサイズを変えるUI
@@ -28,6 +33,7 @@ public class Pause : MonoBehaviour
     [SerializeField] GameObject[] reallyEndButton;
     [SerializeField] GameObject reallyEndSelect;
     [SerializeField] GameObject ScreenCover;
+    [SerializeField] GameObject[] cursor;
 
     // Start is called before the first frame update
     void Start()
@@ -72,15 +78,26 @@ public class Pause : MonoBehaviour
                     ButtonSize();
                 }
 
-                if (0 == Input.GetAxis("ClossVertical")) isVertical = false;
+                if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
 
                 if (Input.GetButtonDown("A"))
                 {
-                    SenceChange();
+                    isBlinking = true;
+                    isVertical = true;
+                    //SenceChange();
+                    Invoke("SenceChange", 1.0f);
                 }
 
+                if (Input.GetButtonDown("B") && cursol != 0)
+                {
+                    oldCursol = cursol;
+                    cursol = 0;
+                    ButtonSize();
+                }
+                if (isBlinking) Blinking();
+
                 //選択している画像を動かす処理
-                pauseSelect.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 40 + (cursol * -60));
+                pauseSelect.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 40 + (cursol * -80));
 
             }
             else if (!isPause)  //ポーズ解除に伴っていろいろ消す
@@ -112,16 +129,37 @@ public class Pause : MonoBehaviour
                 ReallyEndButtonSize();
             }
 
-            if (0 == Input.GetAxis("ClossVertical")) isVertical = false;
+            if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
 
             if (Input.GetButtonDown("A"))
             {
-                ReallyEnd();
+                isBlinking = true;
+                isVertical = true;
+                Invoke("ReallyEnd", 1.0f);
+                //ReallyEnd();
             }
+            if (isBlinking) Blinking();
 
             //選択している画像を動かす処理
             reallyEndSelect.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -40 + (Endcursol * -80));
         }
+    }
+
+    void Blinking()
+    {
+        blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅
+
+        blinkingTime += Time.deltaTime;
+
+        if (blinkingTime >= 1)
+        {
+            blinkingTime = 0;
+            blinking = 1;
+            isBlinking = false;
+        }
+
+        if (cursor[0].activeSelf) cursor[0].GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
+        if(cursor[1].activeSelf) cursor[1].GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
     }
 
     void SenceChange()
@@ -145,8 +183,8 @@ public class Pause : MonoBehaviour
 
     void ButtonSize()
     {
-        button[cursol].GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
-        button[oldCursol].GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 0);
+        button[cursol].GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 1);
+        button[oldCursol].GetComponent<RectTransform>().localScale = new Vector3(1.25f, 1.25f, 1);
     }
 
     void DelayIsPause()
@@ -161,8 +199,8 @@ public class Pause : MonoBehaviour
 
     void ReallyEndButtonSize()
     {
-        reallyEndButton[Endcursol].GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
-        reallyEndButton[EndoldCursol].GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 0);
+        reallyEndButton[Endcursol].GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 1);
+        reallyEndButton[EndoldCursol].GetComponent<RectTransform>().localScale = new Vector3(1.25f, 1.25f, 1);
     }
 
     void ReallyEnd()

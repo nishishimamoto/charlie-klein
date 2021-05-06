@@ -31,10 +31,10 @@ public class test3timer : MonoBehaviour
         timerSlider.fillAmount = timeCount / maxTime;    //円画像の表示
         ChangeSliderColor();    //15,5秒で円画像の色変更
 
-        if (timeCount > 0 && countStart)
+        if (countStart)
         {
             timeCount -= Time.deltaTime;    //制限時間のカウントダウン
-            if (timeCount <= 5)
+            if (timeCount <= 5 && timeCount > 0)
             {
                 bigTimerText.enabled = true;   //5秒前から表示
                 bigTimerBlinking -= Time.deltaTime;

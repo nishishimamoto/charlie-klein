@@ -9,7 +9,7 @@ public class RotateSkyBox : MonoBehaviour
     [SerializeField]
     private float rotateSpeed = 0.5f;
     //　スカイボックスのマテリアル
-    private Material skyboxMaterial;
+    [SerializeField] Material skyboxMaterial;
 
     // Use this for initialization
     void Start()

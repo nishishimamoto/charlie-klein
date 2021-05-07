@@ -29,6 +29,7 @@ public class test2 : MonoBehaviour
     int judgNum = 0;  //和を計算する配列
     public static int score;      //スコア
     public static int turn;      //ターン
+    public static bool stage;
 
     int chooseMain = -1; //現在選んでいるメインナンバー
 
@@ -129,17 +130,19 @@ public class test2 : MonoBehaviour
     void Start()
     {
 
+        stage = true;
+
         //for (int h = 0; h < 6; h++) 
         //{
         //    for(int w = 0; w < 7; w++)
         //    {
         //        satelmap[h, w] = sideColorNumber[2];
         //    }
-        ScreenCover.SetActive(true);
-        gameClear.SetActive(true);
-
         //}
-        ScreenCover.SetActive(false);
+
+        ScreenCover.SetActive(true);
+        gameStart.SetActive(true);
+
         TurnMax = TurnMAX;
 
         for (int i = 0; i < 4; i++)
@@ -1054,6 +1057,7 @@ public class test2 : MonoBehaviour
 
     void Result()
     {
+        stage = false;
         //リザルト画面へ
         oldSceneName = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene("MasterResult");

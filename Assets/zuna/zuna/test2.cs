@@ -96,6 +96,7 @@ public class test2 : MonoBehaviour
     public Material[] _material;           // 割り当てるマテリアル.
     public Texture NormalmapTexture;
     float bravo_Time = 0f;
+    float  start_Time = 1.0f;
 
     public int[] targetMax = new int[4];
     public static int TurnMax;
@@ -359,7 +360,19 @@ public class test2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TurnMax = TurnMAX;
+        if (start_Time != 0.0f)
+        {
+            start_Time += Time.deltaTime;
+            alpha_Flg = true;
+        }
+        if (start_Time > 3.0f)
+        {
+            ScreenCover.SetActive(false);
+            gameStart.SetActive(false);
+            start_Time = 0.0f;
+            alpha_Flg = false;
+        }
+        
         if (!PauseCS.isPause)
         {
             if (!alpha_Flg)

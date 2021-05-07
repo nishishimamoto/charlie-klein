@@ -1729,6 +1729,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6582596449653501466, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
+        type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 679bc4eedad497d4fa9ef5d5b8628c73, type: 3}
 --- !u!1 &361336919
@@ -5386,7 +5391,7 @@ MonoBehaviour:
   TimerCS: {fileID: 271234132}
   ComboCS: {fileID: 6539218745275428977}
   ExplosionCS: {fileID: 1037423004}
-  PauseCS: {fileID: 0}
+  PauseCS: {fileID: 1810868466}
   ScreenCover: {fileID: 896453113}
   Score: {fileID: 6539218744712106761}
   targetText:
@@ -5711,7 +5716,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: game clear
+  m_Text: start
 --- !u!222 &1625267969
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6394,6 +6399,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1810868466 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6582596449653501466, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
+    type: 3}
+  m_PrefabInstance: {fileID: 333377024}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b98ab256a9fa7fb41a4407b02fde7444, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1819714484
 GameObject:
   m_ObjectHideFlags: 0

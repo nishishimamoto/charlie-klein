@@ -54,7 +54,7 @@ public class Pause : MonoBehaviour
             reallyEndbuttons.SetActive(false);   //本当に終了しますか？を非表示
 
             //ポーズ
-            if (Input.GetButtonDown("Start"))
+            if (Input.GetButtonDown("Start") && !isBlinking)
             {
                 if (isPause) isPause = false;
                 else if (!isPause)

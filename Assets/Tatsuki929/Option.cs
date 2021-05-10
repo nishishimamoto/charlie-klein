@@ -84,7 +84,7 @@ public class Option : MonoBehaviour
                  cursol_old = cursol;
                 //if (cursol >= 8) cursol -= 8;
                 //else cursol += 2;
-                if (cursol >= 2) cursol -= 1;
+                if (cursol >= 1) cursol -= 1;
                 else cursol += 1;
                 isVertical = true;
                 ButtonSize();
@@ -251,7 +251,7 @@ public class Option : MonoBehaviour
                         
                         isBack = true;
                     isBlinking = true;
-                    Invoke("toTitle",3f);
+                    Invoke("toTitle",1f);
                 }
             }
         }
@@ -275,16 +275,19 @@ public class Option : MonoBehaviour
 
             obj_Cursol.GetComponent<RectTransform>().transform.localPosition
                 = obj_Sound.GetComponent<RectTransform>().transform.localPosition;
+
+            obj_Cursol.GetComponent<RectTransform>().localScale
+                = obj_Sound.GetComponent<RectTransform>().localScale;
         }/*
-        else if(cursol == 1)
+        else if (cursol == 1)
         {
-            obj_Sound.GetComponent<RectTransform>().localScale =  new Vector3(1.2f, 1.2f, 0);
+            obj_Sound.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
             obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
             obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
 
             obj_Cursol.GetComponent<RectTransform>().transform.localPosition
                = obj_Graphic.GetComponent<RectTransform>().transform.localPosition;
-        }*/
+        } */
         else if (cursol == 1)
         {
             obj_Sound.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
@@ -293,6 +296,11 @@ public class Option : MonoBehaviour
 
             obj_Cursol.GetComponent<RectTransform>().transform.localPosition
                = obj_Back.GetComponent<RectTransform>().transform.localPosition;
+
+            obj_Cursol.GetComponent<RectTransform>().localScale
+               = obj_Back.GetComponent<RectTransform>().localScale;
+
+
         }
     }
 
@@ -309,16 +317,19 @@ public class Option : MonoBehaviour
 
             //font
             {
-                text_BGM.color = new Color32(212, 255, 127, 255);
+                text_BGM.color = new Color32(46, 255, 127, 255);
                 text_SE.color = new Color32(170, 255, 255, 255);
 
-                text_BGM_num.color = new Color32(212, 255, 127, 255);
+                text_BGM_num.color = new Color32(46, 255, 127, 255);
                 text_SE_num.color = new Color32(170, 255, 255, 255);
 
                 text_BGM.fontSize = 50;
                 text_SE.fontSize = 40;
                 text_BGM_num.fontSize = 50;
                 text_SE_num.fontSize = 40;
+
+                obj_Gauge_BGM.GetComponent<Image>().color = new Color32(46, 255, 127, 255);
+                obj_Gauge_SE.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
             }
 
             vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.0f, 1.0f, 0);
@@ -334,10 +345,10 @@ public class Option : MonoBehaviour
             //font
             {
                 text_BGM.color = new Color32(170, 255, 255, 255);
-                text_SE.color = new Color32(212, 255, 127, 255);
+                text_SE.color = new Color32(46, 255, 127, 255);
 
                 text_BGM_num.color = new Color32(170, 255, 255, 255);
-                text_SE_num.color = new Color32(212, 255, 127, 255);
+                text_SE_num.color = new Color32(46, 255, 127, 255);
 
                 text_BGM.fontSize = 40;
                 text_SE.fontSize = 50;
@@ -347,6 +358,9 @@ public class Option : MonoBehaviour
 
             vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.0f, 1.0f, 0);
             vol_obj_Back.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
+
+            obj_Gauge_BGM.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
+            obj_Gauge_SE.GetComponent<Image>().color = new Color32(46, 255, 127, 255);
         }
         else if (cursol2 == 2)
         {/*
@@ -365,18 +379,21 @@ public class Option : MonoBehaviour
             text_BGM.fontSize = 40;
             text_SE.fontSize = 40;
             text_BGM_num.fontSize = 40;
-            text_SE_num.fontSize = 40;
+            text_SE_num.fontSize = 40; 
             }
 
+            obj_Gauge_BGM.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
+            obj_Gauge_SE.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
+
             vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.2f, 1.2f, 0);
-            vol_obj_Back.GetComponent<Image>().color = new Color32(212, 255, 127, 255);
+            vol_obj_Back.GetComponent<Image>().color = new Color32(46, 255, 127, 255);
         }
     }
 
-    void Slider()
+    void Slider()   
     {
-        obj_Gauge_SE.GetComponent<RectTransform>(). transform.localPosition = new Vector3(-180f+ Mathf.Floor(((vol_BGM + 30) / 50) * 100)*3.6f, 75,0);
-        obj_Gauge_BGM.GetComponent<RectTransform>().transform.localPosition = new Vector3(-180f+ Mathf.Floor(((vol_SE + 30) / 50) * 100)*3.6f, -25,0);
+        obj_Gauge_SE.GetComponent<RectTransform>(). sizeDelta = new Vector2(Mathf.Floor(((vol_SE + 30) / 50) * 100)*3.6f, 25);
+        obj_Gauge_BGM.GetComponent<RectTransform>().sizeDelta = new Vector2(Mathf.Floor((( vol_BGM+ 30) / 50) * 100)*3.6f, 25);
     }
 
     void toTitle()

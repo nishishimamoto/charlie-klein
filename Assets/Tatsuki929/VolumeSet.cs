@@ -10,8 +10,8 @@ public class VolumeSet : MonoBehaviour
 
     float vol_SE,vol_BGM;
 
-    
-   
+
+    [SerializeField] AudioSource BGM, SE;
     
     
     // Start is called before the first frame update
@@ -30,7 +30,15 @@ public class VolumeSet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (vol_BGM<= -30)
+        {
+            BGM.mute = true;
+        }
 
+        if (vol_SE <= -30)
+        {
+            SE.mute = true;
+        }
     }
 
 

@@ -142,6 +142,8 @@ public class test2 : MonoBehaviour
         //}
 
         ScreenCover.SetActive(true);
+        Text t = gameStart.GetComponent<Text>();
+        t.text = "ready";
         gameStart.SetActive(true);
 
         TurnMax = TurnMAX;
@@ -360,12 +362,20 @@ public class test2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(start_Time);
         if (start_Time != 0.0f)
         {
             start_Time += Time.deltaTime;
             alpha_Flg = true;
         }
-        if (start_Time > 3.0f)
+        if (start_Time > 3.5f && start_Time < 4.5f) gameStart.SetActive(false);
+        if (start_Time > 4.5f)
+        {
+            gameStart.SetActive(true);
+            Text t = gameStart.GetComponent<Text>();
+            t.text = "start";
+        }
+        if (start_Time > 6.0f)
         {
             ScreenCover.SetActive(false);
             gameStart.SetActive(false);

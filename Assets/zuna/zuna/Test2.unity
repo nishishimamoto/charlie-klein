@@ -9503,7 +9503,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboTime: 0
   comboCount: 0
-  isMobius: 0
   canvas: {fileID: 0}
 --- !u!224 &6539218745275428978
 RectTransform:
@@ -9674,6 +9673,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6539218745420762318}
     m_Modifications:
+    - target: {fileID: 6515173320133666442, guid: 0d7e43b4d21e14944a5736b70a6354b4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2d754c7689514a24ea37b34de6f12e5c,
+        type: 3}
     - target: {fileID: 6515173321489382172, guid: 0d7e43b4d21e14944a5736b70a6354b4,
         type: 3}
       propertyPath: m_Name
@@ -9739,6 +9744,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6910057750635653866, guid: 0d7e43b4d21e14944a5736b70a6354b4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c6d1df6547c41c64e8bfdf74e6b2e364,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d7e43b4d21e14944a5736b70a6354b4, type: 3}
 --- !u!1001 &7095665448249522919

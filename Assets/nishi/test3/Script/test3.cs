@@ -542,7 +542,7 @@ public class test3 : MonoBehaviour
         if (MobiusCreateCS.isMobius)
         {
             score += 5000;
-            if (!BomCS.isBomUse) BomCS.bomGauge += 5000;
+            if (!BomCS.isBomUse) BomCS.bomGauge += 20000;
         }
         else
         {

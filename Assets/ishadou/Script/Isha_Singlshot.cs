@@ -17,6 +17,7 @@ public class Isha_Singlshot : MonoBehaviour
     [SerializeField] Image BonusGauge;
     [SerializeField] Image BonusGaugeOut;
     [SerializeField] Image BonusGaugeSand;
+    [SerializeField] Image BonusGaugeSandOut;
     [SerializeField] GameSE gameSECS;
 
     [SerializeField] Image Needle;
@@ -119,11 +120,12 @@ public class Isha_Singlshot : MonoBehaviour
         BonusGauge.fillAmount = 0f;
         BonusGaugeOut.fillAmount = 0f;
         BonusGaugeSand.fillAmount = 0f;
+        BonusGaugeSandOut.fillAmount = 0f;
         BonusFlg = 0;
         BonusTime = 10;
         BonusAccel = 0.1f;
         AccelCnt = 0;
-        BonusText.gameObject.SetActive (false);
+        BonusText.gameObject.SetActive(false);
 
         BsCnt = 1;
 
@@ -725,6 +727,7 @@ public class Isha_Singlshot : MonoBehaviour
             TimerCS.countStart = false;
             TimerCS.bigTimerText.enabled = false;
 
+            BonusGaugeSandOut.fillAmount = 1f;
             BsCnt = 0;
             Needle.gameObject.SetActive(true);
             needleAngle = -36 * Time.deltaTime;
@@ -767,6 +770,7 @@ public class Isha_Singlshot : MonoBehaviour
                 BonusGauge.fillAmount = 0;
                 BonusGaugeOut.fillAmount = 0;
                 BonusGaugeSand.fillAmount = 0;
+                BonusGaugeSandOut.fillAmount = 0;
                 BonusFlg = 0;
             }
         }

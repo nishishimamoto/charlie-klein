@@ -29,6 +29,8 @@ public class Pause : MonoBehaviour
     float blinkingTime = 0;
     bool isBlinking;
 
+    float pauseTime = 0;
+
     //[SerializeField] Text pauseText;
     [SerializeField] GameObject buttons;   //全てのポーズUIを子にもつ
     [SerializeField] GameObject[] button = new GameObject[buttonNum];  //カーソル選択時にサイズを変えるUI
@@ -59,61 +61,68 @@ public class Pause : MonoBehaviour
                 if (isPause) isPause = false;
                 else if (!isPause)
                 {
-                    audioSource.PlayOneShot(pauseSE);
+                    pauseTime = 0;
                     isPause = true;
+                    audioSource.PlayOneShot(pauseSE);
                 }
             }
 
             if (isPause)
             {
-                if (!buttons.activeSelf)
+                pauseTime += Time.deltaTime;
+                if (pauseTime >= 0.1f)
                 {
-                    buttons.SetActive(true);    //様々なポーズUIを表示
-                    ScreenCover.SetActive(true);
-                }
-                //十字キーのパネル選択
-                if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
-                {
-                    oldCursol = cursol;
-                    if (cursol == (buttonNum - 1)) cursol -= (buttonNum - 1);
-                    else cursol += 1;
-                    isVertical = true;
-                    audioSource.PlayOneShot(cursorSE);
-                    ButtonSize();
-                }
-                else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
-                {
-                    oldCursol = cursol;
-                    if (cursol == 0) cursol += (buttonNum - 1);
-                    else cursol -= 1;
-                    isVertical = true;
-                    audioSource.PlayOneShot(cursorSE);
-                    ButtonSize();
-                }
 
-                if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
+                    if (!buttons.activeSelf)
+                    {
+                        buttons.SetActive(true);    //様々なポーズUIを表示
+                        ScreenCover.SetActive(true);
 
-                if (Input.GetButtonDown("A") && !isBlinking)
-                {
-                    isBlinking = true;
-                    isVertical = true;
-                    //SenceChange();
-                    audioSource.PlayOneShot(crickSE);
-                    Invoke("SenceChange", 1.0f);
+                    }
+                    //十字キーのパネル選択
+                    if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
+                    {
+                        oldCursol = cursol;
+                        if (cursol == (buttonNum - 1)) cursol -= (buttonNum - 1);
+                        else cursol += 1;
+                        isVertical = true;
+                        audioSource.PlayOneShot(cursorSE);
+                        ButtonSize();
+                    }
+                    else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
+                    {
+                        oldCursol = cursol;
+                        if (cursol == 0) cursol += (buttonNum - 1);
+                        else cursol -= 1;
+                        isVertical = true;
+                        audioSource.PlayOneShot(cursorSE);
+                        ButtonSize();
+                    }
+
+                    if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
+
+                    if (Input.GetButtonDown("A") && !isBlinking)
+                    {
+                        isBlinking = true;
+                        isVertical = true;
+                        //SenceChange();
+                        audioSource.PlayOneShot(crickSE);
+                        Invoke("SenceChange", 1.0f);
+                    }
+
+                    if (Input.GetButtonDown("B") && cursol != 0)
+                    {
+                        oldCursol = cursol;
+                        cursol = 0;
+                        audioSource.PlayOneShot(crickSE);
+                        ButtonSize();
+                    }
+                    if (isBlinking) Blinking();
+
+                    //選択している画像を動かす処理
+                    pauseSelect.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 40 + (cursol * -80));
+
                 }
-
-                if (Input.GetButtonDown("B") && cursol != 0)
-                {
-                    oldCursol = cursol;
-                    cursol = 0;
-                    audioSource.PlayOneShot(crickSE);
-                    ButtonSize();
-                }
-                if (isBlinking) Blinking();
-
-                //選択している画像を動かす処理
-                pauseSelect.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 40 + (cursol * -80));
-
             }
             else if (!isPause && buttons.activeSelf)  //ポーズ解除に伴っていろいろ消す
             {

@@ -19,6 +19,7 @@ public class test3 : MonoBehaviour
     [SerializeField] MassBox MassBoxCS;
     [SerializeField] GameSE Test3SECS;
     [SerializeField] CameraChange CameraChangeCS;
+    [SerializeField] MobiusCreate MobiusCreateCS;
 
     const int mainPanel = 30;    //メインパネルの数
     const int sidePanel = 42;    //サイドパネルの数
@@ -538,7 +539,7 @@ public class test3 : MonoBehaviour
         //    + bonusLevel[(check / 3) + check + 5] + bonusLevel[(check / 3) + check + 4]));
 
         ////スコア100と1コンボ50
-        if (ComboCS.isMobius)
+        if (MobiusCreateCS.isMobius)
         {
             score += 5000;
             if (!BomCS.isBomUse) BomCS.bomGauge += 5000;
@@ -1064,17 +1065,19 @@ public class test3 : MonoBehaviour
         alphaDerayTime += Time.deltaTime;
         if (isParfect)
         {
-            if (!isAlphaLast && alphaDerayTime < 2)
+            if (!isAlphaLast && (alphaDerayTime < 2 && alphaDerayTime > 1))
             {
                 if (!magic.activeSelf)
                 {
                     magic.SetActive(true);
                     CameraChangeCS.isParfectCamera = true;
                     Test3SECS.audioSource.PlayOneShot(Test3SECS.magic);
+                    canvas.SetActive(false);
                 }
             }
-            else if (!isAlphaLast && alphaDerayTime >= 2)
+            else if (!isAlphaLast && alphaDerayTime >= 3)
             {
+                MobiusCreateCS.isMobius = true;
                 AlphaFlgDeray();
                 //if (ComboCS.comboCount >= 13) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion2SE);
                 //else if (ComboCS.comboCount >= 6) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion1SE);
@@ -1118,10 +1121,9 @@ public class test3 : MonoBehaviour
                         }
                     }
                 }
-                ComboCS.isMobius = true;
                 ScoreAdd();
             }
-            else if (alphaDerayTime >= 5)
+            else if (alphaDerayTime >= 6)
             {
                 alphaDerayTime = 0;
                 check = 0;
@@ -1130,6 +1132,7 @@ public class test3 : MonoBehaviour
                 isAlphaLast = false;
                 alpha_Flg = false;
                 CameraChangeCS.isParfectCamera = false;
+                canvas.SetActive(true);
             }
         }
         else if(!isParfect)

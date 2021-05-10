@@ -12,9 +12,7 @@ public class Combo : MonoBehaviour
     public int comboCount = 0;
     float blinking = 0f;
     float blinkingSpeed = 2.0f;
-    public bool isMobius;
     GameObject combo; //コンボの元
-    GameObject mobius;  //全消しでメビウスをだす
     [SerializeField] GameObject canvas;
     Transform canvasTransform;//キャンバスではなく空オブジェに変更
     // Start is called before the first frame update
@@ -24,7 +22,6 @@ public class Combo : MonoBehaviour
         comboText.color = new Color(255, 255, 255, 0);  //コンボ表記透明
 
         combo = (GameObject)Resources.Load("ComboCount");
-        mobius = (GameObject)Resources.Load("Mobius");
         //canvas = GameObject.Find("center");
         canvasTransform = canvas.GetComponent<Transform>();
     }
@@ -52,8 +49,6 @@ public class Combo : MonoBehaviour
             comboCount = 0;
             comboText.color = new Color(255, 255, 255, 0);  //コンボ表記透明
         }
-
-        if (isMobius) Mobius();
     }
 
     public void BoardCombo(int x)   //盤面に〇コンボ!と出す
@@ -62,12 +57,5 @@ public class Combo : MonoBehaviour
         combos.transform.SetParent(canvasTransform, false);
         Text combosText = combos.GetComponent<Text>();
         combosText.text = comboCount + "";
-    }
-
-    public void Mobius()
-    {
-        GameObject combos = Instantiate(mobius, new Vector3(0, 0, 0), Quaternion.identity);
-        combos.transform.SetParent(canvasTransform, false);
-        isMobius = false;
     }
 }

@@ -36,6 +36,8 @@ public class Isha_Singlshot : MonoBehaviour
     public int BonusFlg = 0; //ボーナスタイム発動したか否か
     int BsCnt = 0;
     float BonusTime = 0;
+    float BonusAccel;
+    int AccelCnt;
     int tmpBonus;         //ボーナス入れ替え時の一時保存
     public static int score;      //スコア
 
@@ -119,6 +121,8 @@ public class Isha_Singlshot : MonoBehaviour
         BonusGaugeSand.fillAmount = 0f;
         BonusFlg = 0;
         BonusTime = 10;
+        BonusAccel = 0.1f;
+        AccelCnt = 0;
         BonusText.gameObject.SetActive (false);
 
         BsCnt = 1;
@@ -476,9 +480,9 @@ public class Isha_Singlshot : MonoBehaviour
                 alpha_Flg = false;
                 if (BsCnt == 1)
                 {
-                    BonusGauge.fillAmount += 0.05f * ComboCS.comboCount;
-                    BonusGaugeOut.fillAmount += 0.05f * ComboCS.comboCount;
-                    BonusGaugeSand.fillAmount += 0.05f * ComboCS.comboCount;
+                    BonusGauge.fillAmount += BonusAccel * ComboCS.comboCount;
+                    BonusGaugeOut.fillAmount += BonusAccel * ComboCS.comboCount;
+                    BonusGaugeSand.fillAmount += BonusAccel * ComboCS.comboCount;
                 }
                 ComboCS.comboCount = 0;
                 rainbowTarget = 0;
@@ -632,6 +636,14 @@ public class Isha_Singlshot : MonoBehaviour
                             chainPos[i].gameObject.SetActive(false);
                         }
                     }
+                    else
+                    {
+                        chainPos[i].gameObject.SetActive(false);
+                    }
+                }
+                else
+                {
+                    chainPos[i].gameObject.SetActive(false);
                 }
 
             }
@@ -730,6 +742,25 @@ public class Isha_Singlshot : MonoBehaviour
                 TimerCS.countStart = true;
                 chargeSE = false;
                 Needle.gameObject.SetActive(false);
+                switch (BonusAccel)
+                {
+                    case 0.1f:
+                        BonusAccel = 0.084f;
+                        break;
+                    case 0.084f:
+                        BonusAccel = 0.067f;
+                        break;
+                    case 0.067f:
+                        BonusAccel = 0.05f;
+                        break;
+                    case 0.05f:
+                        if (AccelCnt > 4)
+                        {
+                            BonusAccel = 0.04f;
+                        }
+                        AccelCnt += 1;
+                        break;
+                }
 
                 TheWorld.gameObject.SetActive(false);
                 BonusTime = 10;
@@ -843,6 +874,7 @@ public class Isha_Singlshot : MonoBehaviour
             overCS = true;
             gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
             if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
+            TimerCS.countStart = false;
             Invoke("Result", 3.0f);  //リザルトに遷移
         }
     }

@@ -7759,6 +7759,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6582596450475111200, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
+        type: 3}
+      propertyPath: m_Text
+      value: stage select
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 679bc4eedad497d4fa9ef5d5b8628c73, type: 3}
 --- !u!224 &2037545468 stripped
@@ -9423,7 +9428,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboTime: 0
   comboCount: 0
-  isMobius: 0
   canvas: {fileID: 0}
 --- !u!224 &6539218745275428978
 RectTransform:

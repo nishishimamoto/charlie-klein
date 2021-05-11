@@ -2396,6 +2396,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6582596450475111200, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
+        type: 3}
+      propertyPath: m_Text
+      value: stage select
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 679bc4eedad497d4fa9ef5d5b8628c73, type: 3}
 --- !u!224 &659560566 stripped
@@ -5106,6 +5111,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1454574493}
   m_CullTransparentMesh: 0
+--- !u!4 &1465546465 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6515173321489382173, guid: 0d7e43b4d21e14944a5736b70a6354b4,
+    type: 3}
+  m_PrefabInstance: {fileID: 2566768782003622579}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1488057790
 GameObject:
   m_ObjectHideFlags: 0
@@ -8092,6 +8103,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6539218745420762318}
     m_Modifications:
+    - target: {fileID: 6515173321489382172, guid: 0d7e43b4d21e14944a5736b70a6354b4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6515173321489382173, guid: 0d7e43b4d21e14944a5736b70a6354b4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 8851160893265245774, guid: 0d7e43b4d21e14944a5736b70a6354b4,
         type: 3}
       propertyPath: m_Name
@@ -8159,12 +8180,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d7e43b4d21e14944a5736b70a6354b4, type: 3}
---- !u!4 &2566768782003622580 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8851160893265245775, guid: 0d7e43b4d21e14944a5736b70a6354b4,
-    type: 3}
-  m_PrefabInstance: {fileID: 2566768782003622579}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4866296566679914520
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9503,7 +9518,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboTime: 0
   comboCount: 0
-  isMobius: 0
   canvas: {fileID: 0}
 --- !u!224 &6539218745275428978
 RectTransform:
@@ -9576,7 +9590,7 @@ RectTransform:
   - {fileID: 1454574494}
   - {fileID: 4866296566679914521}
   - {fileID: 7095665448249522920}
-  - {fileID: 2566768782003622580}
+  - {fileID: 1465546465}
   - {fileID: 659560566}
   - {fileID: 2063931341}
   m_Father: {fileID: 0}

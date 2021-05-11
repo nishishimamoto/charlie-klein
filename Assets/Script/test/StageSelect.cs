@@ -25,6 +25,7 @@ public class StageSelect : MonoBehaviour
         Isha_SinglshotReSet();
         test3ReSet();
         Test2ReSet();
+        stage[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
     }
 
     // Update is called once per frame
@@ -97,6 +98,8 @@ public class StageSelect : MonoBehaviour
     {
         stage[cursol].GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
         stage[oldCursol].GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 0);
+        stage[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
+        stage[oldCursol].GetComponent<Image>().color = new Color(1, 1, 1, 1f);
     }
 
     void Isha_SinglshotReSet()

@@ -371,7 +371,7 @@ public class test2 : MonoBehaviour
             //gameStart.GetComponent<Text>().Color = new Color(1,0,1,1);                                                                  koko
         }
         //if()
-        if (start_Time > 3.5f && start_Time < 4.5f) gameStart.SetActive(false);
+        if (start_Time > 4.0f && start_Time < 4.5f) gameStart.SetActive(false);
         if (start_Time > 4.5f)
         {
             gameStart.SetActive(true);

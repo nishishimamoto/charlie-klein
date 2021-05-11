@@ -29,6 +29,8 @@ public class Pause : MonoBehaviour
     float blinkingTime = 0;
     bool isBlinking;
 
+    float pauseTime = 0;
+
     //[SerializeField] Text pauseText;
     [SerializeField] GameObject buttons;   //全てのポーズUIを子にもつ
     [SerializeField] GameObject[] button = new GameObject[buttonNum];  //カーソル選択時にサイズを変えるUI
@@ -44,6 +46,8 @@ public class Pause : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        button[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
+        reallyEndButton[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
     }
 
     // Update is called once per frame
@@ -54,66 +58,73 @@ public class Pause : MonoBehaviour
             reallyEndbuttons.SetActive(false);   //本当に終了しますか？を非表示
 
             //ポーズ
-            if (Input.GetButtonDown("Start"))
+            if (Input.GetButtonDown("Start") && !isBlinking)
             {
                 if (isPause) isPause = false;
                 else if (!isPause)
                 {
-                    audioSource.PlayOneShot(pauseSE);
+                    pauseTime = 0;
                     isPause = true;
+                    audioSource.PlayOneShot(pauseSE);
                 }
             }
 
             if (isPause)
             {
-                if (!buttons.activeSelf)
+                pauseTime += Time.deltaTime;
+                if (pauseTime >= 0.1f)
                 {
-                    buttons.SetActive(true);    //様々なポーズUIを表示
-                    ScreenCover.SetActive(true);
-                }
-                //十字キーのパネル選択
-                if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
-                {
-                    oldCursol = cursol;
-                    if (cursol == (buttonNum - 1)) cursol -= (buttonNum - 1);
-                    else cursol += 1;
-                    isVertical = true;
-                    audioSource.PlayOneShot(cursorSE);
-                    ButtonSize();
-                }
-                else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
-                {
-                    oldCursol = cursol;
-                    if (cursol == 0) cursol += (buttonNum - 1);
-                    else cursol -= 1;
-                    isVertical = true;
-                    audioSource.PlayOneShot(cursorSE);
-                    ButtonSize();
-                }
 
-                if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
+                    if (!buttons.activeSelf)
+                    {
+                        buttons.SetActive(true);    //様々なポーズUIを表示
+                        ScreenCover.SetActive(true);
 
-                if (Input.GetButtonDown("A") && !isBlinking)
-                {
-                    isBlinking = true;
-                    isVertical = true;
-                    //SenceChange();
-                    audioSource.PlayOneShot(crickSE);
-                    Invoke("SenceChange", 1.0f);
+                    }
+                    //十字キーのパネル選択
+                    if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
+                    {
+                        oldCursol = cursol;
+                        if (cursol == (buttonNum - 1)) cursol -= (buttonNum - 1);
+                        else cursol += 1;
+                        isVertical = true;
+                        audioSource.PlayOneShot(cursorSE);
+                        ButtonSize();
+                    }
+                    else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
+                    {
+                        oldCursol = cursol;
+                        if (cursol == 0) cursol += (buttonNum - 1);
+                        else cursol -= 1;
+                        isVertical = true;
+                        audioSource.PlayOneShot(cursorSE);
+                        ButtonSize();
+                    }
+
+                    if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
+
+                    if (Input.GetButtonDown("A") && !isBlinking)
+                    {
+                        isBlinking = true;
+                        isVertical = true;
+                        //SenceChange();
+                        audioSource.PlayOneShot(crickSE);
+                        Invoke("SenceChange", 1.0f);
+                    }
+
+                    if (Input.GetButtonDown("B") && cursol != 0)
+                    {
+                        oldCursol = cursol;
+                        cursol = 0;
+                        audioSource.PlayOneShot(crickSE);
+                        ButtonSize();
+                    }
+                    if (isBlinking) Blinking();
+
+                    //選択している画像を動かす処理
+                    pauseSelect.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 40 + (cursol * -80));
+
                 }
-
-                if (Input.GetButtonDown("B") && cursol != 0)
-                {
-                    oldCursol = cursol;
-                    cursol = 0;
-                    audioSource.PlayOneShot(crickSE);
-                    ButtonSize();
-                }
-                if (isBlinking) Blinking();
-
-                //選択している画像を動かす処理
-                pauseSelect.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 40 + (cursol * -80));
-
             }
             else if (!isPause && buttons.activeSelf)  //ポーズ解除に伴っていろいろ消す
             {
@@ -176,8 +187,8 @@ public class Pause : MonoBehaviour
             isBlinking = false;
         }
 
-        if (cursor[0].activeSelf) cursor[0].GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
-        if(cursor[1].activeSelf) cursor[1].GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
+        if (button[cursol].activeSelf) button[cursol].GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
+        if(reallyEndButton[Endcursol].activeSelf) reallyEndButton[Endcursol].GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
     }
 
     void SenceChange()
@@ -204,6 +215,8 @@ public class Pause : MonoBehaviour
     {
         button[cursol].GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 1);
         button[oldCursol].GetComponent<RectTransform>().localScale = new Vector3(1.25f, 1.25f, 1);
+        button[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
+        button[oldCursol].GetComponent<Image>().color = new Color(1, 1, 1, 1f);
     }
 
     void DelayIsPause()
@@ -220,6 +233,8 @@ public class Pause : MonoBehaviour
     {
         reallyEndButton[Endcursol].GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 1);
         reallyEndButton[EndoldCursol].GetComponent<RectTransform>().localScale = new Vector3(1.25f, 1.25f, 1);
+        reallyEndButton[Endcursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
+        reallyEndButton[EndoldCursol].GetComponent<Image>().color = new Color(1, 1, 1, 1f);
     }
 
     void ReallyEnd()

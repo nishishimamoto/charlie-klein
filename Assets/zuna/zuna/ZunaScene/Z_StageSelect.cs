@@ -28,43 +28,45 @@ public class Z_StageSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //十字キーのパネル選択
-        if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
+        if (!isBlinking)
         {
-            oldCursol = cursol;
-            if (cursol >= 8) cursol -= 8;
-            else cursol += 2;
-            //if (cursol >= 2) cursol -= 2;
-            //else cursol += 1;
-            isVertical = true;
-            ButtonSize();
-        }
-        else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
-        {
-            oldCursol = cursol;
-            if (cursol <= 1) cursol += 8;
-            else cursol -= 2;
-            //if (cursol <= 0) cursol += 2;
-            //else cursol -= 1;
-            isVertical = true;
-            ButtonSize();
-        }
-        if (0 > Input.GetAxis("ClossHorizontal") && !isHorizontal)    //↓入力時
-        {
-            oldCursol = cursol;
-            if (cursol % 2 == 1) cursol -= 1;
-            else cursol += 1;
-            isHorizontal = true;
-            ButtonSize();
-        }
-        if (0 < Input.GetAxis("ClossHorizontal") && !isHorizontal)  //↑入力時
-        {
-            oldCursol = cursol;
-            if (cursol % 2 == 0) cursol += 1;
-            else cursol -= 1;
-            isHorizontal = true;
-            ButtonSize();
+            //十字キーのパネル選択
+            if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
+            {
+                oldCursol = cursol;
+                if (cursol >= 8) cursol -= 8;
+                else cursol += 2;
+                //if (cursol >= 2) cursol -= 2;
+                //else cursol += 1;
+                isVertical = true;
+                ButtonSize();
+            }
+            else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
+            {
+                oldCursol = cursol;
+                if (cursol <= 1) cursol += 8;
+                else cursol -= 2;
+                //if (cursol <= 0) cursol += 2;
+                //else cursol -= 1;
+                isVertical = true;
+                ButtonSize();
+            }
+            if (0 > Input.GetAxis("ClossHorizontal") && !isHorizontal)    //↓入力時
+            {
+                oldCursol = cursol;
+                if (cursol % 2 == 1) cursol -= 1;
+                else cursol += 1;
+                isHorizontal = true;
+                ButtonSize();
+            }
+            if (0 < Input.GetAxis("ClossHorizontal") && !isHorizontal)  //↑入力時
+            {
+                oldCursol = cursol;
+                if (cursol % 2 == 0) cursol += 1;
+                else cursol -= 1;
+                isHorizontal = true;
+                ButtonSize();
+            }
         }
 
         if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;

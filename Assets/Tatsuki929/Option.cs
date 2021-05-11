@@ -317,19 +317,26 @@ public class Option : MonoBehaviour
 
             //font
             {
-                text_BGM.color = new Color32(46, 255, 127, 255);
-                text_SE.color = new Color32(170, 255, 255, 255);
+                text_BGM.color = new Color32(170, 255, 255, 255);
+                text_BGM_num.color = new Color32(170, 255, 255, 255);
 
-                text_BGM_num.color = new Color32(46, 255, 127, 255);
-                text_SE_num.color = new Color32(170, 255, 255, 255);
+                text_SE.color = new Color32(170, 255, 255, 127);
+                text_SE_num.color = new Color32(170, 255, 255, 127);
 
                 text_BGM.fontSize = 50;
-                text_SE.fontSize = 40;
                 text_BGM_num.fontSize = 50;
+
+                text_BGM.transform.localPosition = new Vector3(-200, 85, 0);
+                text_BGM_num.transform.localPosition = new Vector3(200, 85, 0);
+
+                text_SE.fontSize = 40;
                 text_SE_num.fontSize = 40;
 
-                obj_Gauge_BGM.GetComponent<Image>().color = new Color32(46, 255, 127, 255);
-                obj_Gauge_SE.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
+                text_SE.transform.localPosition = new Vector3(-200, -20, 0);
+                text_SE_num.transform.localPosition = new Vector3(200, -20, 0);
+
+                obj_Gauge_BGM.GetComponent<Image>().color = new Color32(255, 255, 0, 255);
+                obj_Gauge_SE.GetComponent<Image>().color = new Color32(170, 255, 255, 127);
             }
 
             vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.0f, 1.0f, 0);
@@ -344,23 +351,30 @@ public class Option : MonoBehaviour
 
             //font
             {
-                text_BGM.color = new Color32(170, 255, 255, 255);
-                text_SE.color = new Color32(46, 255, 127, 255);
+                text_BGM.color = new Color32(170, 255, 255,127 );
+                text_BGM_num.color = new Color32(170, 255, 255, 127);
 
-                text_BGM_num.color = new Color32(170, 255, 255, 255);
-                text_SE_num.color = new Color32(46, 255, 127, 255);
+                text_SE.color = new Color32(170, 255, 255, 255);
+                text_SE_num.color = new Color32(170, 255, 255, 255);
 
                 text_BGM.fontSize = 40;
-                text_SE.fontSize = 50;
                 text_BGM_num.fontSize = 40;
+
+                text_BGM.transform.localPosition = new Vector3(-200, 80, 0);
+                text_BGM_num.transform.localPosition = new Vector3(200, 80, 0);
+
+                text_SE.fontSize = 50;
                 text_SE_num.fontSize = 50;
+
+                text_SE.transform.localPosition = new Vector3(-200, -15, 0);
+                text_SE_num.transform.localPosition = new Vector3(200, -15, 0);
             }
 
             vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.0f, 1.0f, 0);
             vol_obj_Back.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
 
-            obj_Gauge_BGM.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
-            obj_Gauge_SE.GetComponent<Image>().color = new Color32(46, 255, 127, 255);
+            obj_Gauge_BGM.GetComponent<Image>().color = new Color32(170, 255, 255, 127);
+            obj_Gauge_SE.GetComponent<Image>().color = new Color32(255, 255, 0, 255);
         }
         else if (cursol2 == 2)
         {/*
@@ -370,23 +384,30 @@ public class Option : MonoBehaviour
                = vol_obj_Back.GetComponent<RectTransform>().transform.localPosition;*/
             //font
             { 
-            text_BGM.color = new Color32(170,255,255,255);
-            text_SE.color = new Color32(170, 255, 255, 255);
+            text_BGM.color = new Color32(170,255,255,127);
+            text_SE.color = new Color32(170, 255, 255, 127);
             
-            text_BGM_num.color = new Color32(170, 255, 255, 255);
-            text_SE_num.color = new Color32(170, 255, 255, 255);
+            text_BGM_num.color = new Color32(170, 255, 255, 127);
+            text_SE_num.color = new Color32(170, 255, 255, 127);
 
             text_BGM.fontSize = 40;
-            text_SE.fontSize = 40;
             text_BGM_num.fontSize = 40;
-            text_SE_num.fontSize = 40; 
+           
+             text_SE.fontSize = 40;
+            text_SE_num.fontSize = 40;
+
+                text_BGM.transform.localPosition = new Vector3(-200, 80, 0);
+                text_BGM_num.transform.localPosition = new Vector3(200, 80, 0);
+
+                text_SE.transform.localPosition = new Vector3(-200, -20, 0);
+                text_SE_num.transform.localPosition = new Vector3(200, -20, 0);
             }
 
-            obj_Gauge_BGM.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
-            obj_Gauge_SE.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
+            obj_Gauge_BGM.GetComponent<Image>().color = new Color32(170, 255, 255, 127);
+            obj_Gauge_SE.GetComponent<Image>().color = new Color32(170, 255, 255, 127);
 
             vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.2f, 1.2f, 0);
-            vol_obj_Back.GetComponent<Image>().color = new Color32(46, 255, 127, 255);
+            vol_obj_Back.GetComponent<Image>().color = new Color32(255, 255, 0, 255);
         }
     }
 

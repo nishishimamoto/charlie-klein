@@ -25,19 +25,23 @@ public class VolumeSet : MonoBehaviour
         }
         mixer.SetFloat("SE", vol_SE);
         mixer.SetFloat("BGM", vol_BGM);
+        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (vol_BGM<= -30)
-        {
-            BGM.mute = true;
-        }
+        
 
         if (vol_SE <= -30)
         {
             SE.mute = true;
+        }
+        
+        if (vol_BGM <= -30)
+        {
+            BGM.mute = true;
         }
     }
 

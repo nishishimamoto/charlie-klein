@@ -18,7 +18,7 @@ public class TestResult : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        button[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
     }
 
     // Update is called once per frame

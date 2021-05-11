@@ -66,6 +66,7 @@ public class test2 : MonoBehaviour
 
     [SerializeField] GameObject Score;  //スコアのテキストオブジェクト
     Text scoreText;
+    Text readystart;
     int addScoreCount;
     int lossScoreCount;
     int[] addOrLoss = new int[mainPanel];
@@ -132,7 +133,7 @@ public class test2 : MonoBehaviour
     {
 
         stage = true;
-
+        
         //for (int h = 0; h < 6; h++) 
         //{
         //    for(int w = 0; w < 7; w++)
@@ -142,8 +143,8 @@ public class test2 : MonoBehaviour
         //}
 
         ScreenCover.SetActive(true);
-        Text t = gameStart.GetComponent<Text>();
-        t.text = "ready";
+        readystart = gameStart.GetComponent<Text>();
+        readystart.text = "ready";
         gameStart.SetActive(true);
 
         TurnMax = TurnMAX;
@@ -374,8 +375,8 @@ public class test2 : MonoBehaviour
         if (start_Time > 4.5f)
         {
             gameStart.SetActive(true);
-            Text t = gameStart.GetComponent<Text>();
-            t.text = "start";
+            
+            readystart.text = "start";
             
         }
         if (start_Time > 6.0f)

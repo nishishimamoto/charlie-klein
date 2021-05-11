@@ -54,10 +54,8 @@ public class SoundScript : MonoBehaviour
     {
         if (option != null)
         {
-isPlay = option.source_BGM;
-        }
-        
-        if (isPlay)
+            isPlay = option.source_BGM;
+            if (isPlay)
         {
             audioSource.mute = true;
         }
@@ -65,6 +63,9 @@ isPlay = option.source_BGM;
         {
             audioSource.mute = false;
         }
+        }
+        
+        
 
         if (Input.GetKeyDown(KeyCode.Space))//スペースを押し下げたとき
         {

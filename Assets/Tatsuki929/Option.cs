@@ -84,7 +84,7 @@ public class Option : MonoBehaviour
                  cursol_old = cursol;
                 //if (cursol >= 8) cursol -= 8;
                 //else cursol += 2;
-                if (cursol >= 2) cursol -= 1;
+                if (cursol >= 1) cursol -= 1;
                 else cursol += 1;
                 isVertical = true;
                 ButtonSize();
@@ -251,7 +251,7 @@ public class Option : MonoBehaviour
                         
                         isBack = true;
                     isBlinking = true;
-                    Invoke("toTitle",3f);
+                    Invoke("toTitle",1f);
                 }
             }
         }
@@ -273,122 +273,165 @@ public class Option : MonoBehaviour
             obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
             obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
 
-            obj_Cursol.GetComponent<RectTransform>().transform.localPosition
-                = obj_Sound.GetComponent<RectTransform>().transform.localPosition;
-        }/*
-        else if(cursol == 1)
-        {
-            obj_Sound.GetComponent<RectTransform>().localScale =  new Vector3(1.2f, 1.2f, 0);
-            obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
-            obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
 
-            obj_Cursol.GetComponent<RectTransform>().transform.localPosition
-               = obj_Graphic.GetComponent<RectTransform>().transform.localPosition;
-        }*/
+            obj_Sound.GetComponent<Image>().color = new Color(1f, 1f, 0, 1f);
+            obj_Back.GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+        }
+        /*obj_Cursol.GetComponent<RectTransform>().transform.localPosition
+            = obj_Sound.GetComponent<RectTransform>().transform.localPosition;
+
+        obj_Cursol.GetComponent<RectTransform>().localScale
+            = obj_Sound.GetComponent<RectTransform>().localScale;
+    }/*
+    else if (cursol == 1)
+    {
+        obj_Sound.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
+        obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
+        obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
+
+        obj_Cursol.GetComponent<RectTransform>().transform.localPosition
+           = obj_Graphic.GetComponent<RectTransform>().transform.localPosition;
+    } */
         else if (cursol == 1)
         {
             obj_Sound.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
             obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
             obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
 
-            obj_Cursol.GetComponent<RectTransform>().transform.localPosition
+            /*obj_Cursol.GetComponent<RectTransform>().transform.localPosition
                = obj_Back.GetComponent<RectTransform>().transform.localPosition;
-        }
-    }
 
-    void ButtonSize2()
-    {
-        if (cursol2 == 0)
+            obj_Cursol.GetComponent<RectTransform>().localScale
+               = obj_Back.GetComponent<RectTransform>().localScale;*/
+
+            obj_Sound.GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+            obj_Back.GetComponent<Image>().color = new Color(1f, 1f, 0, 1f);
+        }
+        }
+
+        void ButtonSize2()
         {
-            /*obj_Cursol2.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
-
-            obj_Cursol2.GetComponent<RectTransform>().transform.localPosition
-                = new Vector3(5.0f, 100.0f, 0);
-            
-            obj_Cursol2.GetComponent<RectTransform>().sizeDelta = new Vector2(310f,40f);*/
-
-            //font
+            if (cursol2 == 0)
             {
-                text_BGM.color = new Color32(212, 255, 127, 255);
-                text_SE.color = new Color32(170, 255, 255, 255);
+                /*obj_Cursol2.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
 
-                text_BGM_num.color = new Color32(212, 255, 127, 255);
-                text_SE_num.color = new Color32(170, 255, 255, 255);
+                obj_Cursol2.GetComponent<RectTransform>().transform.localPosition
+                    = new Vector3(5.0f, 100.0f, 0);
 
-                text_BGM.fontSize = 50;
-                text_SE.fontSize = 40;
-                text_BGM_num.fontSize = 50;
-                text_SE_num.fontSize = 40;
+                obj_Cursol2.GetComponent<RectTransform>().sizeDelta = new Vector2(310f,40f);*/
+
+                //font
+                {
+                    text_BGM.color = new Color32(170, 255, 255, 255);
+                    text_BGM_num.color = new Color32(170, 255, 255, 255);
+
+                    text_SE.color = new Color32(170, 255, 255, 127);
+                    text_SE_num.color = new Color32(170, 255, 255, 127);
+
+                    text_BGM.fontSize = 50;
+                    text_BGM_num.fontSize = 50;
+
+                    text_BGM.transform.localPosition = new Vector3(-200, 55, 0);
+                    text_BGM_num.transform.localPosition = new Vector3(200, 55, 0);
+
+                    text_SE.fontSize = 40;
+                    text_SE_num.fontSize = 40;
+
+                    text_SE.transform.localPosition = new Vector3(-200, -50, 0);
+                    text_SE_num.transform.localPosition = new Vector3(200, -50, 0);
+
+                    obj_Gauge_BGM.GetComponent<Image>().color = new Color32(255, 255, 0, 255);
+                    obj_Gauge_SE.GetComponent<Image>().color = new Color32(170, 255, 255, 127);
+                }
+
+                vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.0f, 1.0f, 0);
+                vol_obj_Back.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
             }
-
-            vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.0f, 1.0f, 0);
-            vol_obj_Back.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
-        }
-        else if (cursol2 == 1)
-        {/*
+            else if (cursol2 == 1)
+            {/*
             obj_Cursol2.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
             obj_Cursol2.GetComponent<RectTransform>().transform.localPosition
                = new Vector3(5.0f, 0.0f, 0);
             obj_Cursol2.GetComponent<RectTransform>().sizeDelta = new Vector2(310f, 40f);*/
 
-            //font
-            {
-                text_BGM.color = new Color32(170, 255, 255, 255);
-                text_SE.color = new Color32(212, 255, 127, 255);
+                //font
+                {
+                    text_BGM.color = new Color32(170, 255, 255, 127);
+                    text_BGM_num.color = new Color32(170, 255, 255, 127);
 
-                text_BGM_num.color = new Color32(170, 255, 255, 255);
-                text_SE_num.color = new Color32(212, 255, 127, 255);
+                    text_SE.color = new Color32(170, 255, 255, 255);
+                    text_SE_num.color = new Color32(170, 255, 255, 255);
 
-                text_BGM.fontSize = 40;
-                text_SE.fontSize = 50;
-                text_BGM_num.fontSize = 40;
-                text_SE_num.fontSize = 50;
+                    text_BGM.fontSize = 40;
+                    text_BGM_num.fontSize = 40;
+
+                    text_BGM.transform.localPosition = new Vector3(-200, 50, 0);
+                    text_BGM_num.transform.localPosition = new Vector3(200, 50, 0);
+
+                    text_SE.fontSize = 50;
+                    text_SE_num.fontSize = 50;
+
+                    text_SE.transform.localPosition = new Vector3(-200, -45, 0);
+                    text_SE_num.transform.localPosition = new Vector3(200, -45, 0);
+                }
+
+                vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.0f, 1.0f, 0);
+                vol_obj_Back.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
+
+                obj_Gauge_BGM.GetComponent<Image>().color = new Color32(170, 255, 255, 127);
+                obj_Gauge_SE.GetComponent<Image>().color = new Color32(255, 255, 0, 255);
             }
-
-            vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.0f, 1.0f, 0);
-            vol_obj_Back.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
-        }
-        else if (cursol2 == 2)
-        {/*
+            else if (cursol2 == 2)
+            {/*
             obj_Cursol2.GetComponent<RectTransform>().sizeDelta = new Vector2(160f,40f);
             obj_Cursol2.GetComponent<RectTransform>().localScale= new Vector3(1.44f, 1.44f, 0);
             obj_Cursol2.GetComponent<RectTransform>().transform.localPosition
                = vol_obj_Back.GetComponent<RectTransform>().transform.localPosition;*/
-            //font
-            { 
-            text_BGM.color = new Color32(170,255,255,255);
-            text_SE.color = new Color32(170, 255, 255, 255);
-            
-            text_BGM_num.color = new Color32(170, 255, 255, 255);
-            text_SE_num.color = new Color32(170, 255, 255, 255);
+                //font
+                {
+                    text_BGM.color = new Color32(170, 255, 255, 127);
+                    text_SE.color = new Color32(170, 255, 255, 127);
 
-            text_BGM.fontSize = 40;
-            text_SE.fontSize = 40;
-            text_BGM_num.fontSize = 40;
-            text_SE_num.fontSize = 40;
+                    text_BGM_num.color = new Color32(170, 255, 255, 127);
+                    text_SE_num.color = new Color32(170, 255, 255, 127);
+
+                    text_BGM.fontSize = 40;
+                    text_BGM_num.fontSize = 40;
+
+                    text_SE.fontSize = 40;
+                    text_SE_num.fontSize = 40;
+
+                    text_BGM.transform.localPosition = new Vector3(-200, 50, 0);
+                    text_BGM_num.transform.localPosition = new Vector3(200, 50, 0);
+
+                    text_SE.transform.localPosition = new Vector3(-200, -50, 0);
+                    text_SE_num.transform.localPosition = new Vector3(200, -50, 0);
+                }
+
+                obj_Gauge_BGM.GetComponent<Image>().color = new Color32(170, 255, 255, 127);
+                obj_Gauge_SE.GetComponent<Image>().color = new Color32(170, 255, 255, 127);
+
+                vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.2f, 1.2f, 0);
+                vol_obj_Back.GetComponent<Image>().color = new Color32(255, 255, 0, 255);
             }
-
-            vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.2f, 1.2f, 0);
-            vol_obj_Back.GetComponent<Image>().color = new Color32(212, 255, 127, 255);
         }
-    }
 
-    void Slider()
-    {
-        obj_Gauge_SE.GetComponent<RectTransform>(). transform.localPosition = new Vector3(-180f+ Mathf.Floor(((vol_BGM + 30) / 50) * 100)*3.6f, 75,0);
-        obj_Gauge_BGM.GetComponent<RectTransform>().transform.localPosition = new Vector3(-180f+ Mathf.Floor(((vol_SE + 30) / 50) * 100)*3.6f, -25,0);
-    }
+        void Slider()
+        {
+            obj_Gauge_SE.GetComponent<RectTransform>().sizeDelta = new Vector2(Mathf.Floor(((vol_SE + 30) / 50) * 100) * 3.6f, 25);
+            obj_Gauge_BGM.GetComponent<RectTransform>().sizeDelta = new Vector2(Mathf.Floor(((vol_BGM + 30) / 50) * 100) * 3.6f, 25);
+        }
 
-    void toTitle()
-    {
-        SceneManager.LoadScene("Title");
-    }
+        void toTitle()
+        {
+            SceneManager.LoadScene("Title");
+        }
 
-    void Blinking()
-    {
-        blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅
-        GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
-    }
-
-
+        void Blinking()
+        {
+            blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅
+            GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
+        }
 }
+
+

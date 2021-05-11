@@ -6330,7 +6330,7 @@ MonoBehaviour:
   gameOverSE: {fileID: 8300000, guid: e0d4e1557d3543b4698b90c1f5c56c18, type: 3}
   bomChargeSE: {fileID: 8300000, guid: a53bba270f02ec64faabadcb65fdce42, type: 3}
   thinkingSE: {fileID: 8300000, guid: 14602e57467ec574dafa7113cf561c94, type: 3}
-  massSE: {fileID: 8300000, guid: f88261e7ddca2564d8a6bd21bd176b8f, type: 3}
+  massSE: {fileID: 8300000, guid: ad25ea6952687694dbb145e661bf19c6, type: 3}
   bomSE1: {fileID: 8300000, guid: 3516d4c0f4cd98747a620ee37fdb71f1, type: 3}
   bomSE2: {fileID: 8300000, guid: 5d2e16053ad181d4583aa339d2347104, type: 3}
   explosion1SE: {fileID: 8300000, guid: f88261e7ddca2564d8a6bd21bd176b8f, type: 3}

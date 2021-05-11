@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+//using System.Diagnostics;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
@@ -546,6 +546,7 @@ public class Isha_Singlshot : MonoBehaviour
         //確変
         if (Input.GetButtonDown("X") && BonusGaugeSand.fillAmount >= 1)
         {
+            gameSECS.audioSource.Stop();
             BonusFlg = 1;
             TheWorld.gameObject.SetActive(true);
         }
@@ -625,7 +626,29 @@ public class Isha_Singlshot : MonoBehaviour
                             alpha_Flg = true;
                             if (BonusFlg == 1)
                             {
+                                if(chainPos[i].activeSelf == false)
+                                {
+                                    Debug.Log("aaa");
+                                    gameSECS.audioSource.PlayOneShot(gameSECS.massSE);
+                                }
                                 chainPos[i].gameObject.SetActive(true);
+                                switch (sideNumber[(i / (width - 1)) + i])
+                                {
+                                    case 1:
+                                        chainPos[i].GetComponent<SpriteRenderer>().color = Color.blue;
+                                        break;
+                                    case 2:
+                                        chainPos[i].GetComponent<SpriteRenderer>().color = Color.red;
+                                        break;
+                                    case 3:
+                                        chainPos[i].GetComponent<SpriteRenderer>().color = Color.yellow;
+                                        break;
+                                    case 4:
+                                        chainPos[i].GetComponent<SpriteRenderer>().color = Color.cyan;
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                             else
                             {
@@ -723,7 +746,7 @@ public class Isha_Singlshot : MonoBehaviour
 
         if (BonusFlg == 1)
         {
-            gameSECS.audioSource.Stop();
+            //gameSECS.audioSource.Stop();
             TimerCS.countStart = false;
             TimerCS.bigTimerText.enabled = false;
 

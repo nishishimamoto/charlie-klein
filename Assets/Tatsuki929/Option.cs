@@ -249,7 +249,7 @@ public class Option : MonoBehaviour
                         sw.WriteLine(vol_SE);
                     }
                         
-                        isBack = true;
+                    isBack = true;
                     isBlinking = true;
                     Invoke("toTitle",1f);
                 }
@@ -263,6 +263,7 @@ public class Option : MonoBehaviour
                     isSound = false;
                 }
             }
+        if (isBlinking) Blinking();
     }
 
     void ButtonSize()
@@ -430,8 +431,20 @@ public class Option : MonoBehaviour
         void Blinking()
         {
             blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅
-            GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
+                                                                            //GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
+        switch (cursol)
+        {
+            case 0:
+                obj_Sound.GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
+                break;
+            case 1:
+                obj_Back.GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
+                break;
+            case 2:
+                vol_obj_Back.GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
+                break;
         }
+    }
 }
 
 

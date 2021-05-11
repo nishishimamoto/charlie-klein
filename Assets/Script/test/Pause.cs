@@ -204,9 +204,11 @@ public class Pause : MonoBehaviour
             case 2: //ステージセレクト
                 if(test2.stage) SceneManager.LoadScene("Zuna_StageSelect");
                 else SceneManager.LoadScene("StageSelect");
+                test2.stage = false;
                 break;
             case 3: //ゲーム終了(Yes or No)聞く
                 isReallyEnd = true;
+                test2.stage = false;
                 break;
         }
     }

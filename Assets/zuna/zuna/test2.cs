@@ -367,13 +367,16 @@ public class test2 : MonoBehaviour
         {
             start_Time += Time.deltaTime;
             alpha_Flg = true;
+            //gameStart.GetComponent<Text>().Color = new Color(1,0,1,1);                                                                  koko
         }
+        //if()
         if (start_Time > 3.5f && start_Time < 4.5f) gameStart.SetActive(false);
         if (start_Time > 4.5f)
         {
             gameStart.SetActive(true);
             Text t = gameStart.GetComponent<Text>();
             t.text = "start";
+            
         }
         if (start_Time > 6.0f)
         {

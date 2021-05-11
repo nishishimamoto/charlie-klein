@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Bom : MonoBehaviour
 {
+    [SerializeField] Pause pauseCS;
+    [SerializeField] MobiusCreate mobiusCS;
     public float bomGauge = 0;
     public float maxBomGauge = 15000;
     public bool isBomUse;
@@ -12,7 +14,7 @@ public class Bom : MonoBehaviour
     Image bomGaugeImg;
     [SerializeField] GameObject bomText;
     Rot_Timer rot_Timer;
-    //[SerializeField] GameObject particle;
+    [SerializeField] GameObject particle;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,18 +26,20 @@ public class Bom : MonoBehaviour
     void Update()
     {
         if (bomGauge > maxBomGauge) bomGauge = maxBomGauge;
-        if (bomGauge == maxBomGauge && !bomText.activeSelf)
+
+        if(pauseCS.isPause) bomText.SetActive(false);
+        else if (bomGauge == maxBomGauge && !bomText.activeSelf)
         {
             bomGaugeImg.color = Color.red;
             bomText.SetActive(true);
-            //particle.SetActive(true);
+            particle.SetActive(true);
             rot_Timer.speed = 0.1f;
         }
         else if (bomGauge < maxBomGauge && bomText.activeSelf)
         {
             bomGaugeImg.color = Color.white;
             bomText.SetActive(false);
-            //particle.SetActive(false);
+            particle.SetActive(false);
             rot_Timer.speed = 0;
             bomSlider.transform.localEulerAngles = new Vector3(0, 0, 0);
         }

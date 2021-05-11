@@ -46,6 +46,8 @@ public class Pause : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        button[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
+        reallyEndButton[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
     }
 
     // Update is called once per frame
@@ -185,8 +187,8 @@ public class Pause : MonoBehaviour
             isBlinking = false;
         }
 
-        if (cursor[0].activeSelf) cursor[0].GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
-        if(cursor[1].activeSelf) cursor[1].GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
+        if (button[cursol].activeSelf) button[cursol].GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
+        if(reallyEndButton[Endcursol].activeSelf) reallyEndButton[Endcursol].GetComponent<Image>().color = new Color(255, 255, 0, Mathf.Abs(blinking));  //絶対値でsin波を透明度に 点滅
     }
 
     void SenceChange()
@@ -213,6 +215,8 @@ public class Pause : MonoBehaviour
     {
         button[cursol].GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 1);
         button[oldCursol].GetComponent<RectTransform>().localScale = new Vector3(1.25f, 1.25f, 1);
+        button[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
+        button[oldCursol].GetComponent<Image>().color = new Color(1, 1, 1, 1f);
     }
 
     void DelayIsPause()
@@ -229,6 +233,8 @@ public class Pause : MonoBehaviour
     {
         reallyEndButton[Endcursol].GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 1);
         reallyEndButton[EndoldCursol].GetComponent<RectTransform>().localScale = new Vector3(1.25f, 1.25f, 1);
+        reallyEndButton[Endcursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
+        reallyEndButton[EndoldCursol].GetComponent<Image>().color = new Color(1, 1, 1, 1f);
     }
 
     void ReallyEnd()

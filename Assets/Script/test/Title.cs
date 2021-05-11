@@ -20,7 +20,7 @@ public class Title : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        button[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
     }
 
     // Update is called once per frame
@@ -89,5 +89,7 @@ public class Title : MonoBehaviour
     {
         button[cursol].GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
         button[oldCursol].GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 0);
+        button[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
+        button[oldCursol].GetComponent<Image>().color = new Color(1, 1, 1, 1f);
     }
 }

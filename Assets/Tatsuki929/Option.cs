@@ -10,7 +10,7 @@ public class Option : MonoBehaviour
 {
     public AudioMixer mixer;
 
-    float vol_SE, vol_BGM;
+    public float vol_SE, vol_BGM;
 
     short cursol = 0, cursol_old = 0, cursol2 = 0, cursol_old2 = 0;
 
@@ -323,8 +323,8 @@ public class Option : MonoBehaviour
 
                 //font
                 {
-                    text_BGM.color = new Color32(170, 255, 255, 255);
-                    text_BGM_num.color = new Color32(170, 255, 255, 255);
+                    text_BGM.color = new Color32(255, 255, 0, 255);
+                    text_BGM_num.color = new Color32(255, 255, 0, 255);
 
                     text_SE.color = new Color32(170, 255, 255, 127);
                     text_SE_num.color = new Color32(170, 255, 255, 127);
@@ -360,8 +360,8 @@ public class Option : MonoBehaviour
                     text_BGM.color = new Color32(170, 255, 255, 127);
                     text_BGM_num.color = new Color32(170, 255, 255, 127);
 
-                    text_SE.color = new Color32(170, 255, 255, 255);
-                    text_SE_num.color = new Color32(170, 255, 255, 255);
+                    text_SE.color = new Color32(255, 255, 0,  255);
+                    text_SE_num.color = new Color32(255, 255, 0, 255);
 
                     text_BGM.fontSize = 40;
                     text_BGM_num.fontSize = 40;

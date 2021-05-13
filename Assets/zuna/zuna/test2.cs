@@ -293,6 +293,7 @@ public class test2 : MonoBehaviour
         }
 
         //生成された衛星が揃っていないか確認
+
         for (int i = 0; i < mainPanel; i++)
         {
             if (!isPlanet[i])
@@ -367,30 +368,32 @@ public class test2 : MonoBehaviour
         if (start_Time != 0.0f)
         {
             start_Time += Time.deltaTime;
-            alpha_Flg = true;
+            
             //gameStart.GetComponent<Text>().Color = new Color(1,0,1,1);                                                                  koko
         }
         //if()
-        if (start_Time > 4.0f && start_Time < 4.5f) gameStart.SetActive(false);
-        if (start_Time > 4.5f)
+        if (start_Time > 2.5f && start_Time < 3.0f && gameStart.activeSelf == true) gameStart.SetActive(false);
+        if (start_Time > 3.0f && (gameStart.activeSelf == false) )
         {
             gameStart.SetActive(true);
             
             readystart.text = "start";
             
         }
-        if (start_Time > 6.0f)
+        if (start_Time > 4.0f)
         {
-            ScreenCover.SetActive(false);
-            gameStart.SetActive(false);
+            if(ScreenCover.activeSelf==true) ScreenCover.SetActive(false);
+            if (gameStart.activeSelf == true) gameStart.SetActive(false);
             start_Time = 0.0f;
-            alpha_Flg = false;
+            
+
         }
         
         if (!PauseCS.isPause)
         {
             if (!alpha_Flg)
             {
+                
                 if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
                 else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
                 PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
@@ -509,27 +512,33 @@ public class test2 : MonoBehaviour
                 if (b_t == 4 && bravo_Time > 1.5f)
                 {
                     ExplosionCS.particle[(check / (width - 1)) + check + width + 1].Play(); //条件を満たした惑星が爆発
+                    //sideSphere[(check / (width - 1)) + check + width + 1].SetActive(false);
                     b_t = 0;
                     alpha_Time = 0f;
                     bravo_Time = 0f;
                     ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
                     check += 1;
+                    //sideActive();
+                    //Debug.Log("abc;");
                 }
                 if (b_t == 3 && bravo_Time > 1.0f)
                 {
                     ExplosionCS.particle[(check / (width - 1)) + check + width].Play(); //条件を満たした惑星が爆発
+                    //sideSphere[(check / (width - 1)) + check + width].SetActive(false);
                     ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
                     b_t = 4;
                 }
                 if (b_t == 2 && bravo_Time > 0.5f)
                 {
                     ExplosionCS.particle[(check / (width - 1)) + check + 1].Play(); //条件を満たした惑星が爆発
+                    //sideSphere[(check / (width - 1)) + check + 1].SetActive(false);
                     ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
                     b_t = 3;
                 }
                 if (b_t == 1 && bravo_Time > 0.0f)
                 {
                     ExplosionCS.particle[(check / (width - 1)) + check].Play(); //条件を満たした惑星が爆発
+                    //sideSphere[(check / (width - 1)) + check].SetActive(false);
                     ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
                     b_t = 2;
                 }
@@ -555,6 +564,7 @@ public class test2 : MonoBehaviour
                         sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 8);
                         sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 8);
                         sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 8);
+
                     }
                 }
             }
@@ -607,11 +617,25 @@ public class test2 : MonoBehaviour
                 rainbow = false;
                 alpha_Flg = false;
                 rainbowTarget = 0;
+                
             }
         }
         else check += 1;
     }
     //***
+    void sideActive()
+    {
+        for (int i = 0; i < mainPanel; i++)
+        {
+            if (flgCheck[i])
+            {
+                sideSphere[(i / (width - 1)) + i].SetActive(true);
+                sideSphere[(i / (width - 1)) + i + 1].SetActive(true);
+                sideSphere[(i / (width - 1)) + i + width].SetActive(true);
+                sideSphere[(i / (width - 1)) + i + width + 1].SetActive(true);
+            }
+        }
+    }
     void PanelOperation()
     {
         if (gameClear.activeSelf == false)
@@ -620,60 +644,63 @@ public class test2 : MonoBehaviour
             if (gameOver.activeSelf == true)
                 turn = TurnMax;
         }
-            
-        //パネル反時計回り
-        if (Input.GetButtonDown("LB"))
+        if (ScreenCover.activeSelf == false)
         {
-            panelMove[0] = true;
-            if (!TimerCS.countStart) TimerCS.countStart = true;
-        }
-        //パネル時計回り
-        else if (Input.GetButtonDown("RB"))
-        {
-            panelMove[1] = true;
-            if (!TimerCS.countStart) TimerCS.countStart = true;
-        }
+            //パネル反時計回り
+            if (Input.GetButtonDown("LB"))
+            {
+                panelMove[0] = true;
+                if (!TimerCS.countStart) TimerCS.countStart = true;
+            }
+            //パネル時計回り
+            else if (Input.GetButtonDown("RB"))
+            {
+                panelMove[1] = true;
+                if (!TimerCS.countStart) TimerCS.countStart = true;
+            }
 
-        //十字キーのパネル選択
-        if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
-        {
-            do
-            {
-                if (chooseMain >= 24) chooseMain -= 24;
-                else chooseMain += 6;
-            } while (isPlanet[chooseMain]);
-            isVertical = true;
-        }
-        if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
-        {
-            do
-            {
-                if (chooseMain <= 5) chooseMain += 24;
-                else chooseMain -= 6;
-            } while (isPlanet[chooseMain]);
-            isVertical = true;
-        }
-        if (0 > Input.GetAxis("ClossHorizontal") && !isHorizontal)  //←入力時
-        {
-            do
-            {
-                if (chooseMain % (width - 1) == 0) chooseMain += 5;
-                else chooseMain -= 1;
-            } while (isPlanet[chooseMain]);
-            isHorizontal = true;
-        }
-        if (0 < Input.GetAxis("ClossHorizontal") && !isHorizontal)    //→入力時
-        {
-            do
-            {
-                if (chooseMain % (width - 1) == 5) chooseMain -= 5;
-                else chooseMain += 1;
-            } while (isPlanet[chooseMain]);
-            isHorizontal = true;
-        }
 
-        if (0 == Input.GetAxis("ClossHorizontal")) isHorizontal = false;
-        if (0 == Input.GetAxis("ClossVertical")) isVertical = false;
+            //十字キーのパネル選択
+            if (0 > Input.GetAxis("ClossVertical") && !isVertical)    //↓入力時
+            {
+                do
+                {
+                    if (chooseMain >= 24) chooseMain -= 24;
+                    else chooseMain += 6;
+                } while (isPlanet[chooseMain]);
+                isVertical = true;
+            }
+            if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
+            {
+                do
+                {
+                    if (chooseMain <= 5) chooseMain += 24;
+                    else chooseMain -= 6;
+                } while (isPlanet[chooseMain]);
+                isVertical = true;
+            }
+            if (0 > Input.GetAxis("ClossHorizontal") && !isHorizontal)  //←入力時
+            {
+                do
+                {
+                    if (chooseMain % (width - 1) == 0) chooseMain += 5;
+                    else chooseMain -= 1;
+                } while (isPlanet[chooseMain]);
+                isHorizontal = true;
+            }
+            if (0 < Input.GetAxis("ClossHorizontal") && !isHorizontal)    //→入力時
+            {
+                do
+                {
+                    if (chooseMain % (width - 1) == 5) chooseMain -= 5;
+                    else chooseMain += 1;
+                } while (isPlanet[chooseMain]);
+                isHorizontal = true;
+            }
+
+            if (0 == Input.GetAxis("ClossHorizontal")) isHorizontal = false;
+            if (0 == Input.GetAxis("ClossVertical")) isVertical = false;
+        }
     }
     //***
     void PointCheck()
@@ -683,6 +710,7 @@ public class test2 : MonoBehaviour
         {
             if (!isPlanet[i])
             {
+
                 //judgNum += sideNumber[(i / 3) + i];
                 //judgNum += sideNumber[(i / 3) + i + 1];
                 //judgNum += sideNumber[(i / 3) + i + 5];
@@ -998,7 +1026,7 @@ public class test2 : MonoBehaviour
     {
         if (TurnCS.nowTurn < (TurnMax+1))
         {
-            if ((Input.GetButtonDown("LB") || Input.GetButtonDown("RB") || TimerCS.timeOut) && TimerCS.countStart == true) //Xか制限時間でターン終了
+            if ((Input.GetButtonDown("LB") || Input.GetButtonDown("RB") || TimerCS.timeOut) && TimerCS.countStart == true ) //Xか制限時間でターン終了
             {
 
                 if (!alpha_Flg) PointCheck();
@@ -1095,14 +1123,14 @@ public class test2 : MonoBehaviour
 
         if (targetNum[0] <= 0 && targetNum[1] <= 0 && targetNum[2] <= 0 && targetNum[3] <= 0)
         {
-            ScreenCover.SetActive(true);
-            gameClear.SetActive(true);
+            if (ScreenCover.activeSelf == false) ScreenCover.SetActive(true);
+            if (gameClear.activeSelf == false) gameClear.SetActive(true);
             Invoke("Result", 3.0f);
         }
         else if (TurnCS.nowTurn >= TurnMax)
         {
-            ScreenCover.SetActive(true);
-            gameOver.SetActive(true);
+            if (ScreenCover.activeSelf == false) ScreenCover.SetActive(true);
+            if (gameOver.activeSelf == false) gameOver.SetActive(true);
             Invoke("Result", 3.0f);
         }
     }

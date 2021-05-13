@@ -13,6 +13,7 @@ public class test2 : MonoBehaviour
     [SerializeField] Z_Explosion ExplosionCS;
     [SerializeField] Pause PauseCS;
     [SerializeField] GameObject ScreenCover;
+    [SerializeField] GameSE gameSECS;
 
     const int mainPanel = 30;    //メインパネルの数
     const int sidePanel = 42;    //サイドパネルの数
@@ -63,7 +64,8 @@ public class test2 : MonoBehaviour
     int[] rainbowRand = new int[mainPanel]; //虹衛星をランダムに配置するための変数
     int rainbowTarget = 0;
     //[SerializeField] GameObject selectMainImage; //現在選択しているメインパネルを表示
-
+    bool isAnyAnim;
+    float animTimer = 0;
     [SerializeField] GameObject Score;  //スコアのテキストオブジェクト
     Text scoreText;
     Text readystart;
@@ -646,17 +648,31 @@ public class test2 : MonoBehaviour
         }
         if (ScreenCover.activeSelf == false)
         {
-            //パネル反時計回り
-            if (Input.GetButtonDown("LB"))
+            if (!isAnyAnim)
             {
-                panelMove[0] = true;
-                if (!TimerCS.countStart) TimerCS.countStart = true;
+                //パネル反時計回り
+                if (Input.GetButtonDown("LB"))
+                {
+                    gameSECS.audioSource.PlayOneShot(gameSECS.spinSE);
+                    isAnyAnim = true;
+                    panelMove[0] = true;
+                }
+                //パネル時計回り
+                else if (Input.GetButtonDown("RB"))
+                {
+                    gameSECS.audioSource.PlayOneShot(gameSECS.spinSE);
+                    isAnyAnim = true;
+                    panelMove[1] = true;
+                }
             }
-            //パネル時計回り
-            else if (Input.GetButtonDown("RB"))
+            else if (isAnyAnim)
             {
-                panelMove[1] = true;
-                if (!TimerCS.countStart) TimerCS.countStart = true;
+                animTimer += Time.deltaTime;
+                if (animTimer >= 0.1f)
+                {
+                    isAnyAnim = false;
+                    animTimer = 0;
+                }
             }
 
 

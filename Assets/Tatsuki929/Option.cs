@@ -280,9 +280,9 @@ public class Option : MonoBehaviour
     {
         if (cursol == 0)
         {
-            obj_Sound.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
-            obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
-            obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
+            obj_Sound.GetComponent<RectTransform>().localScale = new Vector3(1.728f, 1.728f, 0);
+            obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
+            obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
 
 
             obj_Sound.GetComponent<Image>().color = new Color(1f, 1f, 0, 1f);
@@ -296,18 +296,18 @@ public class Option : MonoBehaviour
     }/*
     else if (cursol == 1)
     {
-        obj_Sound.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
-        obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
-        obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
+        obj_Sound.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
+        obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.728f, 1.728f, 0);
+        obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
 
         obj_Cursol.GetComponent<RectTransform>().transform.localPosition
            = obj_Graphic.GetComponent<RectTransform>().transform.localPosition;
     } */
         else if (cursol == 1)
         {
-            obj_Sound.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
-            obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
-            obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
+            obj_Sound.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
+            obj_Graphic.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
+            obj_Back.GetComponent<RectTransform>().localScale = new Vector3(1.728f, 1.728f, 0);
 
             /*obj_Cursol.GetComponent<RectTransform>().transform.localPosition
                = obj_Back.GetComponent<RectTransform>().transform.localPosition;
@@ -324,7 +324,7 @@ public class Option : MonoBehaviour
         {
             if (cursol2 == 0)
             {
-                /*obj_Cursol2.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
+                /*obj_Cursol2.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
 
                 obj_Cursol2.GetComponent<RectTransform>().transform.localPosition
                     = new Vector3(5.0f, 100.0f, 0);
@@ -355,12 +355,12 @@ public class Option : MonoBehaviour
                     obj_Gauge_SE.GetComponent<Image>().color = new Color32(170, 255, 255, 127);
                 }
 
-                vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.0f, 1.0f, 0);
-                vol_obj_Back.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
+                vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.2f, 1.2f, 0);
+            vol_obj_Back.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
             }
             else if (cursol2 == 1)
             {/*
-            obj_Cursol2.GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
+            obj_Cursol2.GetComponent<RectTransform>().localScale = new Vector3(1.44f, 1.44f, 0);
             obj_Cursol2.GetComponent<RectTransform>().transform.localPosition
                = new Vector3(5.0f, 0.0f, 0);
             obj_Cursol2.GetComponent<RectTransform>().sizeDelta = new Vector2(310f, 40f);*/
@@ -386,7 +386,7 @@ public class Option : MonoBehaviour
                     text_SE_num.transform.localPosition = new Vector3(200, -45, 0);
                 }
 
-                vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.0f, 1.0f, 0);
+                vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.2f, 1.2f, 0);
                 vol_obj_Back.GetComponent<Image>().color = new Color32(170, 255, 255, 255);
 
                 obj_Gauge_BGM.GetComponent<Image>().color = new Color32(170, 255, 255, 127);
@@ -395,7 +395,7 @@ public class Option : MonoBehaviour
             else if (cursol2 == 2)
             {/*
             obj_Cursol2.GetComponent<RectTransform>().sizeDelta = new Vector2(160f,40f);
-            obj_Cursol2.GetComponent<RectTransform>().localScale= new Vector3(1.44f, 1.44f, 0);
+            obj_Cursol2.GetComponent<RectTransform>().localScale= new Vector3(1.728f, 1.728f, 0);
             obj_Cursol2.GetComponent<RectTransform>().transform.localPosition
                = vol_obj_Back.GetComponent<RectTransform>().transform.localPosition;*/
                 //font
@@ -422,7 +422,7 @@ public class Option : MonoBehaviour
                 obj_Gauge_BGM.GetComponent<Image>().color = new Color32(170, 255, 255, 127);
                 obj_Gauge_SE.GetComponent<Image>().color = new Color32(170, 255, 255, 127);
 
-                vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.2f, 1.2f, 0);
+                vol_obj_Back.GetComponent<RectTransform>().transform.localScale = new Vector3(1.44f, 1.44f, 0);
                 vol_obj_Back.GetComponent<Image>().color = new Color32(255, 255, 0, 255);
             }
         }

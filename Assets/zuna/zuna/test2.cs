@@ -653,6 +653,7 @@ public class test2 : MonoBehaviour
                 //パネル反時計回り
                 if (Input.GetButtonDown("LB"))
                 {
+                    if (!TimerCS.countStart) TimerCS.countStart = true;
                     gameSECS.audioSource.PlayOneShot(gameSECS.spinSE);
                     isAnyAnim = true;
                     panelMove[0] = true;
@@ -660,6 +661,7 @@ public class test2 : MonoBehaviour
                 //パネル時計回り
                 else if (Input.GetButtonDown("RB"))
                 {
+                    if (!TimerCS.countStart) TimerCS.countStart = true;
                     gameSECS.audioSource.PlayOneShot(gameSECS.spinSE);
                     isAnyAnim = true;
                     panelMove[1] = true;

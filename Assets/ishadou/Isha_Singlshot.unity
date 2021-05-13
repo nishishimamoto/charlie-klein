@@ -7800,6 +7800,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6582596449653501466, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
+        type: 3}
+      propertyPath: gameSECS
+      value: 
+      objectReference: {fileID: 1707388870}
+    - target: {fileID: 6582596449653501466, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
+        type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1707388872}
     m_RemovedComponents:
     - {fileID: 6582596448719895255, guid: 679bc4eedad497d4fa9ef5d5b8628c73, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 679bc4eedad497d4fa9ef5d5b8628c73, type: 3}
@@ -7822,6 +7832,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 759648034978101424, guid: 7b4e5baedcea2184592313c74d370a34,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 759648034978101426, guid: 7b4e5baedcea2184592313c74d370a34,
         type: 3}
       propertyPath: SE
@@ -18641,7 +18656,7 @@ MonoBehaviour:
   - {fileID: 1312290412}
   explosopn: {fileID: 198917022394846920, guid: e1b08032bec16ba4eb1ae23cbd572664,
     type: 3}
-  audio: {fileID: 1512106231}
+  audio: {fileID: 1707388872}
   clip: {fileID: 8300000, guid: f88261e7ddca2564d8a6bd21bd176b8f, type: 3}
 --- !u!4 &1037423003
 Transform:
@@ -20530,22 +20545,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   comboSE: {fileID: 8300000, guid: 030e370eb95f61749b5beb3109ce7cab, type: 3}
-  lifeSE: {fileID: 8300000, guid: 3516d4c0f4cd98747a620ee37fdb71f1, type: 3}
+  lifeSE: {fileID: 8300000, guid: 1871064d15a0ef0498785a4765ff587b, type: 3}
   timerSE: {fileID: 8300000, guid: 402b40ca392c75f42b176cca01ee1696, type: 3}
   turnSE: {fileID: 8300000, guid: c00d0547325b5d04fa17374c1c6bf18d, type: 3}
   gameOverSE: {fileID: 8300000, guid: e0d4e1557d3543b4698b90c1f5c56c18, type: 3}
   bomChargeSE: {fileID: 8300000, guid: a53bba270f02ec64faabadcb65fdce42, type: 3}
   thinkingSE: {fileID: 8300000, guid: 14602e57467ec574dafa7113cf561c94, type: 3}
-  massSE: {fileID: 8300000, guid: ad25ea6952687694dbb145e661bf19c6, type: 3}
-  bomSE1: {fileID: 8300000, guid: 3516d4c0f4cd98747a620ee37fdb71f1, type: 3}
+  massSE: {fileID: 8300000, guid: 7b2ddd001c587314ab863952e24d5db8, type: 3}
+  bomSE1: {fileID: 8300000, guid: c537116f6ebe24c489071cfa573fc502, type: 3}
   bomSE2: {fileID: 8300000, guid: 5d2e16053ad181d4583aa339d2347104, type: 3}
   explosion1SE: {fileID: 8300000, guid: f88261e7ddca2564d8a6bd21bd176b8f, type: 3}
   explosion2SE: {fileID: 8300000, guid: f88261e7ddca2564d8a6bd21bd176b8f, type: 3}
-  cursor: {fileID: 0}
-  crick: {fileID: 0}
-  magic: {fileID: 0}
-  pause: {fileID: 0}
-  mobius: {fileID: 0}
+  cursor: {fileID: 8300000, guid: 83d5a6e199e53c94083209a73ad27675, type: 3}
+  crick: {fileID: 8300000, guid: ad25ea6952687694dbb145e661bf19c6, type: 3}
+  magic: {fileID: 8300000, guid: f323bcfdf0720d3489d71f8b86981f00, type: 3}
+  pause: {fileID: 8300000, guid: e158d5aa475706345ace1004f6a84961, type: 3}
+  mobius: {fileID: 8300000, guid: ff2dd2f62fba62c4186f3cb178945ac4, type: 3}
+  spinSE: {fileID: 8300000, guid: 1f899c8f20fe8964ba5d3c464ad4e845, type: 3}
+  cursorSE: {fileID: 8300000, guid: 83d5a6e199e53c94083209a73ad27675, type: 3}
+  crickSE: {fileID: 8300000, guid: ad25ea6952687694dbb145e661bf19c6, type: 3}
+  pauseSE: {fileID: 8300000, guid: e158d5aa475706345ace1004f6a84961, type: 3}
   isLifeSE: 0
   isLifeSECheck: 0
   is5countSE: 0
@@ -22041,6 +22060,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6793439984654275574, guid: 8ece78c7246ed744384896a33bfebf49,
         type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6793439984654275574, guid: 8ece78c7246ed744384896a33bfebf49,
+        type: 3}
       propertyPath: OutputAudioMixerGroup
       value: 
       objectReference: {fileID: -4537700457772482537, guid: 80648a659e3349240be6620610c5f1f5,
@@ -23107,7 +23131,7 @@ PrefabInstance:
         type: 3}
       propertyPath: SE
       value: 
-      objectReference: {fileID: 1512106231}
+      objectReference: {fileID: 1707388872}
     - target: {fileID: 7926666533372591954, guid: 8c053526daea4b64fa1584f4bdac1c64,
         type: 3}
       propertyPath: BGM

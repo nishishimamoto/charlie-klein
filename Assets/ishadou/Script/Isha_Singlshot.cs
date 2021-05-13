@@ -111,6 +111,9 @@ public class Isha_Singlshot : MonoBehaviour
 
     public static string oldSceneName;  //リザルトから戻る用
 
+    bool isAnyAnim;
+    float animTimer = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -527,18 +530,45 @@ public class Isha_Singlshot : MonoBehaviour
             TheWorld.gameObject.SetActive(true);
         }
 
-        //パネル反時計回り
-        if (Input.GetButtonDown("LB"))
+        ////パネル反時計回り
+        //if (Input.GetButtonDown("LB"))
+        //{
+        //    panelMove[0] = true;
+        //    //if (!TimerCS.countStart) TimerCS.countStart = true;
+        //    //ComboCS.comboCount = 0;
+        //}
+        ////パネル時計回り
+        //else if (Input.GetButtonDown("RB"))
+        //{
+        //    panelMove[1] = true;
+        //    //if (!TimerCS.countStart) TimerCS.countStart = true;
+        //}
+
+        if (!isAnyAnim)
         {
-            panelMove[0] = true;
-            //if (!TimerCS.countStart) TimerCS.countStart = true;
-            //ComboCS.comboCount = 0;
+            //パネル反時計回り
+            if (Input.GetButtonDown("LB"))
+            {
+                gameSECS.audioSource.PlayOneShot(gameSECS.spinSE);
+                isAnyAnim = true;
+                panelMove[0] = true;
+            }
+            //パネル時計回り
+            else if (Input.GetButtonDown("RB"))
+            {
+                gameSECS.audioSource.PlayOneShot(gameSECS.spinSE);
+                isAnyAnim = true;
+                panelMove[1] = true;
+            }
         }
-        //パネル時計回り
-        else if (Input.GetButtonDown("RB"))
+        else if (isAnyAnim)
         {
-            panelMove[1] = true;
-            //if (!TimerCS.countStart) TimerCS.countStart = true;
+            animTimer += Time.deltaTime;
+            if (animTimer >= 0.1f)
+            {
+                isAnyAnim = false;
+                animTimer = 0;
+            }
         }
 
         //十字キーのパネル選択

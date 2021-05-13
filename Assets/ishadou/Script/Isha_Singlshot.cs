@@ -908,7 +908,7 @@ public class Isha_Singlshot : MonoBehaviour
 
     void ClearCheck()
     {
-
+        
         TimerCS.timeCount += 2.0f * ComboCS.comboCount;
         ComboCS.comboCount += 1;
         //Debug.Log(ComboCS.comboCount);

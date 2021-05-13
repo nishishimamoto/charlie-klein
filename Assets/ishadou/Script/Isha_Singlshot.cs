@@ -415,6 +415,7 @@ public class Isha_Singlshot : MonoBehaviour
 
                 ScoreAdd();
 
+                gameSECS.audioSource.PlayOneShot(gameSECS.explosion2SE);
                 ExplosionCS.particle[check].Play(); //条件を満たした惑星が爆発
                 Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
                 //ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
@@ -451,7 +452,7 @@ public class Isha_Singlshot : MonoBehaviour
             }
             else
             {
-                gameSECS.audioSource.PlayOneShot(gameSECS.explosion2SE);
+
 
                 for (int f = 0; f < mainPanel; f++) flgCheck[f] = false; //念のため別のforでfalseにする
                 mainColorNum = 0;

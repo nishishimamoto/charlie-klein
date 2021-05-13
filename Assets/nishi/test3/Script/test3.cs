@@ -68,6 +68,7 @@ public class test3 : MonoBehaviour
     int[] numberChange = { 0, 0, 0, 0 }; //各色が盤面に何個あるかみる
     int[] manyNumber = { 0, 0 };  //一番多い数と二番目に多い数をいれる
     int[] manyColor = { 0, 0 }; //manyNumberを元に二番目の色を一番の色で塗りつぶす
+    bool isColorChange;
     int[] rainbowNumber = { 0, 1, width, width + 1 };           //虹衛星を出すときに使う
     bool rainbow;
     int[] rainbowRand = { 0, 0, 0, 0 }; //虹衛星をランダムに配置するための変数
@@ -153,6 +154,7 @@ public class test3 : MonoBehaviour
         DebugText.SetActive(false);
         timerObjects.SetActive(false);
         oldSceneName = null;
+        //SideNumberChange(); //色の整備
     }
 
     // Update is called once per frame
@@ -295,6 +297,7 @@ public class test3 : MonoBehaviour
             //パネル反時計回り
             if (Input.GetButtonDown("LB"))
             {
+                Test3SECS.audioSource.PlayOneShot(Test3SECS.spinSE);
                 isAnyAnim = true;
                 panelMove[0] = true;
                 if (!TimerCS.countStart) ThinkingCS.thinkingTime = 0;
@@ -302,6 +305,7 @@ public class test3 : MonoBehaviour
             //パネル時計回り
             else if (Input.GetButtonDown("RB"))
             {
+                Test3SECS.audioSource.PlayOneShot(Test3SECS.spinSE);
                 isAnyAnim = true;
                 panelMove[1] = true;
                 if (!TimerCS.countStart) ThinkingCS.thinkingTime = 0;
@@ -309,7 +313,7 @@ public class test3 : MonoBehaviour
         }else if (isAnyAnim)
         {
             animTimer += Time.deltaTime;
-            if (animTimer >= 0.08f)
+            if (animTimer >= 0.1f)
             {
                 isAnyAnim = false;
                 animTimer = 0;
@@ -953,6 +957,8 @@ public class test3 : MonoBehaviour
         {
             if (bomChangeTime <= 0) //1回だけよばれる
             {
+                for (int i = 0; i < colorNum; i++) numberChange[i] = 0;
+
                 for (int i = 0; i < sidePanel; i++)  //各衛星がいくつあるか調べる
                 {
                     if (sideSphere[i] != null && sideNumber[i] == sideColorNumber[0]) numberChange[0] += 1;
@@ -1100,15 +1106,12 @@ public class test3 : MonoBehaviour
                 ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
                 isAlphaLast = true;
 
+                SideNumberChange();
+
                 for (int i = 0; i < mainPanel; i++)
                 {
                     if (flgCheck[i])
                     {
-                        sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, colorNum)];
-                        sideNumber[(i / (width - 1)) + i + 1] = sideColorNumber[Random.Range(0, colorNum)];
-                        sideNumber[(i / (width - 1)) + i + width + 1] = sideColorNumber[Random.Range(0, colorNum)];
-                        sideNumber[(i / (width - 1)) + i + width] = sideColorNumber[Random.Range(0, colorNum)];
-
                         TurnOverCS[(i / (width - 1)) + i].LifeCountReSet();
                         TurnOverCS[(i / (width - 1)) + i + 1].LifeCountReSet();
                         TurnOverCS[(i / (width - 1)) + i + width + 1].LifeCountReSet();
@@ -1158,17 +1161,13 @@ public class test3 : MonoBehaviour
                 if (ComboCS.comboCount >= 13) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion2SE);
                 else if (ComboCS.comboCount >= 6) Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion1SE);
                 else ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
-                isAlphaLast = true;
+
+                SideNumberChange();
 
                 for (int i = 0; i < mainPanel; i++)
                 {
                     if (flgCheck[i])
                     {
-                        sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, colorNum)];
-                        sideNumber[(i / (width - 1)) + i + 1] = sideColorNumber[Random.Range(0, colorNum)];
-                        sideNumber[(i / (width - 1)) + i + width + 1] = sideColorNumber[Random.Range(0, colorNum)];
-                        sideNumber[(i / (width - 1)) + i + width] = sideColorNumber[Random.Range(0, colorNum)];
-
                         TurnOverCS[(i / (width - 1)) + i].LifeCountReSet();
                         TurnOverCS[(i / (width - 1)) + i + 1].LifeCountReSet();
                         TurnOverCS[(i / (width - 1)) + i + width + 1].LifeCountReSet();
@@ -1190,6 +1189,8 @@ public class test3 : MonoBehaviour
                         MassBoxCS.MassDelete(mainPanel);    //MassBoxをすべて消す
                     }
                 }
+
+                isAlphaLast = true;
             }
             else if (alphaDerayTime >= 2)
             {
@@ -1208,6 +1209,42 @@ public class test3 : MonoBehaviour
     {
         if (alpha_Flg && cursor.activeSelf) cursor.SetActive(false);
         else if (!alpha_Flg && !cursor.activeSelf) cursor.SetActive(true);
+    }
+
+    void SideNumberChange()
+    {
+        do
+        {
+            for (int i = 0; i < mainPanel; i++)
+            {
+                if (flgCheck[i])
+                {
+                    sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, colorNum)];
+                    sideNumber[(i / (width - 1)) + i + 1] = sideColorNumber[Random.Range(0, colorNum)];
+                    sideNumber[(i / (width - 1)) + i + width + 1] = sideColorNumber[Random.Range(0, colorNum)];
+                    sideNumber[(i / (width - 1)) + i + width] = sideColorNumber[Random.Range(0, colorNum)];
+                }
+            }
+
+            for(int ii = 0; ii < colorNum; ii++) numberChange[ii] = 0;
+
+            for (int ii = 0; ii < sidePanel; ii++)  //各衛星がいくつあるか調べる
+            {
+                if (sideSphere[ii] != null && sideNumber[ii] == sideColorNumber[0]) numberChange[0] += 1;
+                else if (sideSphere[ii] != null && sideNumber[ii] == sideColorNumber[1]) numberChange[1] += 1;
+                else if (sideSphere[ii] != null && sideNumber[ii] == sideColorNumber[2]) numberChange[2] += 1;
+            }
+
+            isColorChange = false;
+
+            for (int ii = 0; ii < colorNum; ii++)
+            {
+                if (numberChange[ii] <= 3 || numberChange[ii] == 7 || numberChange[ii] == 5 || numberChange[ii] == 13)
+                {
+                    isColorChange = true;
+                }
+            }
+        } while (isColorChange);
     }
 
     void DebugMode()

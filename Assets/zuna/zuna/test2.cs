@@ -9,7 +9,7 @@ public class test2 : MonoBehaviour
     [SerializeField] CursorSelect cursorSelectCS;
     [SerializeField] Turn1 TurnCS;
     [SerializeField] Z_Timer TimerCS;
-    [SerializeField] Combo ComboCS;
+    [SerializeField] Z_Combo ComboCS;
     [SerializeField] Z_Explosion ExplosionCS;
     [SerializeField] Pause PauseCS;
     [SerializeField] GameObject ScreenCover;
@@ -498,7 +498,7 @@ public class test2 : MonoBehaviour
                     //ScoreLoss();
                     addOrLoss[check] = 9;
                 }
-
+                if (ComboCS.comboCount > 0) ComboCS.BoardCombo(check); //爆破箇所にコンボのパネル
                 ////ランダムな数値にいれかえ
                 //MainGenerate();
 

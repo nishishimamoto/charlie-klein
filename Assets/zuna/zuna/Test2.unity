@@ -5408,7 +5408,7 @@ MonoBehaviour:
   cursorSelectCS: {fileID: 1940469197}
   TurnCS: {fileID: 17638415}
   TimerCS: {fileID: 271234132}
-  ComboCS: {fileID: 6539218745275428977}
+  ComboCS: {fileID: 6539218745275428980}
   ExplosionCS: {fileID: 1037423004}
   PauseCS: {fileID: 1810868466}
   ScreenCover: {fileID: 896453113}
@@ -8334,7 +8334,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6539218745420762318}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -8793,7 +8793,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6539218745420762318}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -9508,21 +9508,6 @@ MonoBehaviour:
   m_Text: '0Combo!
 
 '
---- !u!114 &6539218745275428977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6539218745275428979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dffb9805e6554f40ab46423a440a5cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  comboTime: 0
-  comboCount: 0
-  canvas: {fileID: 0}
 --- !u!224 &6539218745275428978
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9535,7 +9520,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6539218745420762318}
-  m_RootOrder: 12
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -9553,14 +9538,29 @@ GameObject:
   - component: {fileID: 6539218745275428978}
   - component: {fileID: 6539218745275428975}
   - component: {fileID: 6539218745275428976}
-  - component: {fileID: 6539218745275428977}
+  - component: {fileID: 6539218745275428980}
   m_Layer: 5
   m_Name: Combo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
+--- !u!114 &6539218745275428980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6539218745275428979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f723dc85aa018d469244a25e9e1954b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comboTime: 0
+  comboCount: 0
+  canvas: {fileID: 6058241836685810467}
 --- !u!224 &6539218745420762318
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9582,9 +9582,9 @@ RectTransform:
   - {fileID: 6539218744712106760}
   - {fileID: 6539218744820229138}
   - {fileID: 7651716006080051978}
+  - {fileID: 6539218745275428978}
   - {fileID: 6539218743557591507}
   - {fileID: 6539218744123073544}
-  - {fileID: 6539218745275428978}
   - {fileID: 6539218744938398559}
   - {fileID: 1263978775}
   - {fileID: 2059954069}

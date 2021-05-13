@@ -37,6 +37,7 @@ public class Turn1 : MonoBehaviour
     private void Update()
     {
         turnText.text = "" + (test2.TurnMax - nowTurn);
+        if ((test2.TurnMax - nowTurn) < 0) turnText.text = "0";
     }
 
     public void TurnCount()

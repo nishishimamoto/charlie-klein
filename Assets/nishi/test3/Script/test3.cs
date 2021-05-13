@@ -53,6 +53,8 @@ public class test3 : MonoBehaviour
     Renderer[] sideSphereRenderer = new Renderer[sidePanel];    //実際にオブジェクトの色を変更する
     //[SerializeField] GameObject[] obj;  //アニメーションさせるためのオブジェクト一時消し
     PanelAnim tmpAnim;
+    bool isAnyAnim;
+    float animTimer = 0;
 
     //GameObject tmpObj;
     //[SerializeField] Image[] sideBonusFrame;一時消し
@@ -288,17 +290,30 @@ public class test3 : MonoBehaviour
     //***
     void PanelOperation()
     {
-        //パネル反時計回り
-        if (Input.GetButtonDown("LB"))
+        if (!isAnyAnim)
         {
-            panelMove[0] = true;
-            if (!TimerCS.countStart) ThinkingCS.thinkingTime = 0;
-        }
-        //パネル時計回り
-        else if (Input.GetButtonDown("RB"))
+            //パネル反時計回り
+            if (Input.GetButtonDown("LB"))
+            {
+                isAnyAnim = true;
+                panelMove[0] = true;
+                if (!TimerCS.countStart) ThinkingCS.thinkingTime = 0;
+            }
+            //パネル時計回り
+            else if (Input.GetButtonDown("RB"))
+            {
+                isAnyAnim = true;
+                panelMove[1] = true;
+                if (!TimerCS.countStart) ThinkingCS.thinkingTime = 0;
+            }
+        }else if (isAnyAnim)
         {
-            panelMove[1] = true;
-            if (!TimerCS.countStart) ThinkingCS.thinkingTime = 0;
+            animTimer += Time.deltaTime;
+            if (animTimer >= 0.08f)
+            {
+                isAnyAnim = false;
+                animTimer = 0;
+            }
         }
 
         //十字キーのパネル選択

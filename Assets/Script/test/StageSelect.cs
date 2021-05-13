@@ -63,6 +63,11 @@ public class StageSelect : MonoBehaviour
             isVertical = true;
             Invoke("SenceChange", 1.0f);
         }
+        if (Input.GetButtonDown("B"))
+        {
+            SceneManager.LoadScene("Title");
+        }
+
 
         if (isBlinking) Blinking();
 

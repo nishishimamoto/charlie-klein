@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class Isha_Singlshot : MonoBehaviour
 {
     [SerializeField] Cursor cursorSelectCS;
-    [SerializeField] Turn TurnCS;
+    [SerializeField] StartFade StartFadeCS;
     [SerializeField] test3timer TimerCS;
     [SerializeField] Combo ComboCS;
     [SerializeField] Explosion ExplosionCS;
@@ -49,7 +49,6 @@ public class Isha_Singlshot : MonoBehaviour
 
     bool isOperation;
     bool isStart;
-    float StartTimer = 0;
 
     bool isDebug;
 
@@ -85,8 +84,6 @@ public class Isha_Singlshot : MonoBehaviour
     [SerializeField] GameObject Pause;
     [SerializeField] GameObject BonusText;
     [SerializeField] GameObject TimeUpText;
-    [SerializeField] GameObject ReadyText;
-    [SerializeField] GameObject StartText;
     [SerializeField] GameObject TheWorld;
     [SerializeField] GameObject TimeUpBack;
     [SerializeField] GameObject DebugText;
@@ -134,8 +131,8 @@ public class Isha_Singlshot : MonoBehaviour
 
         Pause.gameObject.SetActive(true);
         TheWorld.gameObject.SetActive(false);
-        TimeUpBack.gameObject.SetActive(true);
         TimeUpText.gameObject.SetActive(false);
+        TimeUpBack.gameObject.SetActive(false);
         DebugText.gameObject.SetActive(false);
         ListText.gameObject.SetActive(false);
 
@@ -328,13 +325,10 @@ public class Isha_Singlshot : MonoBehaviour
         scoreText = Score.GetComponent<Text>();
 
         ColorChange();   //パネルの色変更
-        TurnCS.nowTurn = 1; //ターン数の指定
         TimerCS.maxTime = 60.0f;
         TimerCS.timeCount = TimerCS.maxTime;
         score = 0;  //スコアの初期化
 
-        ReadyText.gameObject.SetActive(true);
-        StartText.gameObject.SetActive(false);
 
     }
 
@@ -344,26 +338,12 @@ public class Isha_Singlshot : MonoBehaviour
         
         if (!PauseCS.isPause)
         {
-            if (!isStart)
+            if (!StartFadeCS.isTurnStart)
             {
-                StartTimer += Time.deltaTime;
-                if (StartTimer > 1.5f)
-                {
-                    ReadyText.gameObject.SetActive(false);
-                }
-                if(StartTimer > 2f)
-                {
-                    StartText.gameObject.SetActive(true);
-                }
-                if(StartTimer > 2.7f)
-                {
-                    StartText.gameObject.SetActive(false);
-                    isStart = true;
-                    if (!TimerCS.countStart) TimerCS.countStart = true;
-                    TimeUpBack.gameObject.SetActive(false);
-                }
+                StartFadeCS.StartFadeOut();
+                if (!TimerCS.countStart) TimerCS.countStart = true;
             }
-            else 
+            else if(StartFadeCS.isTurnStart)
             {
                 if (!isOperation)
                 {
@@ -544,7 +524,7 @@ public class Isha_Singlshot : MonoBehaviour
 
 
         //確変
-        if (Input.GetButtonDown("X") && BonusGaugeSand.fillAmount >= 1)
+        if (Input.GetButtonDown("B") && BonusGaugeSand.fillAmount >= 1)
         {
             gameSECS.audioSource.Stop();
             BonusFlg = 1;

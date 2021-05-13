@@ -45,8 +45,6 @@ public class Option : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        string a = Application.dataPath;
         mixer.GetFloat("SE", out vol_SE);
         mixer.GetFloat("BGM", out vol_BGM);
         
@@ -225,7 +223,6 @@ public class Option : MonoBehaviour
 
         if (Input.GetButtonDown("A"))
         {
-            Debug.Log("マジで押してるん？");
             if (cursol == 0)
             {
                 if (!isSound)
@@ -251,18 +248,31 @@ public class Option : MonoBehaviour
                         
                     isBack = true;
                     isBlinking = true;
-                    Invoke("toTitle",1f);
+                    Invoke("ToTitle",1f);
                 }
             }
         }
         else if (Input.GetButtonDown("B"))
+        {
+            if (cursol == 0&&isSound)
             {
-                if (cursol == 0)
-                {
-                    cursol2 = 0;
-                    isSound = false;
-                }
+               cursol2 = 0;
+                isSound = false;
             }
+
+            else if(cursol == 0&&!isSound)
+            {
+                cursol = 1;
+                ButtonSize();
+            }
+
+            else if(cursol == 1)
+            {
+                isBack = true;
+                isBlinking = true;
+                Invoke("ToTitle", 1f);
+            }
+        }
         if (isBlinking) Blinking();
     }
 
@@ -423,7 +433,7 @@ public class Option : MonoBehaviour
             obj_Gauge_BGM.GetComponent<RectTransform>().sizeDelta = new Vector2(Mathf.Floor(((vol_BGM + 30) / 50) * 100) * 3.6f, 25);
         }
 
-        void toTitle()
+        void ToTitle()
         {
             SceneManager.LoadScene("Title");
         }

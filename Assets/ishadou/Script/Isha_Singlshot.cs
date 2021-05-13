@@ -410,15 +410,11 @@ public class Isha_Singlshot : MonoBehaviour
                 rainbowRand[rainbowTarget] = check; //条件を満たした惑星の位置を把握しておく
                 rainbowTarget += 1;
 
-
                 ScoreAdd();
-
-                ////ランダムな数値にいれかえ
-                //MainGenerate();
 
                 ExplosionCS.particle[check].Play(); //条件を満たした惑星が爆発
                 Invoke("ExplosionStop", 1.0f);    //時間差で爆発を止める
-                ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+                //ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
 
                 for (int i = 0; i < 4; i++)
                 {
@@ -892,11 +888,7 @@ public class Isha_Singlshot : MonoBehaviour
         {
             ExplosionCS.particle[i].Stop();
         }
-    }
-
-    void MainGenerate()
-    {
-       
+        //ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
     }
 
     void Result()

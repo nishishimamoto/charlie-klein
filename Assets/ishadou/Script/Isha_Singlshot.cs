@@ -362,15 +362,20 @@ public class Isha_Singlshot : MonoBehaviour
 
                 TurnEnd();                  //ターン終了時の処理
 
-
+                if (!overCS)
+                {
+                    overCS = true;
+                }
                 cursorSelectCS.SelectImageMove(chooseMain);
 
                 if (!alpha_Flg || BonusFlg == 1)
                 {
+                    overCS = false;
                     Bonus();
                 }
                 else if (alpha_Flg)
                 {
+                    overCS = false;
                     alpha();
                 }
             }
@@ -903,17 +908,21 @@ public class Isha_Singlshot : MonoBehaviour
             gameSECS.is5countSE = false;
         }
 
-        if (TimerCS.timeCount <= 0f && overCS == false) //制限時間でゲーム終了
+        if (TimerCS.timeCount <= 0f) //制限時間でゲーム終了
         {
-            TimeUpBack.gameObject.SetActive(true);
-            TimeUpText.gameObject.SetActive(true);
-
             isOperation = true;
-            overCS = true;
-            gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
-            if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
-            TimerCS.countStart = false;
-            Invoke("Result", 3.0f);  //リザルトに遷移
+
+            if (overCS = true)
+            {
+                TimeUpBack.gameObject.SetActive(true);
+                TimeUpText.gameObject.SetActive(true);
+
+                //overCS = true;
+                gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
+                if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
+                TimerCS.countStart = false;
+                Invoke("Result", 3.0f);  //リザルトに遷移
+            }
         }
     }
 
@@ -923,7 +932,10 @@ public class Isha_Singlshot : MonoBehaviour
         {
             ExplosionCS.particle[i].Stop();
         }
-        //ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+        if (TimerCS.timeCount <= 0f)
+        {
+            overCS = false;
+        }
     }
 
     void Result()

@@ -124,7 +124,7 @@ public class Isha_Singlshot : MonoBehaviour
         BonusFlg = 0;
         BonusTime = 10;
         BonusAccel = 0.1f;
-        AccelCnt = 0;
+        AccelCnt = 10;
         BonusText.gameObject.SetActive(false);
 
         BsCnt = 1;
@@ -775,25 +775,29 @@ public class Isha_Singlshot : MonoBehaviour
                 TimerCS.countStart = true;
                 chargeSE = false;
                 Needle.gameObject.SetActive(false);
-                switch (BonusAccel)
-                {
-                    case 0.1f:
-                        BonusAccel = 0.084f;
-                        break;
-                    case 0.084f:
-                        BonusAccel = 0.067f;
-                        break;
-                    case 0.067f:
-                        BonusAccel = 0.05f;
-                        break;
-                    case 0.05f:
-                        if (AccelCnt > 4)
-                        {
-                            BonusAccel = 0.04f;
-                        }
-                        AccelCnt += 1;
-                        break;
-                }
+
+                //switch (BonusAccel)
+                //{
+                //    case 0.1f: //10回
+                //        BonusAccel = 0.084f;
+                //        break; //12回
+                //    case 0.084f:
+                //        BonusAccel = 0.067f;
+                //        break;
+                //    case 0.067f:
+                //        BonusAccel = 0.05f;
+                //        break;
+                //    case 0.05f:
+                //        if (AccelCnt > 4)
+                //        {
+                //            BonusAccel = 0.04f;
+                //        }
+                //        AccelCnt += 1;
+                //        break;
+                //}
+
+                AccelCnt += 2;
+                BonusAccel = 1.0f / AccelCnt;
 
                 TheWorld.gameObject.SetActive(false);
                 BonusTime = 10;
@@ -932,7 +936,7 @@ public class Isha_Singlshot : MonoBehaviour
     void ClearCheck()
     {
         
-        TimerCS.timeCount += 2.0f * ComboCS.comboCount;
+        TimerCS.timeCount += 1.5f * ComboCS.comboCount;
         ComboCS.comboCount += 1;
         //Debug.Log(ComboCS.comboCount);
         ColorChange();

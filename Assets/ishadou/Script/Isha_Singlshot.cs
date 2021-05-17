@@ -362,20 +362,18 @@ public class Isha_Singlshot : MonoBehaviour
 
                 TurnEnd();                  //ターン終了時の処理
 
-                if (!overCS)
-                {
-                    overCS = true;
-                }
+                //if (!overCS)
+                //{
+                //    overCS = true;
+                //}
                 cursorSelectCS.SelectImageMove(chooseMain);
 
                 if (!alpha_Flg || BonusFlg == 1)
                 {
-                    overCS = false;
                     Bonus();
                 }
                 else if (alpha_Flg)
                 {
-                    overCS = false;
                     alpha();
                 }
             }
@@ -532,6 +530,10 @@ public class Isha_Singlshot : MonoBehaviour
         if (Input.GetButtonDown("B") && BonusGaugeSand.fillAmount >= 1)
         {
             gameSECS.audioSource.Stop();
+
+            TimerCS.countStart = false;
+            TimerCS.bigTimerText.enabled = false;
+
             BonusFlg = 1;
             TheWorld.gameObject.SetActive(true);
         }
@@ -636,6 +638,7 @@ public class Isha_Singlshot : MonoBehaviour
 
                             flgCheck[i] = true;
                             alpha_Flg = true;
+                            overCS = false;
                             if (BonusFlg == 1)
                             {
                                 if(chainPos[i].activeSelf == false)
@@ -759,8 +762,8 @@ public class Isha_Singlshot : MonoBehaviour
         if (BonusFlg == 1)
         {
             //gameSECS.audioSource.Stop();
-            TimerCS.countStart = false;
-            TimerCS.bigTimerText.enabled = false;
+            //TimerCS.countStart = false;
+            //TimerCS.bigTimerText.enabled = false;
 
             BonusGaugeSandOut.fillAmount = 1f;
             BsCnt = 0;
@@ -801,7 +804,7 @@ public class Isha_Singlshot : MonoBehaviour
                 //        break;
                 //}
 
-                AccelCnt += 2;
+                AccelCnt += 5;
                 BonusAccel = 1.0f / AccelCnt;
 
                 TheWorld.gameObject.SetActive(false);
@@ -934,7 +937,7 @@ public class Isha_Singlshot : MonoBehaviour
         }
         if (TimerCS.timeCount <= 0f)
         {
-            overCS = false;
+            overCS = true;
         }
     }
 

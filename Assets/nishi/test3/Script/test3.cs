@@ -219,6 +219,8 @@ public class test3 : MonoBehaviour
             else if(gameFinish) GameOver();
         }
 
+        if(PauseCS.isPause) Test3SECS.audioSource.pitch = 1;
+
         DebugMode();
     }
 
@@ -261,7 +263,8 @@ public class test3 : MonoBehaviour
                     addOrLoss[check] = 9;
                 }
                 if (ComboCS.comboCount > 0) ComboCS.BoardCombo(check); //爆破箇所にコンボのパネル
-                if (ComboCS.comboCount <= 15) Test3SECS.audioSource.pitch = 1 + (0.1f * ComboCS.comboCount);
+                Test3SECS.audioSource.pitch = 1 + (0.1f * ComboCS.comboCount);
+                if (Test3SECS.audioSource.pitch > 2.5) Test3SECS.audioSource.pitch = 2.5f;
                 Test3SECS.audioSource.PlayOneShot(Test3SECS.comboSE);   //コンボカウントのSE
                 check += 1;
             }
@@ -1012,6 +1015,7 @@ public class test3 : MonoBehaviour
                 }
                 Test3SECS.audioSource.Stop();
                 Test3SECS.audioSource.PlayOneShot(Test3SECS.bomSE2);
+                ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
                 ColorChange();
                 BomCS.bomGauge = 0;
                 bomChangeTime = 0;
@@ -1117,6 +1121,7 @@ public class test3 : MonoBehaviour
             {
                 if (!magic.activeSelf)
                 {
+                    Test3SECS.audioSource.pitch = 1;
                     magic.SetActive(true);
                     CameraChangeCS.isParfectCamera = true;
                     Test3SECS.audioSource.PlayOneShot(Test3SECS.magic);
@@ -1162,7 +1167,8 @@ public class test3 : MonoBehaviour
                         {
                             Test3SECS.audioSource.Stop();
                             magic.SetActive(false);
-                            Test3SECS.audioSource.PlayOneShot(Test3SECS.mobius);
+                            Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion1SE);
+                            Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion2SE);
                         }
                     }
                 }

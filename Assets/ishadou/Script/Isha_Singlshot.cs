@@ -21,6 +21,8 @@ public class Isha_Singlshot : MonoBehaviour
     [SerializeField] GameSE gameSECS;
 
     [SerializeField] Image Needle;
+
+    [SerializeField] GameObject BigMagic;
     float needleAngle;
 
     const int mainPanel = 30;    //メインパネルの数
@@ -49,7 +51,9 @@ public class Isha_Singlshot : MonoBehaviour
 
     bool isOperation;
     bool isStart;
+
     bool isCut;
+    float CutFade = 1.0f;
 
     bool isDebug;
 
@@ -131,6 +135,7 @@ public class Isha_Singlshot : MonoBehaviour
         BsCnt = 1;
 
         Needle.gameObject.SetActive(false);
+        BigMagic.gameObject.SetActive(false);
         needleAngle = 0;
 
         Pause.gameObject.SetActive(true);
@@ -380,7 +385,17 @@ public class Isha_Singlshot : MonoBehaviour
                 }
                 else
                 {
+                    CutFade -= Time.deltaTime;
+                    TheWorld.gameObject.SetActive(true);
+                    BigMagic.gameObject.SetActive(true);
 
+                    //TheWorld.transform.localScale
+                    if (CutFade <= 0)
+                    {
+                        isCut = false;
+                        CutFade = 1.0f;
+                        BonusFlg = 1;
+                    }
                 }
             }
         }
@@ -540,10 +555,10 @@ public class Isha_Singlshot : MonoBehaviour
             TimerCS.countStart = false;
             TimerCS.bigTimerText.enabled = false;
 
-            //isCut = true;
+            isCut = true;
 
-            BonusFlg = 1;
-            TheWorld.gameObject.SetActive(true);
+            //BonusFlg = 1;
+            //TheWorld.gameObject.SetActive(true);
         }
 
         ////パネル反時計回り
@@ -791,26 +806,7 @@ public class Isha_Singlshot : MonoBehaviour
                 TimerCS.countStart = true;
                 chargeSE = false;
                 Needle.gameObject.SetActive(false);
-
-                //switch (BonusAccel)
-                //{
-                //    case 0.1f: //10回
-                //        BonusAccel = 0.084f;
-                //        break; //12回
-                //    case 0.084f:
-                //        BonusAccel = 0.067f;
-                //        break;
-                //    case 0.067f:
-                //        BonusAccel = 0.05f;
-                //        break;
-                //    case 0.05f:
-                //        if (AccelCnt > 4)
-                //        {
-                //            BonusAccel = 0.04f;
-                //        }
-                //        AccelCnt += 1;
-                //        break;
-                //}
+                BigMagic.gameObject.SetActive(false);
 
                 AccelCnt += 5;
                 BonusAccel = 1.0f / AccelCnt;

@@ -9,7 +9,7 @@ public class MobiusCreate : MonoBehaviour
     GameObject mobius;  //全消しでメビウスをだす
     [SerializeField] GameObject mobiusCanvas;
     Transform mobiusCanvasTransform;
-
+    [SerializeField] GameObject ring;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,4 +29,11 @@ public class MobiusCreate : MonoBehaviour
         combos.transform.SetParent(mobiusCanvasTransform, false);
         isMobius = false;
     }
+
+    //public void RingCreate(int x,int y)
+    //{
+    //    GameObject left = Instantiate(ring, new Vector3(-6 + (2 * (x % 6)), 4 + (-2 * (x / 6)), 0), Quaternion.identity);
+    //    Instantiate(ring, new Vector3(-6 + (2 * (y % 6)), 4 + (-2 * (y / 6)), 0), Quaternion.identity);
+    //    left.transform.Rotate(0f, 180f, 0f);
+    //}
 }

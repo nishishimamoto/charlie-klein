@@ -140,7 +140,7 @@ public class test3 : MonoBehaviour
             }
         }
 
-        SatelliteCreat();   //衛星生成
+        SatelliteCreate();   //衛星生成
 
         scoreText = Score.GetComponent<Text>();
 
@@ -150,6 +150,7 @@ public class test3 : MonoBehaviour
         TimerCS.timeCount = TimerCS.maxTime;
         score = 0;  //スコアの初期化
         MassBoxCS.MassInit(mainPanel);  //massbox初期化
+        ExplosionCS.BomInit(sidePanel);
 
         DebugText.SetActive(false);
         timerObjects.SetActive(false);
@@ -801,7 +802,7 @@ public class test3 : MonoBehaviour
         BomCS.isBomUse = false;
     }
 
-    void SatelliteCreat()
+    void SatelliteCreate()
     {
         for (int i = 0; i < sidePanel; i++) //衛星の生成
         {
@@ -1005,6 +1006,8 @@ public class test3 : MonoBehaviour
                     {
                         sideNumber[i] = manyColor[0];
                         panelAnim[i].transform.localScale = new Vector3(1, 1, 1);
+                        ExplosionCS.bom[i].Play();
+                        score += 300;
                     }
                 }
                 Test3SECS.audioSource.Stop();
@@ -1017,9 +1020,33 @@ public class test3 : MonoBehaviour
                 Test3SECS.isBomSE = false;
                 isBomFlg = false;
                 BomCS.isBomUse = true;
+                scoreText.text = "" + score;
             }
         }
     }
+
+    //void MobiusCheck()
+    //{
+    //    for(int i = 0; i < mainPanel - 6; i++)
+    //    {
+    //        if (!isPlanet[i] && i % 6 != 0)
+    //        {
+    //            if ((flgCheck[i + 1] && flgCheck[i + 6]) && (!flgCheck[i] && !flgCheck[i + 7]))
+    //            {
+    //                Debug.Log((i + 1) + "と" + (i + 6));
+    //                //MobiusCreateCS.RingCreate(i + 1, i + 6);
+    //            }
+    //        }
+    //        if (!isPlanet[i] && i % 6 != 5)
+    //        {
+    //            if ((flgCheck[i] && flgCheck[i + 7]) && (!flgCheck[i + 1] && !flgCheck[i + 6]))
+    //            {
+    //                Debug.Log(i + "と" + (i + 7));
+    //                //MobiusCreateCS.RingCreate(i, i + 7);
+    //            }
+    //        }
+    //    }
+    //}
 
     void LifeHide()
     {
@@ -1143,6 +1170,7 @@ public class test3 : MonoBehaviour
             }
             else if (alphaDerayTime >= 6)
             {
+                //MobiusCheck();
                 alphaDerayTime = 0;
                 check = 0;
                 thinkingObjects.SetActive(true);
@@ -1194,7 +1222,7 @@ public class test3 : MonoBehaviour
             }
             else if (alphaDerayTime >= 2)
             {
-
+                //MobiusCheck();
                 alphaDerayTime = 0;
                 check = 0;
                 thinkingObjects.SetActive(true);

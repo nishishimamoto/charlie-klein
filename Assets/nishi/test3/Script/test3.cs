@@ -20,6 +20,7 @@ public class test3 : MonoBehaviour
     [SerializeField] GameSE Test3SECS;
     [SerializeField] CameraChange CameraChangeCS;
     [SerializeField] MobiusCreate MobiusCreateCS;
+    [SerializeField] ParfectFadeIn ParfectFadeInCS;
 
     const int mainPanel = 30;    //メインパネルの数
     const int sidePanel = 42;    //サイドパネルの数
@@ -1117,14 +1118,19 @@ public class test3 : MonoBehaviour
         alphaDerayTime += Time.deltaTime;
         if (isParfect)
         {
-            if (!isAlphaLast && (alphaDerayTime < 2 && alphaDerayTime > 1))
+            if (!isAlphaLast && (alphaDerayTime < 1))
             {
                 if (!magic.activeSelf)
                 {
-                    Test3SECS.audioSource.pitch = 1;
                     magic.SetActive(true);
-                    CameraChangeCS.isParfectCamera = true;
                     Test3SECS.audioSource.PlayOneShot(Test3SECS.magic);
+                }
+            }
+            else if (!isAlphaLast && (alphaDerayTime < 2 && alphaDerayTime > 1))
+            {
+                if (canvas.activeSelf)
+                {
+                    CameraChangeCS.isParfectCamera = true;
                     canvas.SetActive(false);
                 }
             }
@@ -1165,6 +1171,7 @@ public class test3 : MonoBehaviour
                         MassBoxCS.MassDelete(mainPanel);    //MassBoxをすべて消す
                         if (magic.activeSelf)
                         {
+                            Test3SECS.audioSource.pitch = 1;
                             Test3SECS.audioSource.Stop();
                             magic.SetActive(false);
                             Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion1SE);
@@ -1177,6 +1184,7 @@ public class test3 : MonoBehaviour
             else if (alphaDerayTime >= 6)
             {
                 //MobiusCheck();
+                ParfectFadeInCS.blinkig = 0;
                 alphaDerayTime = 0;
                 check = 0;
                 thinkingObjects.SetActive(true);

@@ -49,6 +49,7 @@ public class Isha_Singlshot : MonoBehaviour
 
     bool isOperation;
     bool isStart;
+    bool isCut;
 
     bool isDebug;
 
@@ -138,6 +139,9 @@ public class Isha_Singlshot : MonoBehaviour
         TimeUpBack.gameObject.SetActive(false);
         DebugText.gameObject.SetActive(false);
         ListText.gameObject.SetActive(false);
+
+        isCut = false;
+        overCS = true;
 
         for (int i = 0; i < 4; i++)
         {
@@ -348,33 +352,35 @@ public class Isha_Singlshot : MonoBehaviour
             }
             else if(StartFadeCS.isTurnStart)
             {
-                if (!isOperation)
+                if (isCut == false)
                 {
-                    if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
-                    else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
+                    if (!isOperation)
+                    {
+                        if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
+                        else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
+                    }
+
+                    if(HeavensTime == 0)
+                    {
+                        PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
+                        TimerCS.TimerCount();       //制限時間のカウントと表示
+                    }
+
+                    TurnEnd();                  //ターン終了時の処理
+                    cursorSelectCS.SelectImageMove(chooseMain);
+
+                    if (!alpha_Flg || BonusFlg == 1)
+                    {
+                        Bonus();
+                    }
+                    else if (alpha_Flg)
+                    {
+                        alpha();
+                    }
                 }
-
-                if (HeavensTime == 0)
+                else
                 {
-                    PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
-                    TimerCS.TimerCount();       //制限時間のカウントと表示
-                }
 
-                TurnEnd();                  //ターン終了時の処理
-
-                //if (!overCS)
-                //{
-                //    overCS = true;
-                //}
-                cursorSelectCS.SelectImageMove(chooseMain);
-
-                if (!alpha_Flg || BonusFlg == 1)
-                {
-                    Bonus();
-                }
-                else if (alpha_Flg)
-                {
-                    alpha();
                 }
             }
         }
@@ -533,6 +539,8 @@ public class Isha_Singlshot : MonoBehaviour
 
             TimerCS.countStart = false;
             TimerCS.bigTimerText.enabled = false;
+
+            //isCut = true;
 
             BonusFlg = 1;
             TheWorld.gameObject.SetActive(true);
@@ -913,14 +921,14 @@ public class Isha_Singlshot : MonoBehaviour
 
         if (TimerCS.timeCount <= 0f) //制限時間でゲーム終了
         {
-            isOperation = true;
 
-            if (overCS = true)
+            if (overCS == true)
             {
+                isOperation = true;
                 TimeUpBack.gameObject.SetActive(true);
                 TimeUpText.gameObject.SetActive(true);
-
-                //overCS = true;
+                Debug.Log("ant");
+                overCS = false;
                 gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
                 if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
                 TimerCS.countStart = false;
@@ -952,6 +960,9 @@ public class Isha_Singlshot : MonoBehaviour
     {
         
         TimerCS.timeCount += 1.5f * ComboCS.comboCount;
+        if(TimerCS.timeCount >= 99f)
+        {
+        }
         ComboCS.comboCount += 1;
         //Debug.Log(ComboCS.comboCount);
         ColorChange();

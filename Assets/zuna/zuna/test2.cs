@@ -383,7 +383,10 @@ public class test2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(ComboCS.comboCount);
+        //Debug.Log(ComboCS.comboCount);
+        Debug.Log("nowturn" + TurnCS.nowTurn);
+        Debug.Log("maxturn" + TurnMax);
+
         cf = false;
         ClearCheck();
         //Debug.Log(start_Time);
@@ -664,7 +667,7 @@ public class test2 : MonoBehaviour
     {
         if (gameClear.activeSelf == false)
         {
-            turn = TurnCS.nowTurn + 1;
+            turn = TurnCS.nowTurn;
             if (gameOver.activeSelf == true)
                 turn = TurnMax;
         }

@@ -19,9 +19,9 @@ public class TitleLogo : MonoBehaviour
     void Update()
     {
         animTime += Time.deltaTime;
-        if (logoSize <= 218 && animTime >= 0.5f)
+        if (logoSize < 218 && animTime >= 0.5f)
         {
-            logoSize++;
+            logoSize += 4;
             titleLogo.transform.localScale = new Vector3(394, logoSize, 1);
         }
         else if(animTime >= 1.8f)

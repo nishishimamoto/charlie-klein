@@ -69,6 +69,7 @@ public class test2 : MonoBehaviour
     [SerializeField] GameObject Score;  //スコアのテキストオブジェクト
     Text scoreText;
     Text readystart;
+    Image Cover;
     int addScoreCount;
     int lossScoreCount;
     int[] addOrLoss = new int[mainPanel];
@@ -87,6 +88,8 @@ public class test2 : MonoBehaviour
     float alpha_Time = 0f;   //点滅させる時間
     float alpha_Sin;    //消すときに点滅させる
     bool alpha_Flg;
+    float end_Time = 0f;
+   
     int check = 0; //中身を順にみる変数
 
     bool[] flgCheck = new bool[mainPanel + 1];  //ポイントになった箇所を記憶,5はnull
@@ -100,6 +103,7 @@ public class test2 : MonoBehaviour
     public Texture NormalmapTexture;
     float bravo_Time = 0f;
     float  start_Time = 1.0f;
+    bool cf = false;
 
     public int[] targetMax = new int[4];
     public static int TurnMax;
@@ -135,7 +139,7 @@ public class test2 : MonoBehaviour
     {
 
         stage = true;
-        
+
         //for (int h = 0; h < 6; h++) 
         //{
         //    for(int w = 0; w < 7; w++)
@@ -143,7 +147,7 @@ public class test2 : MonoBehaviour
         //        satelmap[h, w] = sideColorNumber[2];
         //    }
         //}
-
+        Cover = ScreenCover.GetComponent<Image>();
         ScreenCover.SetActive(true);
         readystart = gameStart.GetComponent<Text>();
         readystart.text = "ready";
@@ -296,13 +300,15 @@ public class test2 : MonoBehaviour
 
         //生成された衛星が揃っていないか確認
 
+        bool panel_f =false;
+
         for (int i = 0; i < mainPanel; i++)
         {
             if (!isPlanet[i])
             {
-                if (i >= 1)
+                /*if (i >= 1)
                 {
-                    //左が右と同じ色かチェック
+                    左が右と同じ色かチェック
                     if (sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + 1])
                     {
                         int numSet = 0;
@@ -310,32 +316,43 @@ public class test2 : MonoBehaviour
                         //int randSet = mainColorNumber[Random.Range(0, 4)];
 
                         //左が上と同じ色かチェック
-                        if (i >= 6 && sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
-                        {
-                            numSet = sideNumber[(i / (width - 1)) + i - 1];
-                            numUpSet = sideNumber[(i / (width - 1)) + i - width];
-                            sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
-                            //左の色の変更
-                            while (numSet == sideNumber[(i / (width - 1)) + i] ||
-                                sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
-                            {
-                                sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
-                            }
-                        }
-                        else
-                        {
-                            numSet = sideNumber[(i / (width - 1)) + i - 1];
-                            sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
-                            //左の色の変更
-                            while (numSet == sideNumber[(i / (width - 1)) + i])
-                            {
-                                sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
-                            }
-                        }
+                        //if (i >= 6 && sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
+                        //{
+                        //    numSet = sideNumber[(i / (width - 1)) + i - 1];
+                        //    numUpSet = sideNumber[(i / (width - 1)) + i - width];
+                        //    sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
+                        //    //左の色の変更
+                        //    while (numSet == sideNumber[(i / (width - 1)) + i] ||
+                        //        sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
+                        //    {
+                        //        sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    numSet = sideNumber[(i / (width - 1)) + i - 1];
+                        //    sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
+                        //    //左の色の変更
+                        //    while (numSet == sideNumber[(i / (width - 1)) + i])
+                        //    {
+                        //        sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
+                        //    }
+                        //}
+
+
                     }
+
+                }*/
+
+                while (sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + 1] &&
+                            sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + width] &&
+                            sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + width + 1])
+                {
+                    sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
                 }
             }
         }
+        
 
         //for (int i = 0; i < sidePanel; i++)
         //{
@@ -366,6 +383,9 @@ public class test2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(ComboCS.comboCount);
+        cf = false;
+        ClearCheck();
         //Debug.Log(start_Time);
         if (start_Time != 0.0f)
         {
@@ -445,8 +465,10 @@ public class test2 : MonoBehaviour
                 alpha_Time = 0.8f;
                 //flgCheck[check] = false;
                 //ColorChange();
-
                 //mainNumber[i] = mainColorNumber[0];
+
+                //bool[] jene_f = new bool[4];
+
                 sideNumber[(check / (width - 1)) + check] = sideColorNumber[Random.Range(0, 4)];
                 sideNumber[(check / (width - 1)) + check + 1] = sideColorNumber[Random.Range(0, 4)];
                 sideNumber[(check / (width - 1)) + check + width + 1] = sideColorNumber[Random.Range(0, 4)];
@@ -545,7 +567,7 @@ public class test2 : MonoBehaviour
                     b_t = 2;
                 }
 
-                Invoke("ClearCheck", 0.2f); //クリア条件を満たしたかチェック
+                Invoke("ClearCheck", 0.2f);
                 ColorChange();   //パネルの色変更
 
             }
@@ -1054,7 +1076,7 @@ public class test2 : MonoBehaviour
                 TimerCS.bigTimerText.enabled = false;
                 ComboCS.comboCount = 0; //コンボカウントリセット
                 TurnCS.TurnCount();        //経過ターンの更新表示
-                Invoke("ClearCheck", 0.2f); //クリア条件を満たしたかチェック
+                Invoke("ClearCheck", 1.0f); //クリア条件を満たしたかチェック
             }
         }
         //else
@@ -1141,15 +1163,43 @@ public class test2 : MonoBehaviour
 
         if (targetNum[0] <= 0 && targetNum[1] <= 0 && targetNum[2] <= 0 && targetNum[3] <= 0)
         {
+
+            //for (int i = 0; i < 42; i++) {
+            //    if (ExplosionCS.particle[i].isPlaying) cf = true;
+            //}
+
+            //if (!cf)
+            //{
+            //    if (ScreenCover.activeSelf == false) ScreenCover.SetActive(true);
+            //    if (gameClear.activeSelf == false) gameClear.SetActive(true);
+            //    if (gameClear.activeSelf == true) Invoke("Result", 3.0f);
+            //} 
+
+            end_Time += Time.deltaTime;
             if (ScreenCover.activeSelf == false) ScreenCover.SetActive(true);
-            if (gameClear.activeSelf == false) gameClear.SetActive(true);
-            Invoke("Result", 3.0f);
+            Cover.color = new Color(0,0,0,0);
+
+            if (end_Time > ((ComboCS.comboCount)*1f)+2.0f)
+            {
+                Cover.color = new Color(0, 0, 0, 0.7f);
+                if (gameClear.activeSelf == false) gameClear.SetActive(true);
+                if (gameClear.activeSelf == true) Invoke("Result", 3.0f);
+            }
+
         }
         else if (TurnCS.nowTurn >= TurnMax)
         {
+            end_Time += Time.deltaTime;
             if (ScreenCover.activeSelf == false) ScreenCover.SetActive(true);
-            if (gameOver.activeSelf == false) gameOver.SetActive(true);
-            Invoke("Result", 3.0f);
+            Cover.color = new Color(0, 0, 0, 0);
+
+            if (end_Time > ((ComboCS.comboCount) * 1f) + 2.0f)
+            {
+                Cover.color = new Color(0, 0, 0, 0.7f);
+                if (ScreenCover.activeSelf == false) ScreenCover.SetActive(true);
+                if (gameOver.activeSelf == false) gameOver.SetActive(true);
+                Invoke("Result", 3.0f);
+            }
         }
     }
 }

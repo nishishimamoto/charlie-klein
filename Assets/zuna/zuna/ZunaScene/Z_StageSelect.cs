@@ -23,6 +23,7 @@ public class Z_StageSelect : MonoBehaviour
         test3ReSet();
         Test2ReSet();
         stage[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
+        stage[cursol].GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
     }
 
     // Update is called once per frame

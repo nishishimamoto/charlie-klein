@@ -34,7 +34,7 @@
 
  					color.rgb =0.9-color.rgb; 
 					float gray = dot(color.rgb, fixed3(0.299, 0.587, 0.114));
-					color = fixed4(gray, 1.5*gray, 2*gray, 1);
+					color = fixed4(gray, gray, 2*gray, 1);
 					
 				        // ここを書いていきます！
  

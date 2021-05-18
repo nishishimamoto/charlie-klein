@@ -21,6 +21,8 @@ public class Isha_Singlshot : MonoBehaviour
     [SerializeField] GameSE gameSECS;
 
     [SerializeField] Image Needle;
+
+    [SerializeField] GameObject BigMagic;
     float needleAngle;
 
     const int mainPanel = 30;    //メインパネルの数
@@ -49,6 +51,9 @@ public class Isha_Singlshot : MonoBehaviour
 
     bool isOperation;
     bool isStart;
+
+    bool isCut;
+    float CutFade = 1.0f;
 
     bool isDebug;
 
@@ -124,12 +129,13 @@ public class Isha_Singlshot : MonoBehaviour
         BonusFlg = 0;
         BonusTime = 10;
         BonusAccel = 0.1f;
-        AccelCnt = 0;
+        AccelCnt = 10;
         BonusText.gameObject.SetActive(false);
 
         BsCnt = 1;
 
         Needle.gameObject.SetActive(false);
+        BigMagic.gameObject.SetActive(false);
         needleAngle = 0;
 
         Pause.gameObject.SetActive(true);
@@ -138,6 +144,9 @@ public class Isha_Singlshot : MonoBehaviour
         TimeUpBack.gameObject.SetActive(false);
         DebugText.gameObject.SetActive(false);
         ListText.gameObject.SetActive(false);
+
+        isCut = false;
+        overCS = true;
 
         for (int i = 0; i < 4; i++)
         {
@@ -348,30 +357,45 @@ public class Isha_Singlshot : MonoBehaviour
             }
             else if(StartFadeCS.isTurnStart)
             {
-                if (!isOperation)
+                if (isCut == false)
                 {
-                    if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
-                    else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
+                    if (!isOperation)
+                    {
+                        if (!panelMove[0] && !panelMove[1]) PanelOperation();   //パネルの操作
+                        else if (panelMove[0] || panelMove[1]) PanelMove();        //パネルのアニメーション
+                    }
+
+                    if(HeavensTime == 0)
+                    {
+                        PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
+                        TimerCS.TimerCount();       //制限時間のカウントと表示
+                    }
+
+                    TurnEnd();                  //ターン終了時の処理
+                    cursorSelectCS.SelectImageMove(chooseMain);
+
+                    if (!alpha_Flg || BonusFlg == 1)
+                    {
+                        Bonus();
+                    }
+                    else if (alpha_Flg)
+                    {
+                        alpha();
+                    }
                 }
-
-                if (HeavensTime == 0)
+                else
                 {
-                    PointCheck();             //盤面が揃ったか見る 揃ったらすぐ変わる
-                    TimerCS.TimerCount();       //制限時間のカウントと表示
-                }
+                    CutFade -= Time.deltaTime;
+                    TheWorld.gameObject.SetActive(true);
+                    BigMagic.gameObject.SetActive(true);
 
-                TurnEnd();                  //ターン終了時の処理
-
-
-                cursorSelectCS.SelectImageMove(chooseMain);
-
-                if (!alpha_Flg || BonusFlg == 1)
-                {
-                    Bonus();
-                }
-                else if (alpha_Flg)
-                {
-                    alpha();
+                    //TheWorld.transform.localScale
+                    if (CutFade <= 0)
+                    {
+                        isCut = false;
+                        CutFade = 1.0f;
+                        BonusFlg = 1;
+                    }
                 }
             }
         }
@@ -527,8 +551,14 @@ public class Isha_Singlshot : MonoBehaviour
         if (Input.GetButtonDown("B") && BonusGaugeSand.fillAmount >= 1)
         {
             gameSECS.audioSource.Stop();
-            BonusFlg = 1;
-            TheWorld.gameObject.SetActive(true);
+
+            TimerCS.countStart = false;
+            TimerCS.bigTimerText.enabled = false;
+
+            isCut = true;
+
+            //BonusFlg = 1;
+            //TheWorld.gameObject.SetActive(true);
         }
 
         ////パネル反時計回り
@@ -631,6 +661,7 @@ public class Isha_Singlshot : MonoBehaviour
 
                             flgCheck[i] = true;
                             alpha_Flg = true;
+                            overCS = false;
                             if (BonusFlg == 1)
                             {
                                 if(chainPos[i].activeSelf == false)
@@ -754,8 +785,8 @@ public class Isha_Singlshot : MonoBehaviour
         if (BonusFlg == 1)
         {
             //gameSECS.audioSource.Stop();
-            TimerCS.countStart = false;
-            TimerCS.bigTimerText.enabled = false;
+            //TimerCS.countStart = false;
+            //TimerCS.bigTimerText.enabled = false;
 
             BonusGaugeSandOut.fillAmount = 1f;
             BsCnt = 0;
@@ -775,25 +806,10 @@ public class Isha_Singlshot : MonoBehaviour
                 TimerCS.countStart = true;
                 chargeSE = false;
                 Needle.gameObject.SetActive(false);
-                switch (BonusAccel)
-                {
-                    case 0.1f:
-                        BonusAccel = 0.084f;
-                        break;
-                    case 0.084f:
-                        BonusAccel = 0.067f;
-                        break;
-                    case 0.067f:
-                        BonusAccel = 0.05f;
-                        break;
-                    case 0.05f:
-                        if (AccelCnt > 4)
-                        {
-                            BonusAccel = 0.04f;
-                        }
-                        AccelCnt += 1;
-                        break;
-                }
+                BigMagic.gameObject.SetActive(false);
+
+                AccelCnt += 5;
+                BonusAccel = 1.0f / AccelCnt;
 
                 TheWorld.gameObject.SetActive(false);
                 BonusTime = 10;
@@ -899,17 +915,21 @@ public class Isha_Singlshot : MonoBehaviour
             gameSECS.is5countSE = false;
         }
 
-        if (TimerCS.timeCount <= 0f && overCS == false) //制限時間でゲーム終了
+        if (TimerCS.timeCount <= 0f) //制限時間でゲーム終了
         {
-            TimeUpBack.gameObject.SetActive(true);
-            TimeUpText.gameObject.SetActive(true);
 
-            isOperation = true;
-            overCS = true;
-            gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
-            if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
-            TimerCS.countStart = false;
-            Invoke("Result", 3.0f);  //リザルトに遷移
+            if (overCS == true)
+            {
+                isOperation = true;
+                TimeUpBack.gameObject.SetActive(true);
+                TimeUpText.gameObject.SetActive(true);
+                Debug.Log("ant");
+                overCS = false;
+                gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
+                if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
+                TimerCS.countStart = false;
+                Invoke("Result", 3.0f);  //リザルトに遷移
+            }
         }
     }
 
@@ -919,7 +939,10 @@ public class Isha_Singlshot : MonoBehaviour
         {
             ExplosionCS.particle[i].Stop();
         }
-        //ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
+        if (TimerCS.timeCount <= 0f)
+        {
+            overCS = true;
+        }
     }
 
     void Result()
@@ -932,7 +955,10 @@ public class Isha_Singlshot : MonoBehaviour
     void ClearCheck()
     {
         
-        TimerCS.timeCount += 2.0f * ComboCS.comboCount;
+        TimerCS.timeCount += 1.5f * ComboCS.comboCount;
+        if(TimerCS.timeCount >= 99f)
+        {
+        }
         ComboCS.comboCount += 1;
         //Debug.Log(ComboCS.comboCount);
         ColorChange();

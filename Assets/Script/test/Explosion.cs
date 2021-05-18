@@ -6,6 +6,7 @@ public class Explosion : MonoBehaviour
 {
     // Inspector
     public ParticleSystem[] particle = new ParticleSystem[30];
+    public ParticleSystem[] bom;
     [SerializeField] ParticleSystem explosopn;
     public AudioSource audio;
     public AudioClip clip;
@@ -21,6 +22,16 @@ public class Explosion : MonoBehaviour
         {
             particle[i] = Instantiate(explosopn, new Vector3(-6 + (2 * (i % 6)), 3.5f - (2 * (i / 6)), -2.0f), Quaternion.identity);
             
+        }
+    }
+
+    public void BomInit(int side)
+    {
+        bom = new ParticleSystem[side];
+
+        for (int i = 0; i < side; i++)
+        {
+            bom[i] = Instantiate(explosopn, new Vector3(-7 + (2 * (i % 7)), 5 - (2 * (i / 7)), -1.0f), Quaternion.identity);
         }
     }
 }

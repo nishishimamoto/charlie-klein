@@ -13,8 +13,11 @@ public class StageSelect : MonoBehaviour
     float blinking = 0f;
     float blinkingSpeed = 3.0f;
     bool isBlinking;
+    bool isBack;
 
     [SerializeField] GameObject[] stage;
+    [SerializeField] AudioSource audiosource;
+    [SerializeField] GameSE gameSECS;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +29,7 @@ public class StageSelect : MonoBehaviour
         test3ReSet();
         Test2ReSet();
         stage[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
+        //audiosource.PlayOneShot(gameSECS.pauseSE);
     }
 
     // Update is called once per frame
@@ -42,6 +46,7 @@ public class StageSelect : MonoBehaviour
             else cursol += 1;
             isVertical = true;
             ButtonSize();
+            audiosource.PlayOneShot(gameSECS.cursorSE);
         }
         else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
         {
@@ -52,20 +57,24 @@ public class StageSelect : MonoBehaviour
             else cursol -= 1;
             isVertical = true;
             ButtonSize();
+            audiosource.PlayOneShot(gameSECS.cursorSE);
         }
 
         if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
         if (0 == Input.GetAxis("ClossHorizontal") && !isBlinking) isHorizontal = false;
 
-        if (Input.GetButtonDown("A"))
+        if (Input.GetButtonDown("A") && !isBlinking && !isBack)
         {
             isBlinking = true;
             isVertical = true;
             Invoke("SenceChange", 1.0f);
+            audiosource.PlayOneShot(gameSECS.crickSE);
         }
-        if (Input.GetButtonDown("B"))
+        if (Input.GetButtonDown("B") && !isBlinking && !isBack)
         {
-            SceneManager.LoadScene("Title");
+            isBack = true;
+            Invoke("TitleBack", 1.0f);
+            audiosource.PlayOneShot(gameSECS.crickSE);
         }
 
 
@@ -98,6 +107,11 @@ public class StageSelect : MonoBehaviour
                 SceneManager.LoadScene(5);    //Test3読み込み
                 break;
         }
+    }
+
+    void TitleBack()
+    {
+        SceneManager.LoadScene("Title");
     }
 
     void ButtonSize()

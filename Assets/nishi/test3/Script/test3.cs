@@ -20,6 +20,7 @@ public class test3 : MonoBehaviour
     [SerializeField] GameSE Test3SECS;
     [SerializeField] CameraChange CameraChangeCS;
     [SerializeField] MobiusCreate MobiusCreateCS;
+    [SerializeField] ParfectFadeIn ParfectFadeInCS;
 
     const int mainPanel = 30;    //メインパネルの数
     const int sidePanel = 42;    //サイドパネルの数
@@ -140,7 +141,7 @@ public class test3 : MonoBehaviour
             }
         }
 
-        SatelliteCreat();   //衛星生成
+        SatelliteCreate();   //衛星生成
 
         scoreText = Score.GetComponent<Text>();
 
@@ -150,6 +151,7 @@ public class test3 : MonoBehaviour
         TimerCS.timeCount = TimerCS.maxTime;
         score = 0;  //スコアの初期化
         MassBoxCS.MassInit(mainPanel);  //massbox初期化
+        ExplosionCS.BomInit(sidePanel);
 
         DebugText.SetActive(false);
         timerObjects.SetActive(false);
@@ -218,6 +220,8 @@ public class test3 : MonoBehaviour
             else if(gameFinish) GameOver();
         }
 
+        if(PauseCS.isPause) Test3SECS.audioSource.pitch = 1;
+
         DebugMode();
     }
 
@@ -260,7 +264,8 @@ public class test3 : MonoBehaviour
                     addOrLoss[check] = 9;
                 }
                 if (ComboCS.comboCount > 0) ComboCS.BoardCombo(check); //爆破箇所にコンボのパネル
-                if (ComboCS.comboCount <= 15) Test3SECS.audioSource.pitch = 1 + (0.1f * ComboCS.comboCount);
+                Test3SECS.audioSource.pitch = 1 + (0.1f * ComboCS.comboCount);
+                if (Test3SECS.audioSource.pitch > 2.5) Test3SECS.audioSource.pitch = 2.5f;
                 Test3SECS.audioSource.PlayOneShot(Test3SECS.comboSE);   //コンボカウントのSE
                 check += 1;
             }
@@ -801,7 +806,7 @@ public class test3 : MonoBehaviour
         BomCS.isBomUse = false;
     }
 
-    void SatelliteCreat()
+    void SatelliteCreate()
     {
         for (int i = 0; i < sidePanel; i++) //衛星の生成
         {
@@ -1005,10 +1010,13 @@ public class test3 : MonoBehaviour
                     {
                         sideNumber[i] = manyColor[0];
                         panelAnim[i].transform.localScale = new Vector3(1, 1, 1);
+                        ExplosionCS.bom[i].Play();
+                        score += 300;
                     }
                 }
                 Test3SECS.audioSource.Stop();
                 Test3SECS.audioSource.PlayOneShot(Test3SECS.bomSE2);
+                ExplosionCS.audio.PlayOneShot(ExplosionCS.clip);//爆発のSEを再生
                 ColorChange();
                 BomCS.bomGauge = 0;
                 bomChangeTime = 0;
@@ -1017,9 +1025,33 @@ public class test3 : MonoBehaviour
                 Test3SECS.isBomSE = false;
                 isBomFlg = false;
                 BomCS.isBomUse = true;
+                scoreText.text = "" + score;
             }
         }
     }
+
+    //void MobiusCheck()
+    //{
+    //    for(int i = 0; i < mainPanel - 6; i++)
+    //    {
+    //        if (!isPlanet[i] && i % 6 != 0)
+    //        {
+    //            if ((flgCheck[i + 1] && flgCheck[i + 6]) && (!flgCheck[i] && !flgCheck[i + 7]))
+    //            {
+    //                Debug.Log((i + 1) + "と" + (i + 6));
+    //                //MobiusCreateCS.RingCreate(i + 1, i + 6);
+    //            }
+    //        }
+    //        if (!isPlanet[i] && i % 6 != 5)
+    //        {
+    //            if ((flgCheck[i] && flgCheck[i + 7]) && (!flgCheck[i + 1] && !flgCheck[i + 6]))
+    //            {
+    //                Debug.Log(i + "と" + (i + 7));
+    //                //MobiusCreateCS.RingCreate(i, i + 7);
+    //            }
+    //        }
+    //    }
+    //}
 
     void LifeHide()
     {
@@ -1086,13 +1118,19 @@ public class test3 : MonoBehaviour
         alphaDerayTime += Time.deltaTime;
         if (isParfect)
         {
-            if (!isAlphaLast && (alphaDerayTime < 2 && alphaDerayTime > 1))
+            if (!isAlphaLast && (alphaDerayTime < 1))
             {
                 if (!magic.activeSelf)
                 {
                     magic.SetActive(true);
-                    CameraChangeCS.isParfectCamera = true;
                     Test3SECS.audioSource.PlayOneShot(Test3SECS.magic);
+                }
+            }
+            else if (!isAlphaLast && (alphaDerayTime < 2 && alphaDerayTime > 1))
+            {
+                if (canvas.activeSelf)
+                {
+                    CameraChangeCS.isParfectCamera = true;
                     canvas.SetActive(false);
                 }
             }
@@ -1133,9 +1171,11 @@ public class test3 : MonoBehaviour
                         MassBoxCS.MassDelete(mainPanel);    //MassBoxをすべて消す
                         if (magic.activeSelf)
                         {
+                            Test3SECS.audioSource.pitch = 1;
                             Test3SECS.audioSource.Stop();
                             magic.SetActive(false);
-                            Test3SECS.audioSource.PlayOneShot(Test3SECS.mobius);
+                            Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion1SE);
+                            Test3SECS.audioSource.PlayOneShot(Test3SECS.explosion2SE);
                         }
                     }
                 }
@@ -1143,6 +1183,8 @@ public class test3 : MonoBehaviour
             }
             else if (alphaDerayTime >= 6)
             {
+                //MobiusCheck();
+                ParfectFadeInCS.blinkig = 0;
                 alphaDerayTime = 0;
                 check = 0;
                 thinkingObjects.SetActive(true);
@@ -1194,7 +1236,7 @@ public class test3 : MonoBehaviour
             }
             else if (alphaDerayTime >= 2)
             {
-
+                //MobiusCheck();
                 alphaDerayTime = 0;
                 check = 0;
                 thinkingObjects.SetActive(true);

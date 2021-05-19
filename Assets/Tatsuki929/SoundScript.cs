@@ -65,7 +65,7 @@ public class SoundScript : MonoBehaviour
         }
         }
         
-        
+        /*
 
         if (Input.GetKeyDown(KeyCode.Space))//スペースを押し下げたとき
         {
@@ -80,7 +80,7 @@ public class SoundScript : MonoBehaviour
                 audioSource.Stop();
                 Play = false;
             }
-        }
+        }*/
 
 
     }

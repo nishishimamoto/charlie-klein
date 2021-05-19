@@ -74,6 +74,7 @@ public class test2 : MonoBehaviour
     int lossScoreCount;
     int[] addOrLoss = new int[mainPanel];
     int[] targetNum = new int[4];
+    int[] targetBlinkNum = new int[4];
     [SerializeField] Text[] targetText = new Text[4];
     [SerializeField] GameObject gameClear;
     [SerializeField] GameObject gameOver;
@@ -161,6 +162,7 @@ public class test2 : MonoBehaviour
             mainNumber[i] = mainColorNumber[i];
             targetNum[i] = targetMax[i];
             targetText[i].text = "x " + targetNum[i];
+            targetBlinkNum[i] = targetNum[i];
         }
 
         for (int i = 0; i < mainPanel; i++)
@@ -748,6 +750,13 @@ public class test2 : MonoBehaviour
     //***
     void PointCheck()
     {
+        for(int Bf = 0; Bf < 4; Bf++)
+        {
+            if (targetNum[Bf] != targetBlinkNum[Bf])
+            {
+
+            }
+        }
 
         for (int i = 0; i < mainPanel; i++)
         {
@@ -818,6 +827,7 @@ public class test2 : MonoBehaviour
                                 targetText[3].text = "x " + targetNum[3];
                             }
                         }
+
 
                 judgNum = 0;
 
@@ -1044,7 +1054,7 @@ public class test2 : MonoBehaviour
         //    + bonusLevel[(check / 3) + check + 5] + bonusLevel[(check / 3) + check + 4]));
 
         ////スコア100と1コンボ50
-        score += 1000 + (50 * ComboCS.comboCount);
+        score += 1000 ;
 
         scoreText.text = "" + score;
 

@@ -46,7 +46,7 @@ public class ResultSelect : MonoBehaviour
             oldCursol = cursol;
             if (cursol == 2) cursol -= 2;
             else cursol += 1;
-            //isVertical = true;
+            isVertical = true;
             ButtonSize();
         }
         else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
@@ -54,7 +54,7 @@ public class ResultSelect : MonoBehaviour
             oldCursol = cursol;
             if (cursol == 0) cursol += 2;
             else cursol -= 1;
-            //isVertical = true;
+            isVertical = true;
             ButtonSize();
         }
 

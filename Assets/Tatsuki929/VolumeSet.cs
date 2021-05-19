@@ -42,11 +42,13 @@ public class VolumeSet : MonoBehaviour
         {
             if (vol_SE <= -30)
             {
-                SE.mute = true;
+                if (SE != null)
+                    SE.mute = true;
             }
 
             if (vol_BGM <= -30)
             {
+                if(BGM != null)
                 BGM.mute = true;
             }
         }

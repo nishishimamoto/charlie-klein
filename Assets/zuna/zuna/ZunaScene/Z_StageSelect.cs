@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Z_StageSelect : MonoBehaviour
 {
-    int cursol = 0;
+    public static int cursol = 0;
     int oldCursol;
     bool isVertical;
     bool isHorizontal;
@@ -102,39 +102,40 @@ public class Z_StageSelect : MonoBehaviour
 
     void SenceChange()
     {
-        switch (cursol)
-        {
-            case 0:
-                SceneManager.LoadScene("Z_1");
-                break;
-            case 1:
-                SceneManager.LoadScene("Z_2");
-                break;
-            case 2:
-                SceneManager.LoadScene("Z_3");
-                break;
-            case 3:
-                SceneManager.LoadScene("Z_4");
-                break;
-            case 4:
-                SceneManager.LoadScene("Z_5");
-                break;
-            case 5:
-                SceneManager.LoadScene("Z_6");
-                break;
-            case 6:
-                SceneManager.LoadScene("Z_7");
-                break;
-            case 7:
-                SceneManager.LoadScene("Z_8");
-                break;
-            case 8:
-                SceneManager.LoadScene("Z_9");
-                break;
-            case 9:
-                SceneManager.LoadScene("Z_10");
-                break;
-        }
+        SceneManager.LoadScene(20);
+        //switch (cursol)
+        //{
+        //    case 0:
+        //        SceneManager.LoadScene("Z_1");
+        //        break;
+        //    case 1:
+        //        SceneManager.LoadScene("Z_2");
+        //        break;
+        //    case 2:
+        //        SceneManager.LoadScene("Z_3");
+        //        break;
+        //    case 3:
+        //        SceneManager.LoadScene("Z_4");
+        //        break;
+        //    case 4:
+        //        SceneManager.LoadScene("Z_5");
+        //        break;
+        //    case 5:
+        //        SceneManager.LoadScene("Z_6");
+        //        break;
+        //    case 6:
+        //        SceneManager.LoadScene("Z_7");
+        //        break;
+        //    case 7:
+        //        SceneManager.LoadScene("Z_8");
+        //        break;
+        //    case 8:
+        //        SceneManager.LoadScene("Z_9");
+        //        break;
+        //    case 9:
+        //        SceneManager.LoadScene("Z_10");
+        //        break;
+    //}
     }
 
     void ButtonSize()

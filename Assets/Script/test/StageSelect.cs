@@ -93,20 +93,22 @@ public class StageSelect : MonoBehaviour
 
     void SenceChange()
     {
-        switch (cursol)
-        {
-            case 0:
-                //SceneManager.LoadScene("zuna1");
-                SceneManager.LoadScene(4);   //Isha_Singlshot読み込み
-                break;
-            case 1:
-                //SceneManager.LoadScene("zuna2");
-                SceneManager.LoadScene(8);    //zuna_StageSelect読み込み
-                break;
-            case 2:
-                SceneManager.LoadScene(5);    //Test3読み込み
-                break;
-        }
+        //switch (cursol)
+        //{
+        //    case 0:
+        //        //SceneManager.LoadScene("zuna1");
+        //        SceneManager.LoadScene(4);   //Isha_Singlshot読み込み
+        //        break;
+        //    case 1:
+        //        //SceneManager.LoadScene("zuna2");
+        //        SceneManager.LoadScene(8);    //zuna_StageSelect読み込み
+        //        break;
+        //    case 2:
+        //        SceneManager.LoadScene(5);    //Test3読み込み
+        //        break;
+        //}
+        if (cursol == 1) SceneManager.LoadScene(8);
+        else SceneManager.LoadScene(20);
     }
 
     void TitleBack()

@@ -294,46 +294,35 @@ public class Isha_Singlshot : MonoBehaviour
        }
 
         //生成された衛星が揃っていないか確認
-        for (int i = 0; i < mainPanel; i++)
+        bool isCreate;
+        do
         {
-            if (!isPlanet[i])
+            isCreate = false;
+            int j = 4;
+            for (int i = 0; i < mainPanel; i++)
             {
-                if (i >= 1)
+                if (!isPlanet[i])
                 {
-                    //左が右と同じ色かチェック
-                    if (sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + 1])
+                    sideNumber[(i / (width - 1)) + i] = ColorNumber[Random.Range(0, j)];
+                    sideNumber[(i / (width - 1)) + i + 1] = ColorNumber[Random.Range(0, j)];
+                    sideNumber[(i / (width - 1)) + i + width + 1] = ColorNumber[Random.Range(0, j)];
+                    sideNumber[(i / (width - 1)) + i + width] = ColorNumber[Random.Range(0, j)];
+                }
+            }
+
+            for (int i = 0; i < mainPanel; i++)
+            {
+                if (!isPlanet[i])
+                {
+                    if (sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + 1] &&
+                                sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + width] &&
+                                sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + width + 1])
                     {
-                        int numSet = 0;
-                        int numUpSet = 0;
-                        int randSet = ColorNumber[Random.Range(0, 4)];
-                        
-                        //左が上と同じ色かチェック
-                        if (i >= 6 && sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
-                        {
-                            numSet = sideNumber[(i / (width - 1)) + i - 1];
-                            numUpSet = sideNumber[(i / (width - 1)) + i - width];
-                            sideNumber[(i / (width - 1)) + i] = ColorNumber[Random.Range(0, 4)];
-                            //左の色の変更
-                            while (numSet == sideNumber[(i / (width - 1)) + i] ||
-                                sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
-                            {
-                                sideNumber[(i / (width - 1)) + i] = ColorNumber[Random.Range(0, 4)];
-                            }
-                        }
-                        else
-                        {
-                            numSet = sideNumber[(i / (width - 1)) + i - 1];
-                            sideNumber[(i / (width - 1)) + i] = ColorNumber[Random.Range(0, 4)];
-                            //左の色の変更
-                            while (numSet == sideNumber[(i / (width - 1)) + i])
-                            {
-                                sideNumber[(i / (width - 1)) + i] = ColorNumber[Random.Range(0, 4)];
-                            }
-                        }
+                        isCreate = true;
                     }
                 }
             }
-        }
+        } while (isCreate);
 
         scoreText = Score.GetComponent<Text>();
 

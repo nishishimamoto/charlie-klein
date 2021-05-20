@@ -90,8 +90,8 @@ public class Z_StageSelect : MonoBehaviour
         if (Input.GetButtonDown("B") && !isBlinking && !isBack)
         {
             isBack = true;
-            SceneManager.LoadScene("StageSelect");
             audiosource.PlayOneShot(gameSECS.crickSE);
+            Invoke("StageSelectBack", 1.0f);
         }
 
         if (isBlinking) Blinking();
@@ -172,5 +172,10 @@ public class Z_StageSelect : MonoBehaviour
     {
         test2.score = 0;
         test2.oldSceneName = null;
+    }
+
+    void StageSelectBack()
+    {
+        SceneManager.LoadScene("StageSelect");
     }
 }

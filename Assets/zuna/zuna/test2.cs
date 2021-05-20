@@ -106,6 +106,7 @@ public class test2 : MonoBehaviour
     float  start_Time = 1.0f;
     float start_Text_Blinking = 0;
     bool creaer;
+    bool []startSE = new bool[2];
     bool cf = false;
 
     public int[] targetMax = new int[4];
@@ -390,30 +391,9 @@ public class test2 : MonoBehaviour
         cf = false;
         ClearCheck();
 
-        if (start_Time <= 5)
-        {
-            start_Time += Time.deltaTime;
-
-            if (start_Time < 1.5f) start_Text_Blinking += Time.deltaTime;
-            else if (start_Time >= 2.0f && start_Time < 2.5f) start_Text_Blinking -= Time.deltaTime;
-            else if (start_Time >= 3.0f && start_Time < 4f)
-            {
-                start_Text_Blinking += Time.deltaTime;
-                if (start_Text_Blinking <= 0.3f) readystart.transform.localScale = new Vector3(1.6f - (start_Text_Blinking * 2), 1.6f - (start_Text_Blinking * 2), 1);
-                readystart.text = "start";
-            }
-            //else if (start_Time >= 4.5f && start_Time < 5) start_Text_Blinking -= Time.deltaTime;
-            if (start_Text_Blinking <= 0.5f) readystart.color = new Color(0.7f, 1, 1, start_Text_Blinking * 2);
-
-            if (start_Time > 4 && start_Time < 5)
-            {
-                if (ScreenCover.activeSelf == true) ScreenCover.SetActive(false);
-                if (gameStart.activeSelf == true) gameStart.SetActive(false);
-            }
-        }
-
         if (!PauseCS.isPause)
         {
+            GameStart();    //スタート時の演出
             if (!alpha_Flg)
             {
                 
@@ -680,6 +660,7 @@ public class test2 : MonoBehaviour
                     gameSECS.audioSource.PlayOneShot(gameSECS.spinSE);
                     isAnyAnim = true;
                     panelMove[0] = true;
+                    TurnCS.TurnCount();        //経過ターンの更新表示
                     if (TurnCS.nowTurn >= 5) TimerCS.bigTimerBlinking = 1;
                 }
                 //パネル時計回り
@@ -689,6 +670,7 @@ public class test2 : MonoBehaviour
                     gameSECS.audioSource.PlayOneShot(gameSECS.spinSE);
                     isAnyAnim = true;
                     panelMove[1] = true;
+                    TurnCS.TurnCount();        //経過ターンの更新表示
                     if (TurnCS.nowTurn >= 5) TimerCS.bigTimerBlinking = 1;
                 }
             }
@@ -1086,7 +1068,7 @@ public class test2 : MonoBehaviour
                 //TimerCS.countStart = false;
                 //TimerCS.bigTimerText.enabled = false;
                 ComboCS.comboCount = 0; //コンボカウントリセット
-                TurnCS.TurnCount();        //経過ターンの更新表示
+                //TurnCS.TurnCount();        //経過ターンの更新表示
                 Invoke("ClearCheck", 1.0f); //クリア条件を満たしたかチェック
             }
         }
@@ -1174,7 +1156,6 @@ public class test2 : MonoBehaviour
 
         if (targetNum[0] <= 0 && targetNum[1] <= 0 && targetNum[2] <= 0 && targetNum[3] <= 0)
         {
-            creaer = true;
             //for (int i = 0; i < 42; i++) {
             //    if (ExplosionCS.particle[i].isPlaying) cf = true;
             //}
@@ -1186,15 +1167,19 @@ public class test2 : MonoBehaviour
             //    if (gameClear.activeSelf == true) Invoke("Result", 3.0f);
             //} 
 
+            creaer = true;
             end_Time += Time.deltaTime;
-            if (ScreenCover.activeSelf == false) ScreenCover.SetActive(true);
-            Cover.color = new Color(0,0,0,0);
 
             if (end_Time > ((ComboCS.comboCount)*1f)+2.0f)
             {
-                Cover.color = new Color(0, 0, 0, 0.7f);
-                if (gameClear.activeSelf == false) gameClear.SetActive(true);
-                if (gameClear.activeSelf == true) Invoke("Result", 3.0f);
+                if (gameClear.activeSelf == false)
+                {
+                    Cover.color = new Color(0, 0, 0, 0.7f);
+                    gameClear.SetActive(true);
+                    ScreenCover.SetActive(true);
+                    gameSECS.audioSource.PlayOneShot(gameSECS.successSE);
+                    if (gameClear.activeSelf == true) Invoke("Result", 3.0f);
+                }
             }
 
         }
@@ -1202,15 +1187,56 @@ public class test2 : MonoBehaviour
         {
             creaer = true;
             end_Time += Time.deltaTime;
-            if (ScreenCover.activeSelf == false) ScreenCover.SetActive(true);
-            Cover.color = new Color(0, 0, 0, 0);
 
             if (end_Time > ((ComboCS.comboCount) * 1f) + 2.0f)
             {
-                Cover.color = new Color(0, 0, 0, 0.7f);
-                if (ScreenCover.activeSelf == false) ScreenCover.SetActive(true);
-                if (gameOver.activeSelf == false) gameOver.SetActive(true);
-                Invoke("Result", 3.0f);
+                if (gameOver.activeSelf == false)
+                {
+                    Cover.color = new Color(0, 0, 0, 0.7f);
+                    ScreenCover.SetActive(true);
+                    gameOver.SetActive(true);
+                    gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
+                    Invoke("Result", 3.0f);
+                    score = 0;
+                }
+            }
+        }
+    }
+
+    void GameStart()
+    {
+        if (start_Time <= 5)
+        {
+            start_Time += Time.deltaTime;
+
+            if (start_Time < 1.5f)
+            {
+                start_Text_Blinking += Time.deltaTime;
+                if (!startSE[0])
+                {
+                    startSE[0] = true;
+                    gameSECS.audioSource.PlayOneShot(gameSECS.turnSE);
+                }
+            }
+            else if (start_Time >= 2.0f && start_Time < 2.5f) start_Text_Blinking -= Time.deltaTime;
+            else if (start_Time >= 3.0f && start_Time < 4f)
+            {
+                start_Text_Blinking += Time.deltaTime;
+                if (start_Text_Blinking < 0.3f) readystart.transform.localScale = new Vector3(1.6f - (start_Text_Blinking * 2), 1.6f - (start_Text_Blinking * 2), 1);
+                if (!startSE[1])
+                {
+                    startSE[1] = true;
+                    gameSECS.audioSource.PlayOneShot(gameSECS.Z_startSE);
+                }
+                readystart.text = "start";
+            }
+            //else if (start_Time >= 4.5f && start_Time < 5) start_Text_Blinking -= Time.deltaTime;
+            if (start_Text_Blinking <= 0.5f) readystart.color = new Color(0.7f, 1, 1, start_Text_Blinking * 2);
+
+            if (start_Time > 4 && start_Time < 5)
+            {
+                if (ScreenCover.activeSelf == true) ScreenCover.SetActive(false);
+                if (gameStart.activeSelf == true) gameStart.SetActive(false);
             }
         }
     }

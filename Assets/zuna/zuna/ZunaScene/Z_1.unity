@@ -2364,6 +2364,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameSE
       objectReference: {fileID: 0}
+    - target: {fileID: 3818191584689660430, guid: 686eaaf4c64bdf5488291042628b8955,
+        type: 3}
+      propertyPath: successSE
+      value: 
+      objectReference: {fileID: 8300000, guid: f3c0525950e931b46807e2e2f5ce82ac, type: 3}
     - target: {fileID: 3818191584689660431, guid: 686eaaf4c64bdf5488291042628b8955,
         type: 3}
       propertyPath: m_RootOrder

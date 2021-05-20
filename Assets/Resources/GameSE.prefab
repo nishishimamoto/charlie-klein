@@ -162,6 +162,8 @@ MonoBehaviour:
   cursorSE: {fileID: 8300000, guid: 83d5a6e199e53c94083209a73ad27675, type: 3}
   crickSE: {fileID: 8300000, guid: ad25ea6952687694dbb145e661bf19c6, type: 3}
   pauseSE: {fileID: 8300000, guid: e158d5aa475706345ace1004f6a84961, type: 3}
+  successSE: {fileID: 8300000, guid: f3c0525950e931b46807e2e2f5ce82ac, type: 3}
+  Z_startSE: {fileID: 8300000, guid: 09673d8b47d375a4193d7b94ea915438, type: 3}
   isLifeSE: 0
   isLifeSECheck: 0
   is5countSE: 0

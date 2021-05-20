@@ -8309,7 +8309,7 @@ PrefabInstance:
     - target: {fileID: 6582596449653501445, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
         type: 3}
       propertyPath: m_RootOrder
-      value: 32
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 6582596449653501445, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
         type: 3}
@@ -20878,7 +20878,7 @@ MonoBehaviour:
   - {fileID: 527264145}
   BonusTextBack: {fileID: 996823713}
   CntText: {fileID: 734155895}
-  _fadeTime: 0.5
+  _fadeTime: 1
   _textFadeTime: 1
   _mgsFadeStartTime: 0
   _bordersFadeStartTime: 0.5
@@ -20886,7 +20886,6 @@ MonoBehaviour:
   - Start up
   - 1
   - 2
-  - Time Stop
 --- !u!4 &1265445369
 Transform:
   m_ObjectHideFlags: 0
@@ -22643,7 +22642,7 @@ PrefabInstance:
     - target: {fileID: 4975975616466038754, guid: a02389ee0bc4ba2448cae9c0865ca5a7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 31
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4975975616466038754, guid: a02389ee0bc4ba2448cae9c0865ca5a7,
         type: 3}
@@ -24646,7 +24645,7 @@ RectTransform:
   m_LocalScale: {x: 2, y: 0.4, z: 1}
   m_Children: []
   m_Father: {fileID: 6539218745420762318}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -27470,8 +27469,8 @@ RectTransform:
   - {fileID: 6539218743557591507}
   - {fileID: 6539218744123073544}
   - {fileID: 6539218745275428978}
-  - {fileID: 351304659}
   - {fileID: 1913309490}
+  - {fileID: 351304659}
   - {fileID: 466629463}
   - {fileID: 2121138010}
   - {fileID: 1005633405}

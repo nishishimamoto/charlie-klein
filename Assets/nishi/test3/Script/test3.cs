@@ -37,6 +37,7 @@ public class test3 : MonoBehaviour
     int tmpBonus;         //ボーナス入れ替え時の一時保存
     int judgNum = 0;  //和を計算する配列
     public static int score;      //スコア
+    int tmpScore;
 
     int chooseMain = -1; //現在選んでいるメインナンバー
 
@@ -122,6 +123,7 @@ public class test3 : MonoBehaviour
     [SerializeField] GameObject cursor;
     bool isBomFlg;
     float bomChangeTime = 0;
+    float tmpBomChage;
 
     bool isDebug;
     bool isTimerStop;
@@ -565,16 +567,18 @@ public class test3 : MonoBehaviour
         ////スコア100と1コンボ50
         if (MobiusCreateCS.isMobius)
         {
-            score += 5000;
-            if (!BomCS.isBomUse) BomCS.bomGauge += 20000;
+            //score += 5000;
+            tmpScore += 5000;
+            //if (!BomCS.isBomUse) BomCS.bomGauge += 20000;
+            if (!BomCS.isBomUse) tmpBomChage += 20000;
         }
         else
         {
-            score += 100 + (50 * ComboCS.comboCount);
-            if (!BomCS.isBomUse) BomCS.bomGauge += 100 + (20 * ComboCS.comboCount);
+            //score += 100 + (50 * ComboCS.comboCount);
+            tmpScore += 100 + (50 * ComboCS.comboCount);
+            //if (!BomCS.isBomUse) BomCS.bomGauge += 100 + (20 * ComboCS.comboCount);
+            if (!BomCS.isBomUse) tmpBomChage += 100 + (20 * ComboCS.comboCount);
         }
-
-        scoreText.text = "" + score;
 
         ComboCS.comboTime = 5.0f;
         ComboCS.comboCount += 1;
@@ -615,6 +619,8 @@ public class test3 : MonoBehaviour
             Test3SECS.is5countSE = false;
             Test3SECS.isLifeSE = false;
             Test3SECS.isLifeSECheck = false;
+            tmpBomChage = 0;
+            tmpScore = 0;
             //TurnCS.TurnCount();        //経過ターンの更新表示
         }
         //else
@@ -1180,6 +1186,9 @@ public class test3 : MonoBehaviour
                     }
                 }
                 ScoreAdd();
+                score += tmpScore;
+                BomCS.bomGauge += tmpBomChage;
+                scoreText.text = "" + score;
             }
             else if (alphaDerayTime >= 6)
             {
@@ -1231,7 +1240,9 @@ public class test3 : MonoBehaviour
                         MassBoxCS.MassDelete(mainPanel);    //MassBoxをすべて消す
                     }
                 }
-
+                score += tmpScore;
+                BomCS.bomGauge += tmpBomChage;
+                scoreText.text = "" + score;
                 isAlphaLast = true;
             }
             else if (alphaDerayTime >= 2)
@@ -1257,6 +1268,8 @@ public class test3 : MonoBehaviour
     {
         do
         {
+            isColorChange = false;
+
             for (int i = 0; i < mainPanel; i++)
             {
                 if (flgCheck[i])
@@ -1276,8 +1289,6 @@ public class test3 : MonoBehaviour
                 else if (sideSphere[ii] != null && sideNumber[ii] == sideColorNumber[1]) numberChange[1] += 1;
                 else if (sideSphere[ii] != null && sideNumber[ii] == sideColorNumber[2]) numberChange[2] += 1;
             }
-
-            isColorChange = false;
 
             for (int ii = 0; ii < colorNum; ii++)
             {

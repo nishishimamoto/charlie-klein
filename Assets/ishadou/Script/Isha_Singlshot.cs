@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-//using System.Diagnostics;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
@@ -14,15 +13,15 @@ public class Isha_Singlshot : MonoBehaviour
     [SerializeField] Combo ComboCS;
     [SerializeField] Explosion ExplosionCS;
     [SerializeField] Pause PauseCS;
+    [SerializeField] BonusEffect BonusCS;
     [SerializeField] Image BonusGauge;
     [SerializeField] Image BonusGaugeOut;
     [SerializeField] Image BonusGaugeSand;
     [SerializeField] Image BonusGaugeSandOut;
     [SerializeField] GameSE gameSECS;
-
+    
     [SerializeField] Image Needle;
 
-    [SerializeField] GameObject BigMagic;
     float needleAngle;
 
     const int mainPanel = 30;    //メインパネルの数
@@ -52,10 +51,12 @@ public class Isha_Singlshot : MonoBehaviour
     bool isOperation;
     bool isStart;
 
-    bool isCut;
-    float CutFade = 1.0f;
+    public bool isCut;
+    float CutFade = 1.5f;
 
     bool isDebug;
+
+    public bool isEndFadeWait;
 
     bool chargeSE;
     bool overCS;
@@ -135,7 +136,6 @@ public class Isha_Singlshot : MonoBehaviour
         BsCnt = 1;
 
         Needle.gameObject.SetActive(false);
-        BigMagic.gameObject.SetActive(false);
         needleAngle = 0;
 
         Pause.gameObject.SetActive(true);
@@ -146,6 +146,7 @@ public class Isha_Singlshot : MonoBehaviour
         ListText.gameObject.SetActive(false);
 
         isCut = false;
+        isEndFadeWait = false;
         overCS = true;
 
         for (int i = 0; i < 4; i++)
@@ -376,7 +377,16 @@ public class Isha_Singlshot : MonoBehaviour
 
                     if (!alpha_Flg || BonusFlg == 1)
                     {
+                        if (isOperation && TimerCS.timeCount>=0)
+                        {
+                            if (!isEndFadeWait)
+                            {
+                                isOperation = false;
+                                TimerCS.countStart = true;
+                            }
+                        }
                         Bonus();
+                        overCS = true;
                     }
                     else if (alpha_Flg)
                     {
@@ -385,17 +395,15 @@ public class Isha_Singlshot : MonoBehaviour
                 }
                 else
                 {
-                    CutFade -= Time.deltaTime;
-                    TheWorld.gameObject.SetActive(true);
-                    BigMagic.gameObject.SetActive(true);
+                    //CutFade -= Time.deltaTime;
 
-                    //TheWorld.transform.localScale
-                    if (CutFade <= 0)
-                    {
-                        isCut = false;
-                        CutFade = 1.0f;
-                        BonusFlg = 1;
-                    }
+                    //if (CutFade <= 0)
+                    //{
+                    //    isCut = false;
+                    //    CutFade = 1.5f;
+                    //    TheWorld.gameObject.SetActive(true);
+                    //    BonusFlg = 1;
+                    //}
                 }
             }
         }
@@ -555,25 +563,9 @@ public class Isha_Singlshot : MonoBehaviour
             TimerCS.countStart = false;
             TimerCS.bigTimerText.enabled = false;
 
-            isCut = true;
-
-            //BonusFlg = 1;
-            //TheWorld.gameObject.SetActive(true);
+            BonusCS.FadeStart();
         }
 
-        ////パネル反時計回り
-        //if (Input.GetButtonDown("LB"))
-        //{
-        //    panelMove[0] = true;
-        //    //if (!TimerCS.countStart) TimerCS.countStart = true;
-        //    //ComboCS.comboCount = 0;
-        //}
-        ////パネル時計回り
-        //else if (Input.GetButtonDown("RB"))
-        //{
-        //    panelMove[1] = true;
-        //    //if (!TimerCS.countStart) TimerCS.countStart = true;
-        //}
 
         if (!isAnyAnim)
         {
@@ -659,14 +651,15 @@ public class Isha_Singlshot : MonoBehaviour
                         if (sideNumber[(i / (width - 1)) + i + width + 1] == sideNumber[(i / (width - 1)) + i + width])
                         {
 
-                            flgCheck[i] = true;
-                            alpha_Flg = true;
+                            //flgCheck[i] = true;
+                            //alpha_Flg = true;
                             overCS = false;
                             if (BonusFlg == 1)
                             {
-                                if(chainPos[i].activeSelf == false)
+                                flgCheck[i] = false;
+                                alpha_Flg = false;
+                                if (chainPos[i].activeSelf == false)
                                 {
-                                    Debug.Log("aaa");
                                     gameSECS.audioSource.PlayOneShot(gameSECS.massSE);
                                 }
                                 chainPos[i].gameObject.SetActive(true);
@@ -690,7 +683,8 @@ public class Isha_Singlshot : MonoBehaviour
                             }
                             else
                             {
-
+                                flgCheck[i] = true;
+                                alpha_Flg = true;
                                 chainPos[i].gameObject.SetActive(false);
                             }
                         }
@@ -770,7 +764,9 @@ public class Isha_Singlshot : MonoBehaviour
     {
         if (BonusGaugeSand.fillAmount >= 1)
         {
+            
             BonusText.gameObject.SetActive(true);
+            
             if (chargeSE == false)
             {
                 gameSECS.audioSource.PlayOneShot(gameSECS.bomChargeSE);
@@ -782,7 +778,7 @@ public class Isha_Singlshot : MonoBehaviour
             BonusText.gameObject.SetActive(false);
         }
 
-        if (BonusFlg == 1)
+        if (BonusFlg == 1 && !isEndFadeWait)
         {
             //gameSECS.audioSource.Stop();
             //TimerCS.countStart = false;
@@ -801,23 +797,20 @@ public class Isha_Singlshot : MonoBehaviour
 
             if (BonusGaugeSand.fillAmount <= 0)
             {
-                alpha();
                 BsCnt = 1;
-                TimerCS.countStart = true;
+
                 chargeSE = false;
                 Needle.gameObject.SetActive(false);
-                BigMagic.gameObject.SetActive(false);
-
+                isOperation = true;
+                BonusCS.EndFade();
                 AccelCnt += 5;
                 BonusAccel = 1.0f / AccelCnt;
-
                 TheWorld.gameObject.SetActive(false);
                 BonusTime = 10;
                 BonusGauge.fillAmount = 0;
                 BonusGaugeOut.fillAmount = 0;
                 BonusGaugeSand.fillAmount = 0;
                 BonusGaugeSandOut.fillAmount = 0;
-                BonusFlg = 0;
             }
         }
     }
@@ -915,16 +908,13 @@ public class Isha_Singlshot : MonoBehaviour
             gameSECS.is5countSE = false;
         }
 
-        if (TimerCS.timeCount <= 0f) //制限時間でゲーム終了
+        if (TimerCS.timeCount < 0f) //制限時間でゲーム終了
         {
-
             if (overCS == true)
             {
                 isOperation = true;
                 TimeUpBack.gameObject.SetActive(true);
                 TimeUpText.gameObject.SetActive(true);
-                Debug.Log("ant");
-                overCS = false;
                 gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
                 if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
                 TimerCS.countStart = false;
@@ -960,7 +950,6 @@ public class Isha_Singlshot : MonoBehaviour
         {
         }
         ComboCS.comboCount += 1;
-        //Debug.Log(ComboCS.comboCount);
         ColorChange();
     }
 }

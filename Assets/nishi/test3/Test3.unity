@@ -40361,8 +40361,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5a32079538d1c4386c4d8941a5a2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 963194225}
-  subCamera: {fileID: 1775549825}
+  mainCamera: {fileID: 963194227}
+  subCamera: {fileID: 1775549827}
   isParfectCamera: 0
 --- !u!4 &753485920
 Transform:
@@ -44259,7 +44259,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1775549828}
   - component: {fileID: 1775549827}
-  - component: {fileID: 1775549826}
   - component: {fileID: 1775549829}
   m_Layer: 0
   m_Name: SubCamera
@@ -44267,15 +44266,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!81 &1775549826
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1775549825}
-  m_Enabled: 1
+  m_IsActive: 1
 --- !u!20 &1775549827
 Camera:
   m_ObjectHideFlags: 0
@@ -44283,7 +44274,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1775549825}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -44345,9 +44336,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c74f2397c73665449005f020eb4473d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _center: {x: 0, y: 0, z: 0}
-  _axis: {x: 0, y: 0, z: -1}
-  _period: 7
 --- !u!1 &1789668436
 GameObject:
   m_ObjectHideFlags: 0

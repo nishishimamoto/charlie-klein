@@ -51,6 +51,8 @@ public class Isha_Singlshot : MonoBehaviour
     bool isOperation;
     bool isStart;
 
+    bool isFuck = false;
+
     public bool isCut;
     float CutFade = 1.5f;
 
@@ -486,7 +488,6 @@ public class Isha_Singlshot : MonoBehaviour
             //    DebugText.gameObject.SetActive(true);
             //    ListText.gameObject.SetActive(true);
             //    isDebug = true;
-
             //}
         }
         else //デバッグモードon中
@@ -887,7 +888,12 @@ public class Isha_Singlshot : MonoBehaviour
                 isOperation = true;
                 TimeUpBack.gameObject.SetActive(true);
                 TimeUpText.gameObject.SetActive(true);
-                gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
+                overCS = false;
+                if (!isFuck)
+                {
+                    gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
+                    isFuck = true;
+                }
                 if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
                 TimerCS.countStart = false;
                 Invoke("Result", 3.0f);  //リザルトに遷移

@@ -385,10 +385,6 @@ public class test2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(ComboCS.comboCount);
-        Debug.Log("nowturn" + TurnCS.nowTurn);
-        Debug.Log("maxturn" + TurnMax);
-
         cf = false;
         ClearCheck();
         //Debug.Log(start_Time);
@@ -684,6 +680,7 @@ public class test2 : MonoBehaviour
                     gameSECS.audioSource.PlayOneShot(gameSECS.spinSE);
                     isAnyAnim = true;
                     panelMove[0] = true;
+                    if (TurnCS.nowTurn >= 5) TimerCS.bigTimerBlinking = 1;
                 }
                 //パネル時計回り
                 else if (Input.GetButtonDown("RB"))
@@ -692,6 +689,7 @@ public class test2 : MonoBehaviour
                     gameSECS.audioSource.PlayOneShot(gameSECS.spinSE);
                     isAnyAnim = true;
                     panelMove[1] = true;
+                    if (TurnCS.nowTurn >= 5) TimerCS.bigTimerBlinking = 1;
                 }
             }
             else if (isAnyAnim)
@@ -1086,7 +1084,7 @@ public class test2 : MonoBehaviour
                 TimerCS.timeCount = 30.0f;
                 TimerCS.timeOut = false;
                 //TimerCS.countStart = false;
-                TimerCS.bigTimerText.enabled = false;
+                //TimerCS.bigTimerText.enabled = false;
                 ComboCS.comboCount = 0; //コンボカウントリセット
                 TurnCS.TurnCount();        //経過ターンの更新表示
                 Invoke("ClearCheck", 1.0f); //クリア条件を満たしたかチェック

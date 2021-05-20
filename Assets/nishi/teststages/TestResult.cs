@@ -14,7 +14,7 @@ public class TestResult : MonoBehaviour
     bool isBlinking;
 
     [SerializeField] GameObject[] button;
-
+    [SerializeField] GameSE gameSE;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +47,7 @@ public class TestResult : MonoBehaviour
             if (cursol == 2) cursol -= 2;
             else cursol += 1;
             isVertical = true;
+            gameSE.audioSource.PlayOneShot(gameSE.cursor);
             ButtonSize();
         }
         else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
@@ -55,16 +56,19 @@ public class TestResult : MonoBehaviour
             if (cursol == 0) cursol += 2;
             else cursol -= 1;
             isVertical = true;
+            gameSE.audioSource.PlayOneShot(gameSE.cursor);
             ButtonSize();
         }
 
         if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
 
-        if (Input.GetButtonDown("A"))
+        if (Input.GetButtonDown("A")&& !isBlinking)
         {
             isBlinking = true;
             isVertical = true;
             Invoke("SenceChange", 1.0f);
+
+            gameSE.audioSource.PlayOneShot(gameSE.crick);
         }
 
         if (isBlinking) Blinking();

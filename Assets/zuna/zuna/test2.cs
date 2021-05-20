@@ -107,6 +107,7 @@ public class test2 : MonoBehaviour
     float start_Text_Blinking = 0;
     bool creaer;
     bool []startSE = new bool[2];
+    bool isCreate;
     bool cf = false;
 
     public int[] targetMax = new int[4];
@@ -167,196 +168,38 @@ public class test2 : MonoBehaviour
             targetText[i].text = "x " + targetNum[i];
             targetBlinkNum[i] = targetNum[i];
         }
-
-        for (int i = 0; i < mainPanel; i++)
-        {
-            if (!isPlanet[i])
-            {
-                //プレハブを元に、インスタンスを生成
-                //mainSphere[i] = Instantiate(main, new Vector3(-6 + (2 * (i % (width - 1))), 4 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);草
-                //mainNumber[i] = mainColorNumber[Random.Range(0, 2)];草
-
-                if (chooseMain < 0) chooseMain = i;
-
-                //sideSphere[(i / (width - 1)) + i] = Instantiate(side, new Vector3(-7 + (2 * (i % (width - 1))), 5 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
-                //sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 2)];
-                //panelAnim[(i / (width - 1)) + i] = sideSphere[(i / (width - 1)) + i].GetComponent<PanelAnim>();
-
-                //if (i >= (mainPanel - 1) - width)
-                //{
-                //    sideSphere[(i / (width - 1)) + i + width] = Instantiate(side, new Vector3(-7 + (2 * (i % (width - 1))), 3 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
-                //    sideNumber[(i / (width - 1)) + i + width] = sideColorNumber[Random.Range(0, 2)];
-                //    panelAnim[(i / (width - 1)) + i + width] = sideSphere[(i / (width - 1)) + i + width].GetComponent<PanelAnim>();
-
-                //    if (i == mainPanel - 1)
-                //    {
-                //        sideSphere[(i / (width - 1)) + i + width + 1] = Instantiate(side, new Vector3(-5 + (2 * (i % (width - 1))), 3 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
-                //        sideNumber[(i / (width - 1)) + i + width + 1] = sideColorNumber[Random.Range(0, 2)];
-                //        panelAnim[(i / (width - 1)) + i + width + 1] = sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<PanelAnim>();
-                //    }
-                //}
-
-                //if (i % 6 == 5)    //右端の列で追加2つ生成
-                //{
-                //    sideSphere[(i / (width - 1)) + i + 1] = Instantiate(side, new Vector3(-5 + (2 * (i % (width - 1))), 5 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
-                //    sideNumber[(i / (width - 1)) + i + 1] = sideColorNumber[Random.Range(0, 2)];
-                //    panelAnim[(i / (width - 1)) + i + 1] = sideSphere[(i / (width - 1)) + i + 1].GetComponent<PanelAnim>();
-                //}
-                ////mainSphereColor[i] = mainSphere[i].GetComponent<Renderer>().material.color;
-            }
-        }
-
-        for (int i = 0; i < sidePanel; i++) //衛星の生成
-        {
-            if (i <= 6)  //最上行のとき
-            {
-                if (i == 0 && isPlanet[0]) //隅の惑星がなければ隅の衛星も作らない
-                {
-                }
-                else if (i == 6 && isPlanet[5]) //隅の惑星がなければ隅の衛星も作らない
-                {
-                }
-                else if (i != 0 && i != 6 && isPlanet[i - (i / width) - 1] && isPlanet[i - (i / width)])//惑星1列目を見て、両隣がなければ作らない
-                {
-                }
-                else
-                {
-                    //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
-                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
-
-                }
-            }
-            else if (i > 0 && i % 7 == 0) //最左列のとき
-            {
-                if (i == 35 && isPlanet[24]) //隅の惑星がなければ隅の衛星も作らない
-                {
-
-                }
-                else if (i != 35 && isPlanet[i - (i / width) - 6] && isPlanet[i - (i / width)]) //惑星最左列を見て、両隣がなければ作らない
-                {
-
-                }
-                else
-                {
-                    //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
-                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
-
-                }
-            }
-            else if (i > 6 && i % 7 == 6)   //最右列のとき
-            {
-                if (i == 41 && isPlanet[29])//隅の惑星がなければ隅の衛星も作らない
-                {
-
-                }
-                else if (i != 41 && isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - 1]) //惑星最右列を見て、両隣がなければ作らない
-                {
-
-                }
-                else
-                {
-                    //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
-                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
-
-                }
-            }
-            else if (i > 35 && i < 41)  //最下行の時
-            {
-                if (isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - (width - 1)])//惑星最下列を見て、両隣がなければ作らない
-                {
-
-                }
-                else
-                {
-                    //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
-                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
-
-                }
-            }
-            else
-            {
-                if (isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - (width - 1)] && isPlanet[i - (i / width) - 1] && isPlanet[i - (i / width)])//四方に惑星がない場合は衛星を作らない
-                {
-
-                }
-                else
-                {
-                    //プレハブを元に、インスタンスを生成、
-                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
-                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
-                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
-
-                }
-            }
-
-            //sideSphere[(i / (width - 1)) + i] = Instantiate(side, new Vector3(-7 + (2 * (i % (width - 1))), 5 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
-            //sideSphere[(i / (width - 1)) + i + width] = Instantiate(side, new Vector3(-5 + (2 * (i % (width - 1))), 5 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
-            //sideSphere[(i / (width - 1)) + i + width + 1] = Instantiate(side, new Vector3(-7 + (2 * (i % (width - 1))), 3 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
-            //sideSphere[(i / (width - 1)) + i + 1] = Instantiate(side, new Vector3(-5 + (2 * (i % (width - 1))), 3 - (2 * (i / (width - 1))), 0.0f), Quaternion.identity);
-        }
-
-        //生成された衛星が揃っていないか確認
+        SatelliteCreate();  //衛星生成
 
         bool panel_f =false;
-
-        for (int i = 0; i < mainPanel; i++)
+        //生成された衛星が揃っていないか確認
+        do
         {
-            if (!isPlanet[i])
+            isCreate = false;
+
+            for (int i = 0; i < mainPanel; i++)
             {
-                /*if (i >= 1)
-                {
-                    左が右と同じ色かチェック
-                    if (sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + 1])
-                    {
-                        int numSet = 0;
-                        int numUpSet = 0;
-                        //int randSet = mainColorNumber[Random.Range(0, 4)];
-
-                        //左が上と同じ色かチェック
-                        //if (i >= 6 && sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
-                        //{
-                        //    numSet = sideNumber[(i / (width - 1)) + i - 1];
-                        //    numUpSet = sideNumber[(i / (width - 1)) + i - width];
-                        //    sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
-                        //    //左の色の変更
-                        //    while (numSet == sideNumber[(i / (width - 1)) + i] ||
-                        //        sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i - width])
-                        //    {
-                        //        sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    numSet = sideNumber[(i / (width - 1)) + i - 1];
-                        //    sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
-                        //    //左の色の変更
-                        //    while (numSet == sideNumber[(i / (width - 1)) + i])
-                        //    {
-                        //        sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
-                        //    }
-                        //}
-
-
-                    }
-
-                }*/
-
-                while (sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + 1] &&
-                            sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + width] &&
-                            sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + width + 1])
+                if (!isPlanet[i])
                 {
                     sideNumber[(i / (width - 1)) + i] = sideColorNumber[Random.Range(0, 4)];
+                    sideNumber[(i / (width - 1)) + i + 1] = sideColorNumber[Random.Range(0, 4)];
+                    sideNumber[(i / (width - 1)) + i + width + 1] = sideColorNumber[Random.Range(0, 4)];
+                    sideNumber[(i / (width - 1)) + i + width] = sideColorNumber[Random.Range(0, 4)];
                 }
             }
-        }
+
+            for (int i = 0; i < mainPanel; i++)
+            {
+                if (!isPlanet[i])
+                {
+                    if (sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + 1] &&
+                                sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + width] &&
+                                sideNumber[(i / (width - 1)) + i] == sideNumber[(i / (width - 1)) + i + width + 1])
+                    {
+                        isCreate = true;
+                    }
+                }
+            }
+        } while (isCreate);
         
 
         //for (int i = 0; i < sidePanel; i++)
@@ -1237,6 +1080,109 @@ public class test2 : MonoBehaviour
             {
                 if (ScreenCover.activeSelf == true) ScreenCover.SetActive(false);
                 if (gameStart.activeSelf == true) gameStart.SetActive(false);
+            }
+        }
+    }
+
+    void SatelliteCreate()
+    {
+        for (int i = 0; i < mainPanel; i++)
+        {
+            if (!isPlanet[i])
+            {
+                if (chooseMain < 0) chooseMain = i;
+            }
+        }
+
+        for (int i = 0; i < sidePanel; i++) //衛星の生成
+        {
+            if (i <= 6)  //最上行のとき
+            {
+                if (i == 0 && isPlanet[0]) //隅の惑星がなければ隅の衛星も作らない
+                {
+                }
+                else if (i == 6 && isPlanet[5]) //隅の惑星がなければ隅の衛星も作らない
+                {
+                }
+                else if (i != 0 && i != 6 && isPlanet[i - (i / width) - 1] && isPlanet[i - (i / width)])//惑星1列目を見て、両隣がなければ作らない
+                {
+                }
+                else
+                {
+                    //プレハブを元に、インスタンスを生成、
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
+                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+
+                }
+            }
+            else if (i > 0 && i % 7 == 0) //最左列のとき
+            {
+                if (i == 35 && isPlanet[24]) //隅の惑星がなければ隅の衛星も作らない
+                {
+
+                }
+                else if (i != 35 && isPlanet[i - (i / width) - 6] && isPlanet[i - (i / width)]) //惑星最左列を見て、両隣がなければ作らない
+                {
+
+                }
+                else
+                {
+                    //プレハブを元に、インスタンスを生成、
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
+                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+
+                }
+            }
+            else if (i > 6 && i % 7 == 6)   //最右列のとき
+            {
+                if (i == 41 && isPlanet[29])//隅の惑星がなければ隅の衛星も作らない
+                {
+
+                }
+                else if (i != 41 && isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - 1]) //惑星最右列を見て、両隣がなければ作らない
+                {
+
+                }
+                else
+                {
+                    //プレハブを元に、インスタンスを生成、
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
+                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+
+                }
+            }
+            else if (i > 35 && i < 41)  //最下行の時
+            {
+                if (isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - (width - 1)])//惑星最下列を見て、両隣がなければ作らない
+                {
+
+                }
+                else
+                {
+                    //プレハブを元に、インスタンスを生成、
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
+                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+
+                }
+            }
+            else
+            {
+                if (isPlanet[i - (i / width) - width] && isPlanet[i - (i / width) - (width - 1)] && isPlanet[i - (i / width) - 1] && isPlanet[i - (i / width)])//四方に惑星がない場合は衛星を作らない
+                {
+
+                }
+                else
+                {
+                    //プレハブを元に、インスタンスを生成、
+                    sideSphere[i] = Instantiate(side, new Vector3(-5 + (2 * (i % width - 1)), 5 - (2 * (i / width)), 0.0f), Quaternion.identity);
+                    panelAnim[i] = sideSphere[i].GetComponent<PanelAnim>();
+                    sideNumber[i] = sideColorNumber[Random.Range(0, 4)];
+
+                }
             }
         }
     }

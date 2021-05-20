@@ -13,8 +13,11 @@ public class Z_StageSelect : MonoBehaviour
     float blinking = 0f;
     float blinkingSpeed = 3.0f;
     bool isBlinking;
+    bool isBack;
 
     [SerializeField] GameObject[] stage;
+    [SerializeField] AudioSource audiosource;
+    [SerializeField] GameSE gameSECS;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +44,7 @@ public class Z_StageSelect : MonoBehaviour
                 //else cursol += 1;
                 isVertical = true;
                 ButtonSize();
+                audiosource.PlayOneShot(gameSECS.cursorSE);
             }
             else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
             {
@@ -51,6 +55,7 @@ public class Z_StageSelect : MonoBehaviour
                 //else cursol -= 1;
                 isVertical = true;
                 ButtonSize();
+                audiosource.PlayOneShot(gameSECS.cursorSE);
             }
             if (0 > Input.GetAxis("ClossHorizontal") && !isHorizontal)    //↓入力時
             {
@@ -59,6 +64,7 @@ public class Z_StageSelect : MonoBehaviour
                 else cursol += 1;
                 isHorizontal = true;
                 ButtonSize();
+                audiosource.PlayOneShot(gameSECS.cursorSE);
             }
             if (0 < Input.GetAxis("ClossHorizontal") && !isHorizontal)  //↑入力時
             {
@@ -67,21 +73,25 @@ public class Z_StageSelect : MonoBehaviour
                 else cursol -= 1;
                 isHorizontal = true;
                 ButtonSize();
+                audiosource.PlayOneShot(gameSECS.cursorSE);
             }
         }
 
         if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
         if (0 == Input.GetAxis("ClossHorizontal") && !isBlinking) isHorizontal = false;
 
-        if (Input.GetButtonDown("A"))
+        if (Input.GetButtonDown("A") && !isBlinking && !isBack)
         {
             isBlinking = true;
             isVertical = true;
+            audiosource.PlayOneShot(gameSECS.crickSE);
             Invoke("SenceChange", 1.0f);
         }
-        if (Input.GetButtonDown("B"))
+        if (Input.GetButtonDown("B") && !isBlinking && !isBack)
         {
+            isBack = true;
             SceneManager.LoadScene("StageSelect");
+            audiosource.PlayOneShot(gameSECS.crickSE);
         }
 
         if (isBlinking) Blinking();

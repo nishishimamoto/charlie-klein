@@ -104,6 +104,8 @@ public class test2 : MonoBehaviour
     public Texture NormalmapTexture;
     float bravo_Time = 0f;
     float  start_Time = 1.0f;
+    float start_Text_Blinking = 0;
+    bool creaer;
     bool cf = false;
 
     public int[] targetMax = new int[4];
@@ -387,31 +389,29 @@ public class test2 : MonoBehaviour
     {
         cf = false;
         ClearCheck();
-        //Debug.Log(start_Time);
-        if (start_Time != 0.0f)
+
+        if (start_Time <= 5)
         {
             start_Time += Time.deltaTime;
-            
-            //gameStart.GetComponent<Text>().Color = new Color(1,0,1,1);                                                                  koko
-        }
-        //if()
-        if (start_Time > 2.5f && start_Time < 3.0f && gameStart.activeSelf == true) gameStart.SetActive(false);
-        if (start_Time > 3.0f && (gameStart.activeSelf == false) )
-        {
-            gameStart.SetActive(true);
-            
-            readystart.text = "start";
-            
-        }
-        if (start_Time > 4.0f)
-        {
-            if(ScreenCover.activeSelf==true) ScreenCover.SetActive(false);
-            if (gameStart.activeSelf == true) gameStart.SetActive(false);
-            start_Time = 0.0f;
-            
 
+            if (start_Time < 1.5f) start_Text_Blinking += Time.deltaTime;
+            else if (start_Time >= 2.0f && start_Time < 2.5f) start_Text_Blinking -= Time.deltaTime;
+            else if (start_Time >= 3.0f && start_Time < 4f)
+            {
+                start_Text_Blinking += Time.deltaTime;
+                if (start_Text_Blinking <= 0.3f) readystart.transform.localScale = new Vector3(1.6f - (start_Text_Blinking * 2), 1.6f - (start_Text_Blinking * 2), 1);
+                readystart.text = "start";
+            }
+            //else if (start_Time >= 4.5f && start_Time < 5) start_Text_Blinking -= Time.deltaTime;
+            if (start_Text_Blinking <= 0.5f) readystart.color = new Color(0.7f, 1, 1, start_Text_Blinking * 2);
+
+            if (start_Time > 4 && start_Time < 5)
+            {
+                if (ScreenCover.activeSelf == true) ScreenCover.SetActive(false);
+                if (gameStart.activeSelf == true) gameStart.SetActive(false);
+            }
         }
-        
+
         if (!PauseCS.isPause)
         {
             if (!alpha_Flg)
@@ -671,7 +671,7 @@ public class test2 : MonoBehaviour
         }
         if (ScreenCover.activeSelf == false)
         {
-            if (!isAnyAnim)
+            if (!isAnyAnim && !creaer)
             {
                 //パネル反時計回り
                 if (Input.GetButtonDown("LB"))
@@ -1077,7 +1077,7 @@ public class test2 : MonoBehaviour
     {
         if (TurnCS.nowTurn < (TurnMax+1))
         {
-            if ((Input.GetButtonDown("LB") || Input.GetButtonDown("RB") || TimerCS.timeOut) && TimerCS.countStart == true ) //Xか制限時間でターン終了
+            if ((Input.GetButtonDown("LB") || Input.GetButtonDown("RB") || TimerCS.timeOut) && TimerCS.countStart == true && !creaer) //Xか制限時間でターン終了
             {
 
                 if (!alpha_Flg) PointCheck();
@@ -1174,7 +1174,7 @@ public class test2 : MonoBehaviour
 
         if (targetNum[0] <= 0 && targetNum[1] <= 0 && targetNum[2] <= 0 && targetNum[3] <= 0)
         {
-
+            creaer = true;
             //for (int i = 0; i < 42; i++) {
             //    if (ExplosionCS.particle[i].isPlaying) cf = true;
             //}
@@ -1200,6 +1200,7 @@ public class test2 : MonoBehaviour
         }
         else if (TurnCS.nowTurn >= TurnMax)
         {
+            creaer = true;
             end_Time += Time.deltaTime;
             if (ScreenCover.activeSelf == false) ScreenCover.SetActive(true);
             Cover.color = new Color(0, 0, 0, 0);

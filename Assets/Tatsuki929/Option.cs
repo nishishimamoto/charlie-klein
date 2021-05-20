@@ -22,6 +22,8 @@ public class Option : MonoBehaviour
     float blinkingSpeed = 3.0f;
     bool isBlinking;
 
+    [SerializeField] GameSE gameSECS;
+
     [SerializeField] GameObject obj_Sound;
     [SerializeField] GameObject obj_Graphic;
     [SerializeField] GameObject obj_Back;
@@ -86,6 +88,7 @@ public class Option : MonoBehaviour
                 else cursol += 1;
                 isVertical = true;
                 ButtonSize();
+                gameSECS.audioSource.PlayOneShot(gameSECS.cursor);
             }
             else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
             {
@@ -96,6 +99,8 @@ public class Option : MonoBehaviour
                 else cursol -= 1;
                 isVertical = true;
                 ButtonSize();
+
+                gameSECS.audioSource.PlayOneShot(gameSECS.cursor);
             }
         }
         else if(isSound)
@@ -120,6 +125,7 @@ public class Option : MonoBehaviour
                 if (cursol2 >= 2) cursol2 -= 2;
                 else cursol2 += 1;
                 isVertical = true;
+                gameSECS.audioSource.PlayOneShot(gameSECS.cursor);
                 //ButtonSize2();
             }
             else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
@@ -129,6 +135,7 @@ public class Option : MonoBehaviour
                 if (cursol2 <= 0) cursol2 += 2;
                 else cursol2 -= 1;
                 isVertical = true;
+                gameSECS.audioSource.PlayOneShot(gameSECS.cursor);
                 //ButtonSize2();
             }
 
@@ -140,16 +147,16 @@ public class Option : MonoBehaviour
                     if (vol_BGM < -30) { vol_BGM = -30; }
                     Debug.Log("vol_BGM = " + vol_BGM);
                     mixer.SetFloat("BGM", vol_BGM);
-
+                    gameSECS.audioSource.PlayOneShot(gameSECS.cursor);
                 }
                 else if(cursol2 == 1)
                 {
-                    _Cursol.SE.PlayOneShot(_Cursol.move);
+                    //_Cursol.SE.PlayOneShot(_Cursol.move);
                     vol_SE -= 0.5f;
                     if (vol_SE < -30) { vol_SE = -30; }
                     Debug.Log("vol_SE = " + vol_SE);
                     mixer.SetFloat("SE", vol_SE);
-
+                    gameSECS.audioSource.PlayOneShot(gameSECS.cursor);
                 }
                 isHorizontal = true;
             }
@@ -162,16 +169,17 @@ public class Option : MonoBehaviour
                     if (vol_BGM > 20) { vol_BGM = 20; }
                     Debug.Log("vol_BGM = " + vol_BGM);
                     mixer.SetFloat("BGM", vol_BGM);
+                    gameSECS.audioSource.PlayOneShot(gameSECS.cursor);
                 }
                 else if(cursol2 == 1)
                 {
-                    _Cursol.SE.PlayOneShot(_Cursol.move);
+                    //_Cursol.SE.PlayOneShot(_Cursol.move);
                     vol_SE += 0.5f;
                     source_SE = false;
                     if (vol_SE > 20) { vol_SE = 20; }
                     Debug.Log("vol_SE = " + vol_SE);
                     mixer.SetFloat("SE", vol_SE);
-                  
+                    gameSECS.audioSource.PlayOneShot(gameSECS.cursor);
                 }
                 isHorizontal = true;
             }
@@ -184,16 +192,16 @@ public class Option : MonoBehaviour
                     if (vol_BGM < -30) { vol_BGM = -30; }
                     Debug.Log("vol_BGM = " + vol_BGM);
                     mixer.SetFloat("BGM", vol_BGM);
-
+                    gameSECS.audioSource.PlayOneShot(gameSECS.cursor);
                 }
                 else if (cursol2 == 1)
                 {
-                    _Cursol.SE.PlayOneShot(_Cursol.move);
+                    //_Cursol.SE.PlayOneShot(_Cursol.move);
                     vol_SE -= 0.5f * 5;
                     if (vol_SE < -30) { vol_SE = -30; }
                     Debug.Log("vol_SE = " + vol_SE);
                     mixer.SetFloat("SE", vol_SE);
-
+                    gameSECS.audioSource.PlayOneShot(gameSECS.cursor);
                 }
             }
             if (Input.GetButtonDown("RB"))
@@ -205,16 +213,17 @@ public class Option : MonoBehaviour
                     if (vol_BGM > 20) { vol_BGM = 20; }
                     Debug.Log("vol_BGM = " + vol_BGM);
                     mixer.SetFloat("BGM", vol_BGM);
-
+                    gameSECS.audioSource.PlayOneShot(gameSECS.cursor);
                 }
                 else if (cursol2 == 1)
                 {
-                    _Cursol.SE.PlayOneShot(_Cursol.move);
+                    //_Cursol.SE.PlayOneShot(_Cursol.move);
                     vol_SE += 0.5f * 5;
                     source_SE = false;
                     if (vol_SE > 20) { vol_SE = 20; }
                     Debug.Log("vol_SE = " + vol_SE);
                     mixer.SetFloat("SE", vol_SE);
+                    gameSECS.audioSource.PlayOneShot(gameSECS.cursor);
                 }
             }
         }
@@ -228,14 +237,16 @@ public class Option : MonoBehaviour
                 if (!isSound)
                 {
                     isSound = true;
+                    gameSECS.audioSource.PlayOneShot(gameSECS.crickSE);
                 }
                 else if (cursol2 == 2 && isSound)
                 {
                     cursol2 = 0;
                     isSound = false;
+                    gameSECS.audioSource.PlayOneShot(gameSECS.crickSE);
                 }
             }
-            else if (cursol == 1)
+            else if (cursol == 1&& !isBlinking)
             {
                 if (!isBack)
                 {
@@ -249,21 +260,25 @@ public class Option : MonoBehaviour
                     isBack = true;
                     isBlinking = true;
                     Invoke("ToTitle",1f);
+
+                    gameSECS.audioSource.PlayOneShot(gameSECS.crickSE);
                 }
             }
         }
-        else if (Input.GetButtonDown("B"))
+        else if (Input.GetButtonDown("B")&&!isBlinking)
         {
             if (cursol == 0&&isSound)
             {
                cursol2 = 0;
                 isSound = false;
+                gameSECS.audioSource.PlayOneShot(gameSECS.crickSE);
             }
 
             else if(cursol == 0&&!isSound)
             {
                 cursol = 1;
                 ButtonSize();
+                gameSECS.audioSource.PlayOneShot(gameSECS.crickSE);
             }
 
             else if(cursol == 1)
@@ -271,6 +286,7 @@ public class Option : MonoBehaviour
                 isBack = true;
                 isBlinking = true;
                 Invoke("ToTitle", 1f);
+                gameSECS.audioSource.PlayOneShot(gameSECS.crickSE);
             }
         }
         if (isBlinking) Blinking();

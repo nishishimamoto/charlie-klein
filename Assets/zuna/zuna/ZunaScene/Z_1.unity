@@ -1465,6 +1465,7 @@ MonoBehaviour:
   timeCount: 30
   timeOut: 0
   countStart: 0
+  bigTimerBlinking: 1
   timerSlider: {fileID: 1915503328}
   timerBase: {fileID: 1287957271}
   bigTimerText: {fileID: 6539218743756348178}
@@ -2363,6 +2364,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameSE
       objectReference: {fileID: 0}
+    - target: {fileID: 3818191584689660430, guid: 686eaaf4c64bdf5488291042628b8955,
+        type: 3}
+      propertyPath: successSE
+      value: 
+      objectReference: {fileID: 8300000, guid: f3c0525950e931b46807e2e2f5ce82ac, type: 3}
     - target: {fileID: 3818191584689660431, guid: 686eaaf4c64bdf5488291042628b8955,
         type: 3}
       propertyPath: m_RootOrder
@@ -3758,6 +3764,7 @@ MonoBehaviour:
   - {fileID: 1312290412}
   - {fileID: 1312290412}
   - {fileID: 1312290412}
+  bom: []
   explosopn: {fileID: 198917022394846920, guid: e1b08032bec16ba4eb1ae23cbd572664,
     type: 3}
   audio: {fileID: 0}
@@ -6362,7 +6369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.33490568, g: 1, b: 0.92318034, a: 1}
+  m_Color: {r: 0.9469013, g: 1, b: 0.33333337, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -8892,7 +8899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.627451}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:

@@ -6,15 +6,18 @@ using UnityEngine.UI;
 
 public class Z_StageSelect : MonoBehaviour
 {
-    int cursol = 0;
+    public static int cursol = 0;
     int oldCursol;
     bool isVertical;
     bool isHorizontal;
     float blinking = 0f;
     float blinkingSpeed = 3.0f;
     bool isBlinking;
+    bool isBack;
 
     [SerializeField] GameObject[] stage;
+    [SerializeField] AudioSource audiosource;
+    [SerializeField] GameSE gameSECS;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +26,7 @@ public class Z_StageSelect : MonoBehaviour
         test3ReSet();
         Test2ReSet();
         stage[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
+        stage[cursol].GetComponent<RectTransform>().localScale = new Vector3(1.2f, 1.2f, 0);
     }
 
     // Update is called once per frame
@@ -40,6 +44,7 @@ public class Z_StageSelect : MonoBehaviour
                 //else cursol += 1;
                 isVertical = true;
                 ButtonSize();
+                audiosource.PlayOneShot(gameSECS.cursorSE);
             }
             else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
             {
@@ -50,6 +55,7 @@ public class Z_StageSelect : MonoBehaviour
                 //else cursol -= 1;
                 isVertical = true;
                 ButtonSize();
+                audiosource.PlayOneShot(gameSECS.cursorSE);
             }
             if (0 > Input.GetAxis("ClossHorizontal") && !isHorizontal)    //↓入力時
             {
@@ -58,6 +64,7 @@ public class Z_StageSelect : MonoBehaviour
                 else cursol += 1;
                 isHorizontal = true;
                 ButtonSize();
+                audiosource.PlayOneShot(gameSECS.cursorSE);
             }
             if (0 < Input.GetAxis("ClossHorizontal") && !isHorizontal)  //↑入力時
             {
@@ -66,21 +73,25 @@ public class Z_StageSelect : MonoBehaviour
                 else cursol -= 1;
                 isHorizontal = true;
                 ButtonSize();
+                audiosource.PlayOneShot(gameSECS.cursorSE);
             }
         }
 
         if (0 == Input.GetAxis("ClossVertical") && !isBlinking) isVertical = false;
         if (0 == Input.GetAxis("ClossHorizontal") && !isBlinking) isHorizontal = false;
 
-        if (Input.GetButtonDown("A"))
+        if (Input.GetButtonDown("A") && !isBlinking && !isBack)
         {
             isBlinking = true;
             isVertical = true;
+            audiosource.PlayOneShot(gameSECS.crickSE);
             Invoke("SenceChange", 1.0f);
         }
-        if (Input.GetButtonDown("B"))
+        if (Input.GetButtonDown("B") && !isBlinking && !isBack)
         {
-            SceneManager.LoadScene("StageSelect");
+            isBack = true;
+            audiosource.PlayOneShot(gameSECS.crickSE);
+            Invoke("StageSelectBack", 1.0f);
         }
 
         if (isBlinking) Blinking();
@@ -101,39 +112,40 @@ public class Z_StageSelect : MonoBehaviour
 
     void SenceChange()
     {
-        switch (cursol)
-        {
-            case 0:
-                SceneManager.LoadScene("Z_1");
-                break;
-            case 1:
-                SceneManager.LoadScene("Z_2");
-                break;
-            case 2:
-                SceneManager.LoadScene("Z_3");
-                break;
-            case 3:
-                SceneManager.LoadScene("Z_4");
-                break;
-            case 4:
-                SceneManager.LoadScene("Z_5");
-                break;
-            case 5:
-                SceneManager.LoadScene("Z_6");
-                break;
-            case 6:
-                SceneManager.LoadScene("Z_7");
-                break;
-            case 7:
-                SceneManager.LoadScene("Z_8");
-                break;
-            case 8:
-                SceneManager.LoadScene("Z_9");
-                break;
-            case 9:
-                SceneManager.LoadScene("Z_10");
-                break;
-        }
+        SceneManager.LoadScene(20);
+        //switch (cursol)
+        //{
+        //    case 0:
+        //        SceneManager.LoadScene("Z_1");
+        //        break;
+        //    case 1:
+        //        SceneManager.LoadScene("Z_2");
+        //        break;
+        //    case 2:
+        //        SceneManager.LoadScene("Z_3");
+        //        break;
+        //    case 3:
+        //        SceneManager.LoadScene("Z_4");
+        //        break;
+        //    case 4:
+        //        SceneManager.LoadScene("Z_5");
+        //        break;
+        //    case 5:
+        //        SceneManager.LoadScene("Z_6");
+        //        break;
+        //    case 6:
+        //        SceneManager.LoadScene("Z_7");
+        //        break;
+        //    case 7:
+        //        SceneManager.LoadScene("Z_8");
+        //        break;
+        //    case 8:
+        //        SceneManager.LoadScene("Z_9");
+        //        break;
+        //    case 9:
+        //        SceneManager.LoadScene("Z_10");
+        //        break;
+    //}
     }
 
     void ButtonSize()
@@ -160,5 +172,10 @@ public class Z_StageSelect : MonoBehaviour
     {
         test2.score = 0;
         test2.oldSceneName = null;
+    }
+
+    void StageSelectBack()
+    {
+        SceneManager.LoadScene("StageSelect");
     }
 }

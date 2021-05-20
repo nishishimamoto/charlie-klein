@@ -25,6 +25,8 @@ public class GameSE : MonoBehaviour
     public AudioClip cursorSE;
     public AudioClip crickSE;
     public AudioClip pauseSE;
+    public AudioClip successSE;
+    public AudioClip Z_startSE;
 
     public bool isLifeSE;
     public bool isLifeSECheck;

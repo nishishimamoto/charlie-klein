@@ -44,7 +44,6 @@ public class Turn1 : MonoBehaviour
     {
         nowTurn++;
         if (nowTurn < (test2.TurnMax+1)) turnText.text = "" + (test2.TurnMax - nowTurn);
-        Debug.Log(nowTurn);
     }
 
     public void TurnStart()

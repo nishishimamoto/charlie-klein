@@ -33,7 +33,7 @@ public class ScoreFade : MonoBehaviour
                 transform.localScale = new Vector3(3 - (fadeOutTime), 3 - (fadeOutTime), 1);
                 if (max > now)
                 {
-                    now+=14;
+                    now+=25;
                     if (now > max) now = max;
                     comboText.text = "" + now;
                 }
@@ -41,9 +41,10 @@ public class ScoreFade : MonoBehaviour
             else if (fadeOutTime < 0.6f)   //秒以下で点滅フェードアウト
             {
                 blinking = fadeOutTime;   //フェードアウト
-
+                
                 comboText.color = new Color(255, 255, 0, blinking / blinkingSpeed);
             }
+            if (fadeOutTime <= 0.7f) comboText.text = "1000";
         }
         else if (fadeOutTime <= 0)
         {

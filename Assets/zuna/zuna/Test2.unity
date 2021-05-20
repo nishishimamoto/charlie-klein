@@ -3384,7 +3384,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9ef4bc1b8ac6ca4086a5f6d1c10932e, type: 3}
   m_Name: 
@@ -5412,6 +5412,7 @@ MonoBehaviour:
   ExplosionCS: {fileID: 1037423004}
   PauseCS: {fileID: 1810868466}
   ScreenCover: {fileID: 896453113}
+  gameSECS: {fileID: 0}
   Score: {fileID: 6539218744712106761}
   targetText:
   - {fileID: 1335172292}

@@ -65,4 +65,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Tatsuki929/Option.unity
     guid: 9e41f92db36db9f4fa9e52c42e36a41a
+  - enabled: 1
+    path: Assets/nishi/test3/Tips.unity
+    guid: 1310ff6e8afb5f546a57b710c5257ba7
   m_configObjects: {}

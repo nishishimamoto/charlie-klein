@@ -89,15 +89,19 @@ public class BonusEffect : MonoBehaviour
         {
             nowFadeTime += Time.deltaTime;
             int i = 0;
-            float rate = nowFadeTime / 0.3f;
-            foreach(var mg in _mgs)
+            float rate = nowFadeTime / 0.5f;
+            CntText.text = "Compreat";
+            CntText.color = new Color(1, 0.73f, 0);
+            CntText.gameObject.SetActive(true);
+            BonusTextBack.gameObject.SetActive(true);
+            foreach (var mg in _mgs)
             {
                 mg.color = Color.Lerp(endColor, mgsStartColor[i], rate);
                 i++;
             }
             yield return new WaitForFixedUpdate();
         }
-
+        
         // きえて、あらわれたい
         nowFadeTime = 0;
         while (nowFadeTime < waitTime)
@@ -105,6 +109,9 @@ public class BonusEffect : MonoBehaviour
             nowFadeTime += Time.deltaTime;
             int i = 0;
             float rate = nowFadeTime / 0.3f;
+
+            CntText.color = Color.Lerp(new Color(1, 0.73f, 0), endColor, rate);
+            
             foreach (var mg in _mgs)
             {
                 mg.color = Color.Lerp(mgsStartColor[i], endColor, rate);
@@ -119,6 +126,9 @@ public class BonusEffect : MonoBehaviour
             }
             yield return new WaitForFixedUpdate();
         }
+
+        CntText.gameObject.SetActive(false);
+        CntText.color = textStartColor;
 
         //ボーナス開始のカウント
         waitTime = _textFadeTime;

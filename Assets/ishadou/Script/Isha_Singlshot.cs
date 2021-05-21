@@ -51,6 +51,8 @@ public class Isha_Singlshot : MonoBehaviour
     bool isOperation;
     bool isStart;
 
+    bool isFuck = false;
+
     public bool isCut;
     float CutFade = 1.5f;
 
@@ -169,23 +171,6 @@ public class Isha_Singlshot : MonoBehaviour
                     //右下
                     mainSphere[i] = Instantiate(main, new Vector3(8.875f, 1.875f, 0), Quaternion.identity);
                     break;
-                //case 4:
-                //    //次の次　左下
-                //    mainSphere[i] = Instantiate(main, new Vector3(8f, -2f, 0), Quaternion.identity);
-                //    break;
-                //case 5:
-                //    //次の次　左下
-                //    mainSphere[i] = Instantiate(main, new Vector3(9f, -2f, 0), Quaternion.identity);
-                //    break;
-                //case 6:
-                //    //次の次　左下
-                //    mainSphere[i] = Instantiate(main, new Vector3(8f, -3f, 0), Quaternion.identity);
-                //    break;
-                //case 7:
-                //    //次の次　左下
-                //    mainSphere[i] = Instantiate(main, new Vector3(9f, -3f, 0), Quaternion.identity);
-                //    break;
-
             }
             mainNumber[i] = ColorNumber[Random.Range(1, 4)];
         }
@@ -498,13 +483,12 @@ public class Isha_Singlshot : MonoBehaviour
     {
         if (isDebug == false) // デバッグモードoff中
         {
-            if (Input.GetButtonDown("Back")) //デバッグモードon
-            {
-                DebugText.gameObject.SetActive(true);
-                ListText.gameObject.SetActive(true);
-                isDebug = true;
-
-            }
+            //if (Input.GetButtonDown("Back")) //デバッグモードon
+            //{
+            //    DebugText.gameObject.SetActive(true);
+            //    ListText.gameObject.SetActive(true);
+            //    isDebug = true;
+            //}
         }
         else //デバッグモードon中
         {
@@ -904,7 +888,12 @@ public class Isha_Singlshot : MonoBehaviour
                 isOperation = true;
                 TimeUpBack.gameObject.SetActive(true);
                 TimeUpText.gameObject.SetActive(true);
-                gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
+                overCS = false;
+                if (!isFuck)
+                {
+                    gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
+                    isFuck = true;
+                }
                 if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
                 TimerCS.countStart = false;
                 Invoke("Result", 3.0f);  //リザルトに遷移
@@ -937,6 +926,12 @@ public class Isha_Singlshot : MonoBehaviour
         TimerCS.timeCount += 1.5f * ComboCS.comboCount;
         if(TimerCS.timeCount >= 99f)
         {
+            float i = 0;
+            i = TimerCS.timeCount - 99f;
+            i = i * 10;
+            i = (Mathf.Floor(i) / 10) * 10;
+            score += (int)i;
+            TimerCS.timeCount = 99f;
         }
         ComboCS.comboCount += 1;
         ColorChange();

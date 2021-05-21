@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class test3 : MonoBehaviour
 {
+    [SerializeField] bool isDebugMode;
     [SerializeField] CursorSelect cursorSelectCS;
     [SerializeField] TurnStart TurnCS;
     [SerializeField] test3timer TimerCS;
@@ -224,7 +225,7 @@ public class test3 : MonoBehaviour
 
         if(PauseCS.isPause) Test3SECS.audioSource.pitch = 1;
 
-        DebugMode();
+        if(isDebugMode) DebugMode();
     }
 
     //***
@@ -567,21 +568,17 @@ public class test3 : MonoBehaviour
         ////スコア100と1コンボ50
         if (MobiusCreateCS.isMobius)
         {
-            //score += 5000;
             tmpScore += 5000;
-            //if (!BomCS.isBomUse) BomCS.bomGauge += 20000;
             if (!BomCS.isBomUse) tmpBomChage += 20000;
         }
         else
         {
-            //score += 100 + (50 * ComboCS.comboCount);
             tmpScore += 100 + (50 * ComboCS.comboCount);
-            //if (!BomCS.isBomUse) BomCS.bomGauge += 100 + (20 * ComboCS.comboCount);
             if (!BomCS.isBomUse) tmpBomChage += 100 + (20 * ComboCS.comboCount);
+            ComboCS.comboCount += 1;
         }
 
         ComboCS.comboTime = 5.0f;
-        ComboCS.comboCount += 1;
         addScoreCount -= 1;
         if (!Test3SECS.isBomSE && BomCS.bomGauge >= BomCS.maxBomGauge)
         {
@@ -1124,7 +1121,7 @@ public class test3 : MonoBehaviour
         alphaDerayTime += Time.deltaTime;
         if (isParfect)
         {
-            if (!isAlphaLast && (alphaDerayTime < 1))
+            if (!isAlphaLast && (alphaDerayTime < 1.8f))
             {
                 if (!magic.activeSelf)
                 {
@@ -1132,7 +1129,7 @@ public class test3 : MonoBehaviour
                     Test3SECS.audioSource.PlayOneShot(Test3SECS.magic);
                 }
             }
-            else if (!isAlphaLast && (alphaDerayTime < 2 && alphaDerayTime > 1))
+            else if (!isAlphaLast && (alphaDerayTime < 2.8f && alphaDerayTime > 1.8f))
             {
                 if (canvas.activeSelf)
                 {
@@ -1140,7 +1137,7 @@ public class test3 : MonoBehaviour
                     canvas.SetActive(false);
                 }
             }
-            else if (!isAlphaLast && alphaDerayTime >= 3)
+            else if (!isAlphaLast && alphaDerayTime >= 3.8f)
             {
                 MobiusCreateCS.isMobius = true;
                 AlphaFlgDeray();
@@ -1190,7 +1187,7 @@ public class test3 : MonoBehaviour
                 BomCS.bomGauge += tmpBomChage;
                 scoreText.text = "" + score;
             }
-            else if (alphaDerayTime >= 6)
+            else if (alphaDerayTime >= 6.8f)
             {
                 //MobiusCheck();
                 ParfectFadeInCS.blinkig = 0;

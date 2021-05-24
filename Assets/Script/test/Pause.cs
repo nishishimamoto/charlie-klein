@@ -10,7 +10,10 @@ public class Pause : MonoBehaviour
 
     [SerializeField] GameSE gameSECS;
 
-    public AudioSource audioSource;
+    GameObject gameSE;
+
+    public AudioSource gameAudioSource;
+    public AudioSource pauseAudioSource;
 
     public bool isPause;
     bool isReallyEnd;   //本当に終了するか聞くやつ
@@ -44,6 +47,10 @@ public class Pause : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameSE = GameObject.Find("GameSE");
+        if(!gameSE) gameSE = GameObject.Find("SE");
+        if (gameSE) gameAudioSource = gameSE.GetComponent<AudioSource>();
+        pauseAudioSource = GetComponent<AudioSource>();
         button[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
         reallyEndButton[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
     }
@@ -58,12 +65,17 @@ public class Pause : MonoBehaviour
             //ポーズ
             if (Input.GetButtonDown("Start") && !isBlinking)
             {
-                if (isPause) isPause = false;
+                if (isPause)
+                {
+                    isPause = false;
+                    gameAudioSource.UnPause();
+                }
                 else if (!isPause)
                 {
                     pauseTime = 0;
                     isPause = true;
-                    audioSource.PlayOneShot(gameSECS.pauseSE);
+                    gameAudioSource.Pause();
+                    pauseAudioSource.PlayOneShot(gameSECS.pauseSE);
                 }
             }
 
@@ -86,7 +98,7 @@ public class Pause : MonoBehaviour
                         if (cursol == (buttonNum - 1)) cursol -= (buttonNum - 1);
                         else cursol += 1;
                         isVertical = true;
-                        audioSource.PlayOneShot(gameSECS.cursorSE);
+                        pauseAudioSource.PlayOneShot(gameSECS.cursorSE);
                         ButtonSize();
                     }
                     else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
@@ -95,7 +107,7 @@ public class Pause : MonoBehaviour
                         if (cursol == 0) cursol += (buttonNum - 1);
                         else cursol -= 1;
                         isVertical = true;
-                        audioSource.PlayOneShot(gameSECS.cursorSE);
+                        pauseAudioSource.PlayOneShot(gameSECS.cursorSE);
                         ButtonSize();
                     }
 
@@ -106,7 +118,7 @@ public class Pause : MonoBehaviour
                         isBlinking = true;
                         isVertical = true;
                         //SenceChange();
-                        audioSource.PlayOneShot(gameSECS.crickSE);
+                        pauseAudioSource.PlayOneShot(gameSECS.crickSE);
                         Invoke("SenceChange", 1.0f);
                     }
 
@@ -114,7 +126,7 @@ public class Pause : MonoBehaviour
                     {
                         oldCursol = cursol;
                         cursol = 0;
-                        audioSource.PlayOneShot(gameSECS.crickSE);
+                        pauseAudioSource.PlayOneShot(gameSECS.crickSE);
                         ButtonSize();
                     }
                     if (isBlinking) Blinking();
@@ -142,7 +154,7 @@ public class Pause : MonoBehaviour
                 if (Endcursol == 1) Endcursol -= 1;
                 else Endcursol += 1;
                 isVertical = true;
-                audioSource.PlayOneShot(gameSECS.cursorSE);
+                pauseAudioSource.PlayOneShot(gameSECS.cursorSE);
                 ReallyEndButtonSize();
             }
             else if (0 < Input.GetAxis("ClossVertical") && !isVertical)  //↑入力時
@@ -151,7 +163,7 @@ public class Pause : MonoBehaviour
                 if (Endcursol == 0) Endcursol += 1;
                 else Endcursol -= 1;
                 isVertical = true;
-                audioSource.PlayOneShot(gameSECS.cursorSE);
+                pauseAudioSource.PlayOneShot(gameSECS.cursorSE);
                 ReallyEndButtonSize();
             }
 
@@ -163,7 +175,7 @@ public class Pause : MonoBehaviour
                 isVertical = true;
                 Invoke("ReallyEnd", 1.0f);
                 //ReallyEnd();
-                audioSource.PlayOneShot(gameSECS.crickSE);
+                pauseAudioSource.PlayOneShot(gameSECS.crickSE);
             }
             if (isBlinking) Blinking();
 
@@ -222,6 +234,7 @@ public class Pause : MonoBehaviour
     void DelayIsPause()
     {
         isPause = false;
+        gameAudioSource.UnPause();
     }
 
     void DelayReallyEnd()

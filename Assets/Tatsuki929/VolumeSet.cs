@@ -11,13 +11,20 @@ public class VolumeSet : MonoBehaviour
     float vol_SE,vol_BGM;
 
 
-    [SerializeField] AudioSource BGM, SE;
+    [SerializeField] AudioSource BGM, SE, pauseSE;
 
     public Option option;
+
+    GameObject game;
+    GameObject pause;
     // Start is called before the first frame update
     void Start()
     {
-        
+        pause = GameObject.Find("Canvas/Pause");
+        game = GameObject.Find("GameSE");
+        if (game) SE = game.GetComponent<AudioSource>();
+        if(pause) pauseSE = pause.GetComponent<AudioSource>();
+
         using (StreamReader sr = new StreamReader(Application.dataPath+ "/Resources/Volume"))
         {
             vol_BGM = float.Parse(sr.ReadLine());
@@ -44,11 +51,15 @@ public class VolumeSet : MonoBehaviour
             {
                 if (SE != null)
                     SE.mute = true;
+                if (pauseSE != null)
+                    pauseSE.mute = true;
             }
             else if(vol_SE>=-29)
             {
                 if (SE != null)
                     SE.mute = false;
+                if (pauseSE != null)
+                    pauseSE.mute = false;
             }
 
             if (vol_BGM <= -30)

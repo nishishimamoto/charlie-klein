@@ -44,7 +44,7 @@ public class Z_Timer : MonoBehaviour
                 //bigTimerText.enabled = true;   //5秒前から表示
                 bigTimerText.text = "" + (test2.TurnMax - TurnCS.nowTurn); //時間の表示
                 if (TurnCS.nowTurn >= test2.TurnMax) bigTimerText.text = "0";
-                if(test2.TurnMax - TurnCS.nowTurn > 0) BigTimer();
+                if(test2.TurnMax - TurnCS.nowTurn >= 0) BigTimer();
             }
         }
     }
@@ -63,7 +63,7 @@ public class Z_Timer : MonoBehaviour
             bigTimerText.color = new Color(255, 255, 255, 0.4f);
             bigTimerText.transform.localScale = new Vector3(1, 1, 1);
         }
-        if (bigTimerBlinking > 0)
+        if (bigTimerBlinking > 0 && test2.TurnMax - TurnCS.nowTurn > 0)
         {
             bigTimerBlinking -= Time.deltaTime;
             if (bigTimerBlinking <= 0.4)

@@ -20884,8 +20884,6 @@ MonoBehaviour:
   _bordersFadeStartTime: 0.5
   CntTextLog:
   - Start up
-  - 1
-  - 2
 --- !u!4 &1265445369
 Transform:
   m_ObjectHideFlags: 0

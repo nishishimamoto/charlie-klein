@@ -1017,6 +1017,7 @@ public class test2 : MonoBehaviour
             {
                 if (gameClear.activeSelf == false)
                 {
+                    Z_ClearCheck.isClear[Z_StageSelect.cursol] = true;
                     Cover.color = new Color(0, 0, 0, 0.7f);
                     gameClear.SetActive(true);
                     ScreenCover.SetActive(true);

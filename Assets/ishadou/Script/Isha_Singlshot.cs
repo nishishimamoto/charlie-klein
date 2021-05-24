@@ -483,12 +483,12 @@ public class Isha_Singlshot : MonoBehaviour
     {
         if (isDebug == false) // デバッグモードoff中
         {
-            //if (Input.GetButtonDown("Back")) //デバッグモードon
-            //{
-            //    DebugText.gameObject.SetActive(true);
-            //    ListText.gameObject.SetActive(true);
-            //    isDebug = true;
-            //}
+            if (Input.GetButtonDown("Back")) //デバッグモードon
+            {
+                //DebugText.gameObject.SetActive(true);
+                //ListText.gameObject.SetActive(true);
+                isDebug = true;
+            }
         }
         else //デバッグモードon中
         {
@@ -529,7 +529,7 @@ public class Isha_Singlshot : MonoBehaviour
 
 
         //確変
-        if (Input.GetButtonDown("B") && BonusGaugeSand.fillAmount >= 1)
+        if (Input.GetButtonDown("B") && BonusGaugeSand.fillAmount >= 1 && !alpha_Flg)
         {
             gameSECS.audioSource.Stop();
 

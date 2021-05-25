@@ -39738,6 +39738,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1359613828}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &545942005 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1858699794926013967, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
+    type: 3}
+  m_PrefabInstance: {fileID: 136775214792771221}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &572211761
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43334,6 +43340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf2b911d2d924a04e8560d6e7d55f477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDebugMode: 0
   cursorSelectCS: {fileID: 1940469197}
   TurnCS: {fileID: 1222546082}
   TimerCS: {fileID: 323058422}
@@ -44695,12 +44702,22 @@ PrefabInstance:
         type: 3}
       propertyPath: SE
       value: 
-      objectReference: {fileID: 2118388651}
+      objectReference: {fileID: 0}
     - target: {fileID: 7926666533372591954, guid: 8c053526daea4b64fa1584f4bdac1c64,
         type: 3}
       propertyPath: BGM
       value: 
       objectReference: {fileID: 1903912640}
+    - target: {fileID: 7926666533372591954, guid: 8c053526daea4b64fa1584f4bdac1c64,
+        type: 3}
+      propertyPath: SE2
+      value: 
+      objectReference: {fileID: 545942005}
+    - target: {fileID: 7926666533372591954, guid: 8c053526daea4b64fa1584f4bdac1c64,
+        type: 3}
+      propertyPath: pauseSE
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c053526daea4b64fa1584f4bdac1c64, type: 3}
 --- !u!1 &1819714484
@@ -46249,6 +46266,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1858699794926013967, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
         type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858699794926013967, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
+        type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -46417,6 +46439,16 @@ PrefabInstance:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 2118388651}
+    - target: {fileID: 6582596449653501466, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
+        type: 3}
+      propertyPath: gameAudioSource
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582596449653501466, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
+        type: 3}
+      propertyPath: pauseAudioSource
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6582596449819841065, guid: 679bc4eedad497d4fa9ef5d5b8628c73,
         type: 3}
       propertyPath: m_Text

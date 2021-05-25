@@ -1153,7 +1153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameSECS: {fileID: 0}
-  audioSource: {fileID: 0}
+  gameAudioSource: {fileID: 0}
+  pauseAudioSource: {fileID: 0}
   isPause: 0
   buttons: {fileID: 6582596449240622371}
   button:

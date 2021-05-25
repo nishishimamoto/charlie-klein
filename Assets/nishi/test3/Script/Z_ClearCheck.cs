@@ -14,7 +14,6 @@ public class Z_ClearCheck : MonoBehaviour
         {
             stage[i].SetActive(false);
             if (isClear[i]) stage[i].SetActive(true);
-            Debug.Log(isClear[i]);
         }
     }
 

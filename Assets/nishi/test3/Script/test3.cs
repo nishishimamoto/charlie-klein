@@ -222,9 +222,6 @@ public class test3 : MonoBehaviour
             }
             else if(gameFinish) GameOver();
         }
-
-        if(PauseCS.isPause) Test3SECS.audioSource.pitch = 1;
-
         if(isDebugMode) DebugMode();
     }
 
@@ -953,7 +950,6 @@ public class test3 : MonoBehaviour
         ColorChange();   //パネルの色変更
         rainbow = false;
         rainbowTarget = 0;
-        //Test3SECS.audioSource.pitch = 1;
     }
 
     void Bom()

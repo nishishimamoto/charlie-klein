@@ -16,7 +16,7 @@ public class Isha_Singlshot : MonoBehaviour
     [SerializeField] BonusEffect BonusCS;
     [SerializeField] Image BonusGauge;
     [SerializeField] Image BonusGaugeOut;
-    [SerializeField] Image BonusGaugeSand;
+    [SerializeField] public Image BonusGaugeSand;
     [SerializeField] Image BonusGaugeSandOut;
     [SerializeField] GameSE gameSECS;
     

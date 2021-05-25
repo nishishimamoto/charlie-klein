@@ -58,18 +58,6 @@ public class Option : MonoBehaviour
     void Update()
     {
 
-        if (vol_BGM <= -30)
-        {
-            
-            source_BGM = true;
-
-        }
-        if (vol_SE <= -30)
-        {
-            
-            source_SE = true;
-
-        }
         if (!isBack && !isGraph && !isSound)
         {
             obj_Sound.SetActive(true);
@@ -241,6 +229,13 @@ public class Option : MonoBehaviour
                 }
                 else if (cursol2 == 2 && isSound)
                 {
+                    using (StreamWriter sw = new StreamWriter(Application.dataPath + "/Resources/Volume"))
+                    //("../Resources/Volume"))
+                    {
+                        sw.WriteLine(vol_BGM);
+                        sw.WriteLine(vol_SE);
+                    }
+
                     cursol2 = 0;
                     isSound = false;
                     gameSECS.audioSource.PlayOneShot(gameSECS.crickSE);
@@ -250,13 +245,6 @@ public class Option : MonoBehaviour
             {
                 if (!isBack)
                 {
-                    using (StreamWriter sw = new StreamWriter(Application.dataPath+"/Resources/Volume"))
-                    //("../Resources/Volume"))
-                    {
-                        sw.WriteLine(vol_BGM);
-                        sw.WriteLine(vol_SE);
-                    }
-                        
                     isBack = true;
                     isBlinking = true;
                     Invoke("ToTitle",1f);
@@ -270,6 +258,15 @@ public class Option : MonoBehaviour
             if (cursol == 0&&isSound)
             {
                cursol2 = 0;
+
+                using (StreamReader sr = new StreamReader(Application.dataPath + "/Resources/Volume"))
+                {
+                    vol_BGM = float.Parse(sr.ReadLine());
+                    vol_SE = float.Parse(sr.ReadLine());
+                }
+                mixer.SetFloat("SE", vol_SE);
+                mixer.SetFloat("BGM", vol_BGM);
+
                 isSound = false;
                 gameSECS.audioSource.PlayOneShot(gameSECS.crickSE);
             }

@@ -217,7 +217,6 @@ public class BonusEffect : MonoBehaviour
             nowFadeTime += Time.deltaTime;
             yield return new WaitForFixedUpdate();
         }
-        Debug.Log("ant");
 
         ishaCS.BonusFlg = 0;
         ishaCS.isEndFadeWait = false;

@@ -1461,6 +1461,7 @@ MonoBehaviour:
   timeCount: 30
   timeOut: 0
   countStart: 0
+  bigTimerBlinking: 1
   timerSlider: {fileID: 1915503328}
   timerBase: {fileID: 1287957271}
   bigTimerText: {fileID: 6539218743756348178}
@@ -3668,6 +3669,7 @@ MonoBehaviour:
   - {fileID: 1312290412}
   - {fileID: 1312290412}
   - {fileID: 1312290412}
+  bom: []
   explosopn: {fileID: 198917022394846920, guid: e1b08032bec16ba4eb1ae23cbd572664,
     type: 3}
   audio: {fileID: 0}

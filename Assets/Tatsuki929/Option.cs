@@ -241,6 +241,13 @@ public class Option : MonoBehaviour
                 }
                 else if (cursol2 == 2 && isSound)
                 {
+                    using (StreamWriter sw = new StreamWriter(Application.dataPath + "/Resources/Volume"))
+                    //("../Resources/Volume"))
+                    {
+                        sw.WriteLine(vol_BGM);
+                        sw.WriteLine(vol_SE);
+                    }
+
                     cursol2 = 0;
                     isSound = false;
                     gameSECS.audioSource.PlayOneShot(gameSECS.crickSE);
@@ -250,13 +257,6 @@ public class Option : MonoBehaviour
             {
                 if (!isBack)
                 {
-                    using (StreamWriter sw = new StreamWriter(Application.dataPath+"/Resources/Volume"))
-                    //("../Resources/Volume"))
-                    {
-                        sw.WriteLine(vol_BGM);
-                        sw.WriteLine(vol_SE);
-                    }
-                        
                     isBack = true;
                     isBlinking = true;
                     Invoke("ToTitle",1f);

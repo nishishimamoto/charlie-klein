@@ -178,6 +178,7 @@ MonoBehaviour:
   - {fileID: 1284138055}
   - {fileID: 953627111}
   gameSE: {fileID: 106455460}
+  selectText: {fileID: 247697086}
 --- !u!114 &72849687
 MonoBehaviour:
   m_ObjectHideFlags: 0

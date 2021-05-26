@@ -597,9 +597,9 @@ MonoBehaviour:
   tipsSE: {fileID: 8300000, guid: 30c5cb66b80fdfe48b5bc6a277c245df, type: 3}
   clickSE: {fileID: 8300000, guid: 09673d8b47d375a4193d7b94ea915438, type: 3}
   modeTips:
+  - {fileID: 846433632}
   - {fileID: 473244145}
   - {fileID: 238728960}
-  - {fileID: 846433632}
   nextButton: {fileID: 1511638999}
   loadImage: {fileID: 1998169344}
   tipsNumber:

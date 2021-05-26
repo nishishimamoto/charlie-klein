@@ -107,7 +107,7 @@ public class StageSelect : MonoBehaviour
         //        SceneManager.LoadScene(5);    //Test3読み込み
         //        break;
         //}
-        if (cursol == 1) SceneManager.LoadScene(8);
+        if (cursol == 2) SceneManager.LoadScene(8);
         else SceneManager.LoadScene(20);
     }
 

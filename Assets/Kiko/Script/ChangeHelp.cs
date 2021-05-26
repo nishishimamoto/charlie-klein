@@ -27,6 +27,11 @@ public class ChangeHelp : MonoBehaviour
     //StageSelectのCursolを取得する用
     int getCursol;
 
+    void Start()
+    {
+        HelpImageChange();  //help画像の初期配置
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -52,19 +57,19 @@ public class ChangeHelp : MonoBehaviour
         {
             //TYPE_AならHelp_Aを表示する
             case 0:
-                sprite = Resources.Load<Sprite>("Help_A");
+                sprite = Resources.Load<Sprite>("Help_C");
                 image = GameObject.Find("HelpImage").GetComponent<Image>();
                 image.sprite = sprite;
                 break;
             //TYPE_BならHelp_Bを表示する
             case 1:
-                sprite = Resources.Load<Sprite>("Help_B");
+                sprite = Resources.Load<Sprite>("Help_A");
                 image = GameObject.Find("HelpImage").GetComponent<Image>();
                 image.sprite = sprite;
                 break;
             //TYPE_CならHelp_Cを表示する
             case 2:
-                sprite = Resources.Load<Sprite>("Help_C");
+                sprite = Resources.Load<Sprite>("Help_B");
                 image = GameObject.Find("HelpImage").GetComponent<Image>();
                 image.sprite = sprite;
                 break;

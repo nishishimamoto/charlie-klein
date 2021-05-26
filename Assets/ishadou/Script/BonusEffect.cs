@@ -90,7 +90,7 @@ public class BonusEffect : MonoBehaviour
             nowFadeTime += Time.deltaTime;
             int i = 0;
             float rate = nowFadeTime / 0.5f;
-            CntText.text = "Compreat";
+            CntText.text = "TimeStop";
             CntText.color = new Color(1, 0.73f, 0);
             CntText.gameObject.SetActive(true);
             BonusTextBack.gameObject.SetActive(true);

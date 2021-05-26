@@ -15,10 +15,12 @@ public class TestResult : MonoBehaviour
 
     [SerializeField] GameObject[] button;
     [SerializeField] GameSE gameSE;
+    [SerializeField] Text selectText;
     // Start is called before the first frame update
     void Start()
     {
         button[cursol].GetComponent<Image>().color = new Color(1, 1, 0, 1f);
+        if (test2.oldSceneName != null) selectText.text = "stageselect";
     }
 
     // Update is called once per frame
@@ -95,7 +97,8 @@ public class TestResult : MonoBehaviour
                 else if (test2.oldSceneName != null) SceneManager.LoadScene(test2.oldSceneName);
                 break;
             case 1:
-                SceneManager.LoadScene("StageSelect");
+                if (test2.oldSceneName != null) SceneManager.LoadScene("Zuna_StageSelect");
+                else SceneManager.LoadScene("StageSelect");
                 break;
             case 2:
                 SceneManager.LoadScene("Title");

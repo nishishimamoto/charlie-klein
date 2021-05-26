@@ -19,6 +19,7 @@ public class Isha_Singlshot : MonoBehaviour
     [SerializeField] public Image BonusGaugeSand;
     [SerializeField] Image BonusGaugeSandOut;
     [SerializeField] GameSE gameSECS;
+    [SerializeField] TimePlus TimePlusCS;
     
     [SerializeField] Image Needle;
 
@@ -59,6 +60,8 @@ public class Isha_Singlshot : MonoBehaviour
     bool isDebug;
 
     public bool isEndFadeWait;
+
+    public string TimePlusNum;
 
     bool chargeSE;
     bool overCS;
@@ -922,16 +925,23 @@ public class Isha_Singlshot : MonoBehaviour
 
     void ClearCheck()
     {
-        
-        TimerCS.timeCount += 1.5f * ComboCS.comboCount;
-        if(TimerCS.timeCount >= 99f)
+        if (ComboCS.comboCount >= 1)
         {
-            float i = 0;
-            i = TimerCS.timeCount - 99f;
-            i = i * 10;
-            i = (Mathf.Floor(i) / 10) * 10;
-            score += (int)i;
-            TimerCS.timeCount = 99f;
+            float f = 0;
+            f += 1.5f * ComboCS.comboCount;
+            TimerCS.timeCount += f;
+            TimePlusNum = f.ToString();
+            TimePlusCS.TimePlusDraw();
+            if (TimerCS.timeCount >= 99f)
+            {
+                float i = 0;
+                i = TimerCS.timeCount - 99.9f;
+                i = i * 10;
+                i = (Mathf.Floor(i) / 10) * 10;
+                score += (int)i;
+                TimerCS.timeCount = 99.9f;
+
+            }
         }
         ComboCS.comboCount += 1;
         ColorChange();

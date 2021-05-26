@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MG_Flash : MonoBehaviour
+public class MG_Flash_1st : MonoBehaviour
 {
     [SerializeField] Isha_Singlshot ishaCS;
+    [SerializeField] GameSE gameSECS;
 
     Image MgImage;
 
@@ -29,12 +30,13 @@ public class MG_Flash : MonoBehaviour
     {
         if (ishaCS.BonusFlg == 1)
         {
-            if(ishaCS.BonusGaugeSand.fillAmount <= 0.3f)
+            if (ishaCS.BonusGaugeSand.fillAmount <= 0.3f)
             {
                 if (!isFlash)
                 {
                     isFlash = true;
                     StartCoroutine(nameof(MgBlinking));
+                    gameSECS.audioSource.PlayOneShot(gameSECS.pause);
                 }
             }
         }
@@ -48,11 +50,11 @@ public class MG_Flash : MonoBehaviour
     {
         float waitTime = MgSwitchTime;
         nowFlashTime = 0;
-        while(waitTime > nowFlashTime)
+        while (waitTime > nowFlashTime)
         {
             nowFlashTime += Time.deltaTime;
             float rate = nowFlashTime;
-            
+
             MgImage.color = Color.Lerp(MgStartColor, MgFlashColor, rate);
             yield return new WaitForFixedUpdate();
         }

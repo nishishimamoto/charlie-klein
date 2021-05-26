@@ -8,6 +8,7 @@ public class Tips : MonoBehaviour
 {
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip tipsSE;
+    [SerializeField] AudioClip clickSE;
 
     [SerializeField] GameObject[] modeTips;
     [SerializeField] GameObject nextButton;
@@ -15,6 +16,9 @@ public class Tips : MonoBehaviour
     GameObject []tips;
     SpriteRenderer[] tipsRenderer;
     [SerializeField] Text[] tipsNumber;
+    [SerializeField] SpriteRenderer fadeSprite;
+    bool isFade;
+    float fadeValue = 1;
     int nowTipsCursol = 0;
     int oldTipsCursol = 1;
     float sceneTime;
@@ -35,6 +39,12 @@ public class Tips : MonoBehaviour
         TipsChange();
         SceneChange();
         TipsActive();
+        Fade(); //フェードイン、アウトの処理
+        //if (Input.GetButtonDown("Y"))
+        //{
+        //    if (isFade) isFade = false;
+        //    else if (!isFade) isFade = true;
+        //}
     }
 
     void TipsGet()
@@ -62,10 +72,31 @@ public class Tips : MonoBehaviour
 
             if (Input.GetButtonDown("A"))
             {
-                if (StageSelect.cursol == 0) SceneManager.LoadScene(4);
-                else if (StageSelect.cursol == 2) SceneManager.LoadScene(5);
-                else SceneManager.LoadScene(9 + Z_StageSelect.cursol);
+                audioSource.PlayOneShot(clickSE);
+                isFade = true;
+                Invoke("DelayChange",1);
             }
+        }
+    }
+
+    void DelayChange()
+    {
+        if (StageSelect.cursol == 0) SceneManager.LoadScene(4);
+        else if (StageSelect.cursol == 2) SceneManager.LoadScene(5);
+        else SceneManager.LoadScene(9 + Z_StageSelect.cursol);
+    }
+
+    void Fade()
+    {
+        if (!isFade && fadeValue >= 0)
+        {
+            fadeValue -= Time.deltaTime * 3;
+            fadeSprite.color = new Color(0, 0, 0, fadeValue);
+        }
+        else if (isFade && fadeValue <= 1)
+        {
+            fadeValue += Time.deltaTime * 3;
+            fadeSprite.color = new Color(0, 0, 0, fadeValue);
         }
     }
 

@@ -38,6 +38,10 @@ public class MG_Flash : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            isFlash = false;
+        }
     }
 
     private IEnumerator MgBlinking()
@@ -57,11 +61,11 @@ public class MG_Flash : MonoBehaviour
         while (waitTime > nowFlashTime)
         {
             nowFlashTime += Time.deltaTime;
-            float rate = nowFlashTime;
+            float rate = nowFlashTime * 2f;
 
             MgImage.color = Color.Lerp(MgFlashColor, MgStartColor, rate);
             yield return new WaitForFixedUpdate();
         }
-        //isFlash = false;
+        isFlash = false;
     }
 }

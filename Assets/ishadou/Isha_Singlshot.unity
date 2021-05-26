@@ -7790,7 +7790,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ishaCS: {fileID: 1539255794}
   TimeText: {fileID: 469098320}
-  DrawTime: 0.2
+  DrawTime: 0.25
 --- !u!1 &523191579
 GameObject:
   m_ObjectHideFlags: 0

@@ -81,9 +81,9 @@ public class Tips : MonoBehaviour
 
     void DelayChange()
     {
-        if (StageSelect.cursol == 0) SceneManager.LoadScene(4);
-        else if (StageSelect.cursol == 2) SceneManager.LoadScene(5);
-        else SceneManager.LoadScene(9 + Z_StageSelect.cursol);
+        if (StageSelect.cursol == 1) SceneManager.LoadScene(4); //make
+        else if (StageSelect.cursol == 0) SceneManager.LoadScene(5); //satellite
+        else SceneManager.LoadScene(9 + Z_StageSelect.cursol);  //
     }
 
     void Fade()

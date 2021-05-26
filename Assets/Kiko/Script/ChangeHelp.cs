@@ -30,6 +30,7 @@ public class ChangeHelp : MonoBehaviour
     void Start()
     {
         HelpImageChange();  //help画像の初期配置
+        HelpVideoChange();  //help動画の初期配置
     }
 
     // Update is called once per frame
@@ -55,19 +56,19 @@ public class ChangeHelp : MonoBehaviour
         //今選択中のカーソルが
         switch (getCursol)
         {
-            //TYPE_AならHelp_Aを表示する
+            //CycleSatelliteを表示する
             case 0:
                 sprite = Resources.Load<Sprite>("Help_C");
                 image = GameObject.Find("HelpImage").GetComponent<Image>();
                 image.sprite = sprite;
                 break;
-            //TYPE_BならHelp_Bを表示する
+            //MakeMobiusを表示する
             case 1:
                 sprite = Resources.Load<Sprite>("Help_A");
                 image = GameObject.Find("HelpImage").GetComponent<Image>();
                 image.sprite = sprite;
                 break;
-            //TYPE_CならHelp_Cを表示する
+            //DeepWatcherを表示する
             case 2:
                 sprite = Resources.Load<Sprite>("Help_B");
                 image = GameObject.Find("HelpImage").GetComponent<Image>();
@@ -84,21 +85,21 @@ public class ChangeHelp : MonoBehaviour
         //今選択中のカーソルが
         switch (getCursol)
         {
-            //TYPE_AならHelp_Aを表示する
+            //CycleSatelliteを表示する
             case 0:
+                videoClip = Resources.Load<VideoClip>("HelpVideo_C");
+                videoPlayer = GameObject.Find("HelpVideo").GetComponent<VideoPlayer>();
+                videoPlayer.clip = videoClip;
+                break;
+            //MakeMobiusを表示する
+            case 1:
                 videoClip = Resources.Load<VideoClip>("HelpVideo_A");
                 videoPlayer = GameObject.Find("HelpVideo").GetComponent<VideoPlayer>();
                 videoPlayer.clip = videoClip;
                 break;
-            //TYPE_BならHelp_Bを表示する
-            case 1:
-                videoClip = Resources.Load<VideoClip>("HelpVideo_B");
-                videoPlayer = GameObject.Find("HelpVideo").GetComponent<VideoPlayer>();
-                videoPlayer.clip = videoClip;
-                break;
-            //TYPE_CならHelp_Cを表示する
+            //DeepWatcherを表示する
             case 2:
-                videoClip = Resources.Load<VideoClip>("HelpVideo_C");
+                videoClip = Resources.Load<VideoClip>("HelpVideo_B");
                 videoPlayer = GameObject.Find("HelpVideo").GetComponent<VideoPlayer>();
                 videoPlayer.clip = videoClip;
                 break;

@@ -74,6 +74,10 @@ public class test2 : MonoBehaviour
     int lossScoreCount;
     int[] addOrLoss = new int[mainPanel];
     int[] targetNum = new int[4];
+    int[] targetTotal = { 0, 0, 0, 0 };
+    int[] manyNumber = { -1, -1, -1, -1};
+    int[] manyTarget = { -1, -1, -1, -1};
+    Dictionary<int, float> satelliteDict;
     int[] targetBlinkNum = new int[4];
     [SerializeField] Text[] targetText = new Text[4];
     [SerializeField] GameObject gameClear;
@@ -226,11 +230,13 @@ public class test2 : MonoBehaviour
         TimerCS.maxTime = 60.0f;
         TimerCS.timeCount = TimerCS.maxTime;
         score = 0;  //スコアの初期化
+        InitDict(); //衛星生成の確率初期化
     }
 
     // Update is called once per frame
     void Update()
     {
+
         cf = false;
         ClearCheck();
 
@@ -287,38 +293,14 @@ public class test2 : MonoBehaviour
             else if (alpha_Time >= 0.6f && alpha_Time <= 0.7f)
             {
                 alpha_Time = 0.8f;
-                //flgCheck[check] = false;
-                //ColorChange();
-                //mainNumber[i] = mainColorNumber[0];
 
-                //bool[] jene_f = new bool[4];
-
-                sideNumber[(check / (width - 1)) + check] = sideColorNumber[Random.Range(0, 4)];
-                sideNumber[(check / (width - 1)) + check + 1] = sideColorNumber[Random.Range(0, 4)];
-                sideNumber[(check / (width - 1)) + check + width + 1] = sideColorNumber[Random.Range(0, 4)];
-                sideNumber[(check / (width - 1)) + check + width] = sideColorNumber[Random.Range(0, 4)];
-
-                //sideNumber[(check / (width - 1)) + check] = nextSatel[0, 0];
-                //sideNumber[(check / (width - 1)) + check + width] = nextSatel[0, 1];
-                //sideNumber[(check / (width - 1)) + check + 1] = nextSatel[1, 0];
-                //sideNumber[(check / (width - 1)) + check + width + 1] = nextSatel[1, 1];
-
-                //for (int i = 0; i <= 6; i += 2)
-                //{
-                //    nextSatel[i, 0] = nextSatel[i + 2, 0];
-                //    nextSatel[i, 1] = nextSatel[i + 2, 1];
-                //    nextSatel[i + 1, 0] = nextSatel[i + 2 + 1, 0];
-                //    nextSatel[i + 1, 1] = nextSatel[i + 2 + 1, 1];
-                //    if (i == 6)
-                //    {
-                //        nextSatel[8, 0] = sideColorNumber[Random.Range(0, 4)];
-                //        nextSatel[8, 1] = sideColorNumber[Random.Range(0, 4)];
-                //        nextSatel[9, 0] = sideColorNumber[Random.Range(0, 4)];
-                //        nextSatel[9, 1] = sideColorNumber[Random.Range(0, 4)];
-                //    }
-                //}
-
-                //mainColorNum += mainNumber[check];  //[0]^[3]合計を得る草
+                //sideNumber[(check / (width - 1)) + check] = sideColorNumber[Random.Range(0, 4)];
+                //sideNumber[(check / (width - 1)) + check + 1] = sideColorNumber[Random.Range(0, 4)];
+                //sideNumber[(check / (width - 1)) + check + width + 1] = sideColorNumber[Random.Range(0, 4)];
+                //sideNumber[(check / (width - 1)) + check + width] = sideColorNumber[Random.Range(0, 4)];
+                Probabillity();
+                SatelliteChange();  //衛星の色変え
+                ColorChange();   //パネルの色変更
 
                 rainbowRand[rainbowTarget] = check; //条件を満たした惑星の位置を把握しておく
                 rainbowTarget += 1;
@@ -392,7 +374,7 @@ public class test2 : MonoBehaviour
                 }
 
                 Invoke("ClearCheck", 0.2f);
-                ColorChange();   //パネルの色変更
+                //ColorChange();   //パネルの色変更
 
             }
 
@@ -928,35 +910,35 @@ public class test2 : MonoBehaviour
         //    Result();   //リザルトに遷移
         //}
     }
-    void PointBlinking()
-    {
-        for (int i = 0; i < mainPanel; i++)
-        {
-            if (!isPlanet[i])
-            {
+    //void PointBlinking()
+    //{
+    //    for (int i = 0; i < mainPanel; i++)
+    //    {
+    //        if (!isPlanet[i])
+    //        {
 
-                judgNum = mainNumber[i];
+    //            judgNum = mainNumber[i];
 
-                if (judgNum == sideNumber[(i / (width - 1)) + i] * 4 || sideNumber[(i / (width - 1)) + i] == 32)
-                    if (judgNum == sideNumber[(i / (width - 1)) + i + 1] * 4 || sideNumber[(i / (width - 1)) + i + 1] == 32)
-                        if (judgNum == sideNumber[(i / (width - 1)) + i + width + 1] * 4 || sideNumber[(i / (width - 1)) + i + width + 1] == 32)
-                            if (judgNum == sideNumber[(i / (width - 1)) + i + width] * 4 || sideNumber[(i / (width - 1)) + i + width] == 32) //色を満たした
-                            {
-                                float blinking = 0f;
-                                float blinkingSpeed = 2.0f;
-                                blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅(-1~1)
+    //            if (judgNum == sideNumber[(i / (width - 1)) + i] * 4 || sideNumber[(i / (width - 1)) + i] == 32)
+    //                if (judgNum == sideNumber[(i / (width - 1)) + i + 1] * 4 || sideNumber[(i / (width - 1)) + i + 1] == 32)
+    //                    if (judgNum == sideNumber[(i / (width - 1)) + i + width + 1] * 4 || sideNumber[(i / (width - 1)) + i + width + 1] == 32)
+    //                        if (judgNum == sideNumber[(i / (width - 1)) + i + width] * 4 || sideNumber[(i / (width - 1)) + i + width] == 32) //色を満たした
+    //                        {
+    //                            float blinking = 0f;
+    //                            float blinkingSpeed = 2.0f;
+    //                            blinking = Mathf.Sin(2 * Mathf.PI * blinkingSpeed * Time.time); //sin波取得 点滅(-1~1)
 
-                                //mainSphere[i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);草
-                                sideSphere[(i / (width - 1)) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
-                                //Debug.Log(blinking);
-                            }
-                judgNum = 0;
-            }
-        }
-    }
+    //                            //mainSphere[i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);草
+    //                            sideSphere[(i / (width - 1)) + i].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+    //                            sideSphere[(i / (width - 1)) + i + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+    //                            sideSphere[(i / (width - 1)) + i + width].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+    //                            sideSphere[(i / (width - 1)) + i + width + 1].GetComponent<Renderer>().material.SetFloat("_AtmosphereDensity", 6 + blinking);
+    //                            //Debug.Log(blinking);
+    //                        }
+    //            judgNum = 0;
+    //        }
+    //    }
+    //}
 
     void ExplosionStop()
     {
@@ -1041,7 +1023,6 @@ public class test2 : MonoBehaviour
                     gameOver.SetActive(true);
                     gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
                     Invoke("Result", 3.0f);
-                    score = 0;
                 }
             }
         }
@@ -1083,6 +1064,102 @@ public class test2 : MonoBehaviour
                 if (gameStart.activeSelf == true) gameStart.SetActive(false);
             }
         }
+    }
+    void InitDict()
+    {
+        satelliteDict = new Dictionary<int, float>();
+        satelliteDict.Add(0, 15.0f);
+        satelliteDict.Add(1, 25.0f);
+        satelliteDict.Add(2, 30.0f);
+        satelliteDict.Add(3, 30.0f);
+        //satelliteDict.Add(0, 100.0f);
+        //satelliteDict.Add(1, 0.0f);
+        //satelliteDict.Add(2, 0.0f);
+        //satelliteDict.Add(3, 0.0f);
+    }
+
+    int SatelliteLottery()
+    {
+        float dictNum = 0;
+
+        //satelliteDictのvalueの合計を得る
+        foreach (KeyValuePair<int, float> elem in satelliteDict)
+        {
+            dictNum += elem.Value;
+        }
+
+        float random = Random.value * dictNum;
+
+        foreach (KeyValuePair<int, float> elem in satelliteDict)
+        {
+            if (random < elem.Value)
+            {
+                return elem.Key;
+            }
+            else
+            {
+                random -= elem.Value;
+            }
+        }
+
+        return 0;
+    }
+
+    void Probabillity() //衛星を多い順に並べる
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            manyNumber[i] = 0;  //各色の最大値
+        }
+
+        //数が多い順に並ぶ
+        for (int i = 0; i < 4; i++)
+        {
+
+            if (manyNumber[0] <= targetNum[i])   //1番多かった場合
+            {
+                manyNumber[3] = manyNumber[2];  //3番目に大きい数を4番目に
+                manyNumber[2] = manyNumber[1];  //2番目に大きい数を3番目に
+                manyNumber[1] = manyNumber[0];  //1番目に大きい数を2番目に
+                manyNumber[0] = targetNum[i];
+
+                manyTarget[3] = manyTarget[2];  //元3番多い衛星を4番に置く
+                manyTarget[2] = manyTarget[1];  //元2番多い衛星を3番に置く
+                manyTarget[1] = manyTarget[0];  //元1番多い衛星を2番に置く
+                manyTarget[0] = sideColorNumber[i];  //1番目を変える
+            }
+            else if (manyNumber[1] <= targetNum[i])  //2番目に多かった場合
+            {
+                manyNumber[3] = manyNumber[2];  //3番目に大きい数を4番目に
+                manyNumber[2] = manyNumber[1];  //2番目に大きい数を3番目に
+                manyNumber[1] = targetNum[i];
+
+                manyTarget[3] = manyTarget[2];  //元3番多い衛星を4番に置く
+                manyTarget[2] = manyTarget[1];  //元2番多い衛星を3番に置く
+                manyTarget[1] = sideColorNumber[i];  //2番目を変える
+            }
+            else if (manyNumber[2] <= targetNum[i])  //3番目に多かった場合
+            {
+                manyNumber[3] = manyNumber[2];  //3番目に大きい数を4番目に
+                manyNumber[2] = targetNum[i];
+
+                manyTarget[3] = manyTarget[2];  //元3番多い衛星を4番に置く
+                manyTarget[2] = sideColorNumber[i];  //3番目を変える
+            }
+            else if (manyNumber[3] <= targetNum[i])  //4番目に多かった場合
+            {
+                manyNumber[3] = targetNum[i];
+                manyTarget[3] = sideColorNumber[i];  //4番目を変える
+            }
+        }
+    }
+
+    void SatelliteChange()
+    {
+        sideNumber[(check / (width - 1)) + check] = manyTarget[SatelliteLottery()];
+        sideNumber[(check / (width - 1)) + check + 1] = manyTarget[SatelliteLottery()];
+        sideNumber[(check / (width - 1)) + check + width + 1] = manyTarget[SatelliteLottery()];
+        sideNumber[(check / (width - 1)) + check + width] = manyTarget[SatelliteLottery()];
     }
 
     void SatelliteCreate()

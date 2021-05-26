@@ -58,6 +58,7 @@ public class Isha_Singlshot : MonoBehaviour
     float CutFade = 1.5f;
 
     bool isDebug;
+    bool isGameOverEX;
 
     public bool isEndFadeWait;
 
@@ -882,8 +883,13 @@ public class Isha_Singlshot : MonoBehaviour
         else if(TimerCS.timeCount > 5)
         {
             gameSECS.is5countSE = false;
+            isGameOverEX = false;
         }
-
+        if (TimerCS.timeCount < 0.7f && !isGameOverEX)
+        {
+            TimerCS.timeCount += 0.3f;
+            isGameOverEX = true;
+        }
         if (TimerCS.timeCount < 0f) //制限時間でゲーム終了
         {
             if (overCS == true)
@@ -897,7 +903,12 @@ public class Isha_Singlshot : MonoBehaviour
                     gameSECS.audioSource.PlayOneShot(gameSECS.gameOverSE);
                     isFuck = true;
                 }
-                if (TimerCS.timeCount > 0) TimerCS.timeCount = 0f;
+                if (TimerCS.timeCount > 0)
+                {
+                    TimerCS.timeCount = 0f;
+                    TimerCS.TimerCount();
+                }
+                TimerCS.bigTimerText.enabled = false;
                 TimerCS.countStart = false;
                 Invoke("Result", 3.0f);  //リザルトに遷移
             }

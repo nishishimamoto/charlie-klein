@@ -908,7 +908,7 @@ PrefabInstance:
     - target: {fileID: 4975975616466038757, guid: a02389ee0bc4ba2448cae9c0865ca5a7,
         type: 3}
       propertyPath: m_Text
-      value: ver1.0
+      value: ver1.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a02389ee0bc4ba2448cae9c0865ca5a7, type: 3}
@@ -2468,6 +2468,7 @@ MonoBehaviour:
   mixer: {fileID: 24100000, guid: 80648a659e3349240be6620610c5f1f5, type: 2}
   BGM: {fileID: 6793439983904283281}
   SE: {fileID: 1065213786}
+  pauseSE: {fileID: 0}
   option: {fileID: 0}
 --- !u!114 &6793439983904283280
 MonoBehaviour:

@@ -7,6 +7,7 @@ public class MG_Flash_1st : MonoBehaviour
 {
     [SerializeField] Isha_Singlshot ishaCS;
     [SerializeField] GameSE gameSECS;
+    [SerializeField] Pause PauseCS;
 
     Image MgImage;
 
@@ -28,21 +29,24 @@ public class MG_Flash_1st : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ishaCS.BonusFlg == 1)
+        if (!PauseCS.isPause)
         {
-            if (ishaCS.BonusGaugeSand.fillAmount <= 0.3f)
+            if (ishaCS.BonusFlg == 1)
             {
-                if (!isFlash)
+                if (ishaCS.BonusGaugeSand.fillAmount <= 0.3f)
                 {
-                    isFlash = true;
-                    StartCoroutine(nameof(MgBlinking));
-                    gameSECS.audioSource.PlayOneShot(gameSECS.pause);
+                    if (!isFlash)
+                    {
+                        isFlash = true;
+                        StartCoroutine(nameof(MgBlinking));
+                        gameSECS.audioSource.PlayOneShot(gameSECS.pause);
+                    }
                 }
             }
-        }
-        else
-        {
-            isFlash = false;
+            else
+            {
+                isFlash = false;
+            }
         }
     }
 

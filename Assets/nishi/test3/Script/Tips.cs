@@ -36,7 +36,7 @@ public class Tips : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TipsChange();
+        if(!isFade) TipsChange();
         SceneChange();
         TipsActive();
         Fade(); //フェードイン、アウトの処理

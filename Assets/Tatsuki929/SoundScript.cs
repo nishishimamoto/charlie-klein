@@ -52,18 +52,18 @@ public class SoundScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (option != null)
+       /* if (option != null)
         {
             isPlay = option.source_BGM;
             if (isPlay)
-        {
+            {
             audioSource.mute = true;
-        }
-        else
-        {
+            }
+            else
+            {
             audioSource.mute = false;
-        }
-        }
+            }
+        }*/
         
         /*
 

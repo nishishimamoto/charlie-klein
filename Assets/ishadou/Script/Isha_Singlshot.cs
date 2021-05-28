@@ -60,6 +60,8 @@ public class Isha_Singlshot : MonoBehaviour
     bool isDebug;
     bool isGameOverEX;
 
+    bool isstartSE = false;
+
     public bool isEndFadeWait;
 
     public string TimePlusNum;
@@ -332,6 +334,11 @@ public class Isha_Singlshot : MonoBehaviour
             if (!StartFadeCS.isTurnStart)
             {
                 StartFadeCS.StartFadeOut();
+                if (!isstartSE)
+                {
+                    gameSECS.audioSource.PlayOneShot(gameSECS.turnSE);
+                    isstartSE = true;
+                }
                 if (!TimerCS.countStart) TimerCS.countStart = true;
             }
             else if(StartFadeCS.isTurnStart)

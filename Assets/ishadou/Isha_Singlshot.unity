@@ -7624,6 +7624,7 @@ MonoBehaviour:
   StartText: {fileID: 0}
   isTurnStart: 0
   backPanel: {fileID: 1964587527}
+  gameSECS: {fileID: 1707388870}
 --- !u!1 &466629462
 GameObject:
   m_ObjectHideFlags: 0

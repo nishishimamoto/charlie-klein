@@ -46,7 +46,7 @@ public class Combo : MonoBehaviour
         }
         else if (comboTime <= 0)
         {
-            comboCount = 0;
+            //comboCount = 0;
             comboText.color = new Color(255, 255, 255, 0);  //コンボ表記透明
         }
     }

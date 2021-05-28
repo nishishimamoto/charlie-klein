@@ -1068,10 +1068,10 @@ public class test2 : MonoBehaviour
     void InitDict()
     {
         satelliteDict = new Dictionary<int, float>();
-        satelliteDict.Add(0, 15.0f);
-        satelliteDict.Add(1, 25.0f);
-        satelliteDict.Add(2, 30.0f);
-        satelliteDict.Add(3, 30.0f);
+        satelliteDict.Add(0, 30.0f);
+        satelliteDict.Add(1, 30.0f);
+        satelliteDict.Add(2, 25.0f);
+        satelliteDict.Add(3, 15.0f);
         //satelliteDict.Add(0, 100.0f);
         //satelliteDict.Add(1, 0.0f);
         //satelliteDict.Add(2, 0.0f);

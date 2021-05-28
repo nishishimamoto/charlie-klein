@@ -70,7 +70,7 @@ public class Tips : MonoBehaviour
             if(!nextButton.activeSelf) nextButton.SetActive(true);
             if (loadImage.activeSelf) loadImage.SetActive(false);
 
-            if (Input.GetButtonDown("A"))
+            if (Input.GetButtonDown("A") && !isFade)
             {
                 audioSource.PlayOneShot(clickSE);
                 isFade = true;
